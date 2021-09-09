@@ -1,0 +1,80 @@
+CTA_RELATIONSHIP|EN-REL1|Maternal-great-grandmother: grandmother of mother
+CTA_RELATIONSHIP|EN-REL2|Paternal-great-grandmother: grandmother of one’s father
+CTA_RELATIONSHIP|EN-REL3|Maternal-great-grandfather: grandfather of one’s mother
+CTA_RELATIONSHIP|EN-REL4|Paternal-great-grandfather: grandfather of one’s father
+CTA_RELATIONSHIP|EN-REL5|Maternal-grandmother: mother of one’s mother
+CTA_RELATIONSHIP|EN-REL6|Paternal-grandmother: mother of one’s father
+CTA_RELATIONSHIP|EN-REL7|Maternal-grandfather: father of one’s mother
+CTA_RELATIONSHIP|EN-REL8|Paternal-grandfather: father of one’s father
+CTA_RELATIONSHIP|EN-REL9|Mother
+CTA_RELATIONSHIP|EN-REL10|Father
+CTA_RELATIONSHIP|EN-REL11|Maternal Aunt: sister of one’s mother
+CTA_RELATIONSHIP|EN-REL12|Paternal Aunt: sister of one’s father
+CTA_RELATIONSHIP|EN-REL13|Maternal Uncle: brother of one’s mother
+CTA_RELATIONSHIP|EN-REL14|Paternal Uncle: brother of one’s father
+CTA_RELATIONSHIP|EN-REL15|Brother
+CTA_RELATIONSHIP|EN-REL16|Sister
+CTA_RELATIONSHIP|EN-REL17|Paternal cousin child of one’s paternal uncle
+CTA_RELATIONSHIP|EN-REL18|Maternal cousin: child of one’s maternal uncle
+CTA_RELATIONSHIP|EN-REL19|Wife/Husband: one’s spouse
+CTA_RELATIONSHIP|EN-REL20|Niece: daughter of one’s brother or sister
+CTA_RELATIONSHIP|EN-REL21|Nephew: / son of one’s brother or sister
+CTA_RELATIONSHIP|EN-REL22|Daughter
+CTA_RELATIONSHIP|EN-REL23|Son
+CTA_RELATIONSHIP|EN-REL24|Grand-daughter: / daughter of one’s daughter or son
+CTA_RELATIONSHIP|EN-REL25|Grand-son: / son of one’s son or daughter
+CTA_RELATIONSHIP|EN-REL26|Members Of Extended Family
+CTA_RELATIONSHIP|EN-REL27|Mother-in-law: 9 mother of one’s husband or wife
+CTA_RELATIONSHIP|EN-REL28|Father-in-law: father of one’s husband or wife
+CTA_RELATIONSHIP|EN-REL29|Sister-in-law: / sister of one’s wife or husband
+CTA_RELATIONSHIP|EN-REL30|Brother-in-law: / brother of one’s wife or husband
+CTA_RELATIONSHIP|EN-REL31|Daughter-in-law: wife of one’s son
+CTA_RELATIONSHIP|EN-REL32|Son-in-law: husband of one’s daughter
+CTA_RELATIONSHIP|EN-REL33|Co brother: husband of your wife’s sister
+CTA_RELATIONSHIP|EN-REL34|Co sister: wife of your husband’s brother
+CTA_RELATIONSHIP|EN-REL35|Cousin’s Wife: wife of one’s uncle’s son
+CTA_RELATIONSHIP|EN-REL36|Cousin’s Husband: husband of one’s uncle’s daughter
+CTA_RELATIONSHIP|EN-REL37|Stepmother: a woman who is married to someone’s father but who is not their biological mother
+CTA_RELATIONSHIP|EN-REL38|Stepfather: a man who is married to someone’s mother but who is not their biological father
+CTA_RELATIONSHIP|EN-REL39|Stepson: a son of one’s husband or wife by a previous marriage
+CTA_RELATIONSHIP|EN-REL40|Stepdaughter: a daughter of one’s husband or wife by a previous marriage
+CTA_RELATIONSHIP|VI-REL1|Bà ngoại: bà ngoại của mẹ
+CTA_RELATIONSHIP|VI-REL2|Bà nội-bà cố: bà nội của cha một người
+CTA_RELATIONSHIP|VI-REL3|Ông cố nội: ông nội của mẹ một người
+CTA_RELATIONSHIP|VI-REL4|Ông nội-ông cố: ông nội của cha của một người
+CTA_RELATIONSHIP|VI-REL5|Maternal-bà: mẹ của một người mẹ
+CTA_RELATIONSHIP|VI-REL6|Bà nội-bà: mẹ của một người cha
+CTA_RELATIONSHIP|VI-REL7|Ông ngoại: cha của một người mẹ
+CTA_RELATIONSHIP|VI-REL8|Paternal-ông: cha của một người
+CTA_RELATIONSHIP|VI-REL9|Mẹ
+CTA_RELATIONSHIP|VI-REL10|Bố
+CTA_RELATIONSHIP|VI-REL11|Dì mẹ: chị gái của mẹ một người
+CTA_RELATIONSHIP|VI-REL12|Dì nội: chị gái của bố
+CTA_RELATIONSHIP|VI-REL13|Bác của mẹ: anh trai của mẹ một người
+CTA_RELATIONSHIP|VI-REL14|Bác nội: anh trai của một người cha
+CTA_RELATIONSHIP|VI-REL15|Anh trai
+CTA_RELATIONSHIP|VI-REL16|Em gái
+CTA_RELATIONSHIP|VI-REL17|Anh em họ con của chú họ
+CTA_RELATIONSHIP|VI-REL18|Anh họ của mẹ: con của chú ngoại của một người
+CTA_RELATIONSHIP|VI-REL19|Vợ / Chồng: vợ / chồng của một người
+CTA_RELATIONSHIP|VI-REL20|Cháu gái: con gái của anh trai hoặc em gái của một người
+CTA_RELATIONSHIP|VI-REL21|Cháu trai: / con trai của anh trai hoặc em gái của một người
+CTA_RELATIONSHIP|VI-REL22|Con gái
+CTA_RELATIONSHIP|VI-REL23|Con trai
+CTA_RELATIONSHIP|VI-REL24|Grand-daughter: / con gái của con gái hoặc con trai của một người
+CTA_RELATIONSHIP|VI-REL25|Ông nội: / con trai hoặc con gái của một người
+CTA_RELATIONSHIP|VI-REL26|Các thành viên của gia đình mở rộng
+CTA_RELATIONSHIP|VI-REL27|Mẹ chồng: 9 mẹ chồng hoặc vợ của một người
+CTA_RELATIONSHIP|VI-REL28|Bố chồng: bố của chồng hoặc vợ của một người
+CTA_RELATIONSHIP|VI-REL29|Chị dâu: / em gái của vợ hoặc chồng của một người
+CTA_RELATIONSHIP|VI-REL30|Anh rể: / anh trai của vợ hoặc chồng
+CTA_RELATIONSHIP|VI-REL31|Con dâu: vợ của một người con trai
+CTA_RELATIONSHIP|VI-REL32|Con rể: chồng của con gái một
+CTA_RELATIONSHIP|VI-REL33|Co anh trai: chồng của em gái vợ bạn
+CTA_RELATIONSHIP|VI-REL34|Co chị: vợ của anh trai chồng bạn
+CTA_RELATIONSHIP|VI-REL35|Cousin’s Wife: vợ của con trai một người chú
+CTA_RELATIONSHIP|VI-REL36|Cousin’s Chồng: chồng của con gái một người chú
+CTA_RELATIONSHIP|VI-REL37|Mẹ kế: một người phụ nữ đã kết hôn với cha của ai đó nhưng không phải là mẹ ruột của họ
+CTA_RELATIONSHIP|VI-REL38|Cha dượng: một người đàn ông đã kết hôn với mẹ của ai đó nhưng không phải là cha ruột của họ
+CTA_RELATIONSHIP|VI-REL39|Con trai riêng: con trai của vợ hoặc chồng của một người trong cuộc hôn nhân trước
+CTA_RELATIONSHIP|VI-REL40|Con gái riêng: con gái của một người chồng hoặc vợ của một cuộc hôn nhân trước

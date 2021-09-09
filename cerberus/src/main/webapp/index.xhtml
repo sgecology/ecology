@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="#{layoutMB.template}">
+
+	<ui:define name="head-end">
+		<ui:param name="renderBreadCrumb" value="false"/>
+	</ui:define>
+
+	<ui:define name="title">
+		#{messages['lbl.object.dashboard']}
+	</ui:define>
+	<p:spacer height="15px"/>		
+	<ui:define name="body">
+		<ui:include src="${pageContext.request.contextPath}/dashboard/dashboard.xhtml" />
+
+		<ui:include src="${pageContext.request.contextPath}/component/charts.xhtml" />
+
+
+	<h:outputScript library="js" name="chart.min.js"/>
+	<script type="text/javascript">
+	//<![CDATA[
+	$(function () {
+	    'use strict';
+	    /* ChartJS
+	     * -------
+	     * Here we will create a few charts using ChartJS
+	     */
+	
+	    //-----------------------
+	    //- MONTHLY SALES CHART -
+	    //-----------------------
+	
+	    // Get context with jQuery - using jQuery's .get() method.
+	    var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
+	    // This will get the first returned node in the jQuery collection.
+	    var salesChartData = {
+	        labels: ["January", "February", "March", "April", "May", "June", "July"],
+	        datasets: [
+	            {
+	                label: "Electronics",
+	                fillColor: "rgb(210, 214, 222)",
+	                strokeColor: "rgb(210, 214, 222)",
+	                pointColor: "rgb(210, 214, 222)",
+	                pointStrokeColor: "#c1c7d1",
+	                pointHighlightFill: "#fff",
+	                pointHighlightStroke: "rgb(220,220,220)",
+	                data: [65, 59, 80, 81, 56, 55, 40]
+	            },
+	            {
+	                label: "Digital Goods",
+	                fillColor: "rgba(60,141,188,0.9)",
+	                strokeColor: "rgba(60,141,188,0.8)",
+	                pointColor: "#3b8bba",
+	                pointStrokeColor: "rgba(60,141,188,1)",
+	                pointHighlightFill: "#fff",
+	                pointHighlightStroke: "rgba(60,141,188,1)",
+	                data: [28, 48, 40, 19, 86, 27, 90]
+	            }
+	        ]
+	    };
+	    //Create the line chart
+	    createLineChart(salesChartCanvas,salesChartData);
+	    //---------------------------
+	    //- END MONTHLY SALES CHART -
+	    //---------------------------
+	});
+	//]]>
+	</script>
+	</ui:define>
+</ui:composition>

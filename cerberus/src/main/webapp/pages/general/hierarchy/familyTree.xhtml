@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{customLayoutMB.template}">
+
+	<ui:define name="metadata">
+		<ui:param name="enableSlideMenu" value="false"/> <!-- disables slide menu (only on this page) on small screens -->
+		<ui:param name="autoShowNavbar" value="false"/> <!-- disables auto show navbar (only on this page) on small devices -->
+	</ui:define>
+	<ui:define name="title">
+		<adm:breadcrumb title="#{messages['lbl.browse.businessUnit']}"/>
+		#{messages['lbl.browse.businessUnit']}
+	</ui:define>
+	
+	<ui:define name="body">
+
+    <style type="text/css">
+      .ui-diagram-element {
+        width: 15em;
+        height: 5em;
+        line-height: 5em;
+        text-align: center;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+        border-radius: 5em;
+        border: 1px solid #404a4e;        
+        background-color: #404a4e;
+        color: #ffffff;
+      }
+
+      .ui-diagram-element:hover {
+        background-color: #20282b;
+      }
+    </style>
+	  <div id="partners">
+	    <p:diagram value="#{hierarchicalDiagramController.hierarchicalService.model}" style="height:800px" styleClass="ui-widget-content"/>
+	  </div>
+	</ui:define>
+</ui:composition>
