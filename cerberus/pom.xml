@@ -8,7 +8,7 @@
 	<version>0.1</version>
 	<packaging>war</packaging>
 	<name>Brilliant - Web administration</name>
-              
+
 	<parent>
 		<groupId>net.acerberus</groupId>
 		<artifactId>aquarium</artifactId>
