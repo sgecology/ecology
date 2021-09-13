@@ -32,7 +32,7 @@ public class SecurityOfficer extends ComponentRoot {
 	@Inject
 	private AuthorizationService authorizationService;
 
-	private Map<String, GrantedAuthority> permissionMap = CollectionsUtility.createMap();
+	private Map<String, GrantedAuthority> permissionMap = CollectionsUtility.newMap();
 
 	public boolean hasPermission(String target, String actions) {
 		System.out.println(Calendar.getInstance().getTime() + "\t. Target, action: " + target + "$" + actions);

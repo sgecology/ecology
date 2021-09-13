@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +22,7 @@ import net.ecology.auxt.SecurityServiceContextHelper;
 import net.ecology.common.BeanUtility;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
+import net.ecology.common.StringUtilities;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.exceptions.ContextExecutionException;
 import net.ecology.exceptions.ObjectNotFoundException;
@@ -154,8 +154,8 @@ public abstract class GenericService<ClassType extends Repo, Key extends Seriali
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean exists(String property, Object value) {
-		String invokeMethod = "existsBy" + StringUtils.capitalize(property);
-		Map<?, ?> parameters = CollectionsUtility.createHashMapData(property, value);
+		String invokeMethod = "existsBy" + StringUtilities.capitalize(property);
+		Map<?, ?> parameters = CollectionsUtility.newHashedMap(property, value);
 		boolean isExists = false;
 		try {
 			isExists = existsEntity(invokeMethod, parameters);
@@ -168,8 +168,8 @@ public abstract class GenericService<ClassType extends Repo, Key extends Seriali
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean exists(String property, String processingClause, Object ...values) {
-		String invokeMethod = "existsBy" + StringUtils.capitalize(property);
-		Map<?, ?> parameters = CollectionsUtility.createHashMapData(property, values);
+		String invokeMethod = "existsBy" + StringUtilities.capitalize(property);
+		Map<?, ?> parameters = CollectionsUtility.newHashedMap(property, values);
 		boolean isExists = false;
 		try {
 			isExists = existsEntity(invokeMethod, parameters);
@@ -188,8 +188,8 @@ public abstract class GenericService<ClassType extends Repo, Key extends Seriali
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Long count(String countByProperty, Object value) {
-		String invokeMethod = "countBy" + StringUtils.capitalize(countByProperty);
-		Map<?, ?> parameters = CollectionsUtility.createHashMapData(countByProperty, value);
+		String invokeMethod = "countBy" + StringUtilities.capitalize(countByProperty);
+		Map<?, ?> parameters = CollectionsUtility.newHashedMap(countByProperty, value);
 		return countEntity(invokeMethod, parameters);
 		//throw new RuntimeException("Not implemented yet");
 	}
@@ -241,51 +241,10 @@ public abstract class GenericService<ClassType extends Repo, Key extends Seriali
 		return ((BasePersistence)getPersistence()).findVisible();
 	}
 
-	/*@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public Page<ClassType> getObjects(Integer pageNumber) {
-		return getPaginatedObjects(pageNumber, GlobeConstants.DEFAULT_PAGE_SIZE);
-	}*/
-
-	/*@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public Page<ClassType> getObjects(Integer pageNumber, Integer size) {
-		return getPaginatedObjects(pageNumber, size);
-	}*/
-	/*
   @Override
   @Transactional(propagation = Propagation.REQUIRED)
   public ClassType save(ClassType entity) {
-  	try {
-    	ClassType mergedEntity = null;
-    	BaseRepository<ClassType, Key> respository = ((BaseRepository)getRepository());
-    	if (null != respository){
-    		respository.saveAndFlush(entity);
-    	} else {
-    		logger.info("There is no implemented repository for " + this.getClass().getSimpleName());
-      	if (null == entity.getId()){
-      		this.em.persist(entity);
-      	}else{
-      		mergedEntity = this.em.merge(entity);
-      		this.em.refresh(mergedEntity);
-      	}
-      	this.em.flush();
-    		logger.info("Use the persistence context entity manager object instead of repository. ");
-    	}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-  	return entity;
-  }
-  */
-
-  @Override
-  @Transactional(propagation = Propagation.REQUIRED)
-  public ClassType save(ClassType entity) {
-  	getPersistence().saveAndFlush(entity);
-		/*BaseRepository<ClassType, Key> respository = ((IRepository) getRepository());
-		respository.saveAndFlush(entity);*/
-  	return entity;
+  	return getPersistence().saveAndFlush(entity);
   }
 
   @Override

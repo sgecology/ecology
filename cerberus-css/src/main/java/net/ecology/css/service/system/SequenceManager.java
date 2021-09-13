@@ -32,7 +32,7 @@ public class SequenceManager extends ComponentRoot {
 	@Inject 
 	private OptionService optionService;
 
-	private Map<String, Sequence> sequenceMap = CollectionsUtility.createMap();
+	private Map<String, Sequence> sequenceMap = CollectionsUtility.newMap();
 
 	public String getNewNumber(String serial, Integer len) {
 		// TODO: burda gerçek numaranın bir şekilde veri tabanından alınması lazım. Veri tabanı sequence'i v.s. bişey kullnılması lazım.'

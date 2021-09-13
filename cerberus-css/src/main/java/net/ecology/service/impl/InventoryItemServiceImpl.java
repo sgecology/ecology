@@ -17,12 +17,6 @@ import net.ecology.framework.service.impl.GenericService;
 
 @Service
 public class InventoryItemServiceImpl extends GenericService<InventoryItem, Long> implements InventoryItemService{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7761477574156308888L;
-
 	@Inject 
 	private InventoryItemPersistence repository;
 	

@@ -21,11 +21,11 @@ import net.ecology.entity.general.MeasureUnit;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.model.ConfigureMarshallObjects;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.osx.model.MarshallingObjects;
 
 /**
@@ -49,21 +49,21 @@ public class MeasureUnitRepositoryManager extends DmxRepositoryBase {
 	@Inject 
 	private DmxConfigurationHelper dmxConfigurationHelper;
 
-	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.createMap();
+	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.newMap();
 
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
 			throw new CerberusException("There is no measure unit data in OSX container!");
 
 		String workingDatabookId = dmxCollaborator.getConfiguredDataCatalogueWorkbookId();
 		if (osxBucketContainer.containsKey(workingDatabookId)){
-			dataWorkbook = (DmxWorkbook)osxBucketContainer.get(workingDatabookId);
+			dataWorkbook = (XWorkbook)osxBucketContainer.get(workingDatabookId);
 		}
 
-		List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.createDataList(MarshallingObjects.MEASURE_UNITS.getName()));
+		List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.newList(MarshallingObjects.MEASURE_UNITS.getName()));
 		if (CommonUtility.isNotEmpty(marshalledObjects)) {
 			for (Entity entityBase :marshalledObjects) {
 				measureUnitService.saveOrUpdate((MeasureUnit)entityBase);
@@ -73,7 +73,7 @@ public class MeasureUnitRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+	protected List<Entity> doUnmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
 		Map<String, Configuration> configDetailMap = null;
 		if (CommonUtility.isEmpty(configDetailIndexMap)) {
 			configDetailMap = dmxConfigurationHelper.fetchInventoryItemConfig(ConfigureMarshallObjects.MEASURE_UNITS.getConfigName());
@@ -82,9 +82,9 @@ public class MeasureUnitRepositoryManager extends DmxRepositoryBase {
 			}
 		}
 
-		List<Entity> marshallingObjects = CollectionsUtility.createDataList();
+		List<Entity> marshallingObjects = CollectionsUtility.newList();
 		MeasureUnit marshallingObject = null;
-		DmxWorksheet dataWorksheet = dataWorkbook.get(ConfigureMarshallObjects.MEASURE_UNITS.getName());
+		XWorksheet dataWorksheet = dataWorkbook.get(ConfigureMarshallObjects.MEASURE_UNITS.getName());
 		if (CommonUtility.isNotEmpty(dataWorksheet)) {
 			for (Object key :dataWorksheet.keys()) {
 				try {

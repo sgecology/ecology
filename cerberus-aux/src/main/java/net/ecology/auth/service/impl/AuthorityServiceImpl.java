@@ -17,8 +17,10 @@ import net.ecology.framework.service.impl.GenericService;
 
 @Service
 public class AuthorityServiceImpl extends GenericService<Authority, Long> implements AuthorityService{
-	private static final long serialVersionUID = 7761477574156308888L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 154324205536713910L;
 	@Inject 
 	private AuthorityPersistence repository;
 	

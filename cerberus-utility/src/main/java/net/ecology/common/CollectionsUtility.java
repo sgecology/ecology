@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.base.DataList;
 import net.ecology.model.ui.UISelectItem;
 
 /**
@@ -22,30 +21,9 @@ import net.ecology.model.ui.UISelectItem;
  *
  */
 public class CollectionsUtility {
-	public static <T> DataList<T> createDataList(){
-		return new DataList<T>();
-	}
-
-	public static <T> DataList<T> createDataList(Collection<T> collection){
-		DataList<T> dataList = new DataList<T>();
-		for (T object :collection) {
-			dataList.add(object);
-		}
-		return dataList;
-	}
-	
 	@SafeVarargs
-	public static <T> List<T> createList(T ...initialValues){
+	public static <T> List<T> newList(T ...initialValues){
 		List<T> dataList = new ArrayList<T>();
-		for (T object :initialValues) {
-			dataList.add(object);
-		}
-		return dataList;
-	}
-
-	@SafeVarargs
-	public static <T> DataList<T> createDataList(T ...initialValues){
-		DataList<T> dataList = new DataList<T>();
 		for (T object :initialValues) {
 			dataList.add(object);
 		}
@@ -56,19 +34,15 @@ public class CollectionsUtility {
 		return newList();
 	}
 
-	public static <T> List<T> newList(){
-		return createList();
-	}
-
-	public static <T> List<T> createList(){
+	public static <T> Collection<T> newList(){
 		return createArrayList();
 	}
 
-	public static <T> List<T> createArrayList(){
-		return new DataList<T>();
+	private static <T> List<T> createArrayList(){
+		return new ArrayList<T>();
 	}
 
-	public static <K, T> HashMap <K, T> createMap(){
+	public static <K, T> HashMap <K, T> newMap(){
 		return new HashMap<>();
 	}
 
@@ -79,7 +53,7 @@ public class CollectionsUtility {
 		return (T[])objects.toArray();
 	}
 
-	public static <K, T> Map <K, T> createHashMapData(Object ...keyValuePairs){
+	public static <K, T> Map <K, T> newHashedMap(Object ...keyValuePairs){
 		Map<K, T> retMap = new HashMap<>();
 		for (int i = 0; i < keyValuePairs.length; i+= 2) {
 			K key = (K)keyValuePairs[i];
@@ -88,10 +62,6 @@ public class CollectionsUtility {
 		}
 
 		return retMap;
-	}
-
-	public static <T> HashSet <T> createHashSet(){
-		return newHashSet();
 	}
 
 	public static <T> HashSet <T> newHashSet(){
@@ -158,20 +128,6 @@ public class CollectionsUtility {
 		return result;
 	}
 
-	/*public static <T> Page<T> createPageable(List<T> list, Pageable pageable){
-		Page<T> results = null;
-		if (null==pageable){
-			results = new PageImpl<T>(
-					list, 
-					PageRequest.of(GlobeConstants.DEFAULT_PAGE_BEGIN, GlobeConstants.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id"), 
-					list.size()
-					);
-		}else{
-			results = new PageImpl<T>(list, pageable, list.size());
-		}
-		return results;
-	}*/
-
 	public static <T> Set<T> asSet(Collection<T> objects){
 		Set<T> results = new HashSet<>();
 		results.addAll(objects);
@@ -179,7 +135,7 @@ public class CollectionsUtility {
 	}
 
 	public static List<UISelectItem> createSelectItems(List<?> businessObjects, Map<String, String> mappedAttributes) {
-		List<UISelectItem> suggestedItems = new ArrayList<>();
+		List<UISelectItem> suggestedItems = newList();
 		Map<String, Object> objectAttributeMap = null;
 		for (Object businessObject : businessObjects) {
 			try {
@@ -202,9 +158,8 @@ public class CollectionsUtility {
 	}
 
 	public static <K, T> HashMap <K, T> cloneMap(Map<K, T> srcMap){
-		HashMap <K, T> clonedMap = createMap();
+		HashMap <K, T> clonedMap = newMap();
 		clonedMap.putAll(srcMap);
 		return clonedMap;
 	}
-
 }

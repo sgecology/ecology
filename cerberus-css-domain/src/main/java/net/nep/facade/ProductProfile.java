@@ -35,10 +35,10 @@ public class ProductProfile extends DsoRoot {
 	private InventoryPrice profileDetail;
 
 	@Builder.Default
-	private List<Attachment> images = CollectionsUtility.createList();
+	private List<Attachment> images = CollectionsUtility.newList();
 
 	@Builder.Default
-	List<InventoryImage> inventoryImages = CollectionsUtility.createList();
+	List<InventoryImage> inventoryImages = CollectionsUtility.newList();
 
 	@Builder.Default
 	private Boolean changedImages = Boolean.FALSE;

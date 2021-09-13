@@ -15,9 +15,9 @@ import net.ecology.entity.i18n.Message;
 @Builder
 @AllArgsConstructor
 public class MessageMarshaller implements Marshaller<Message, String[]> {
-  static short idx_locale = 0;
-  static short idx_key = 1;
-  static short idx_label = 2;
+	public static short idx_locale = 0;
+	public static short idx_key = 1;
+	public static short idx_label = 2;
 
 	@Override
 	public Message marshal(String[] elements) {

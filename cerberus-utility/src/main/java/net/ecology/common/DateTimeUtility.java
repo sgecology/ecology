@@ -238,7 +238,7 @@ public final class DateTimeUtility {
 
 	public static List<CorpTimeZone> getTimezones(){
 		TimeZone timeZone;
-		List<CorpTimeZone> fetchedData = CollectionsUtility.createDataList();
+		List<CorpTimeZone> fetchedData = CollectionsUtility.newList();
 		String[] availableZoneIDs = TimeZone.getAvailableIDs();
 		for (String zoneId : availableZoneIDs) {
 			timeZone = TimeZone.getTimeZone(zoneId); 

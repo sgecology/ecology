@@ -20,12 +20,10 @@ import net.ecology.framework.service.impl.GenericService;
 
 @Service
 public class ContactAddressServiceImpl extends GenericService<ContactAddress, Long> implements ContactAddressService{
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7761477574156308888L;
-
+	private static final long serialVersionUID = 3828332078384811862L;
 	@Inject 
 	private ContactAddressPersistence repository;
 	

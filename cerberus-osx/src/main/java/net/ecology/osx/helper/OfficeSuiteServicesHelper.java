@@ -14,8 +14,8 @@ import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.model.OfficeMarshalType;
 
@@ -33,8 +33,8 @@ public class OfficeSuiteServicesHelper implements Serializable {
   protected Context initConfigData(final File zipFile) {
 		Context executionContext = Context.builder().build();
 
-		Map<String, String> secretKeyMap = CollectionsUtility.createHashMapData("Vietbank_14.000.xlsx", "thanhcong");
-		Map<String, List<String>> sheetIdMap = CollectionsUtility.createMap();
+		Map<String, String> secretKeyMap = CollectionsUtility.newHashedMap("Vietbank_14.000.xlsx", "thanhcong");
+		Map<String, List<String>> sheetIdMap = CollectionsUtility.newMap();
 		sheetIdMap.put("Vietbank_14.000.xlsx", CollectionsUtility.arraysAsList(new String[] {"File Tổng hợp", "Các trưởng phó phòng", "9"}));
 
 		executionContext.put(OSXConstants.DATA_FILE, zipFile);
@@ -91,8 +91,8 @@ public class OfficeSuiteServicesHelper implements Serializable {
           .loadSpreadsheetInZip(context);
   }
 
-  public OSXWorkbook unmarshallContacts(Context executionContext) {
-		OSXWorkbook fetchedDataWorkbook = null;
+  public XWorkbook unmarshallContacts(Context executionContext) {
+		XWorkbook fetchedDataWorkbook = null;
 		return fetchedDataWorkbook;
 	}
 

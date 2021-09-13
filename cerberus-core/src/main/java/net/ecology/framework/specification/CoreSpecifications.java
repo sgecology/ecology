@@ -42,7 +42,7 @@ public abstract class CoreSpecifications<UserType, UserRequest> extends BaseSpec
 			public Predicate toPredicate(Root<UserType> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				Predicate[] predicatesArray = null;
 				Object searchValue = null;
-				List<Predicate> predicates = CollectionsUtility.createArrayList();
+				List<Predicate> predicates = CollectionsUtility.newList();
 				//predicates = buildPredicates(searchParameter, root, builder);
 				if (CommonUtility.isNotEmpty(searchParameter.getParameterMap())){
 					for (String searchParam :searchParameter.getParameterMap().keySet()){

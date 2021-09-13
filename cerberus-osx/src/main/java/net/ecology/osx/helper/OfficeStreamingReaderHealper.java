@@ -20,12 +20,10 @@ import lombok.Builder;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.global.GlobeConstants;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.osx.exceptions.OsxException;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 
 /**
  * @author ducbq
@@ -36,12 +34,12 @@ public class OfficeStreamingReaderHealper {
 	/**
 	 * 
 	 */
-	public OSXWorkbook readXlsx(Map<?, ?> parameters) throws OsxException {
+	public XWorkbook readXlsx(Map<?, ?> parameters) throws OsxException {
 		InputStream inputStream = null;
 		Workbook workbook = null;
 
-		OSXWorksheet worksheet = null;
-		OSXWorkbook dataWorkbook = OSXWorkbook.builder().build();
+		XWorksheet worksheet = null;
+		XWorkbook dataWorkbook = XWorkbook.builder().build();
 		try {
 			inputStream = (InputStream)parameters.get(OSXConstants.INPUT_STREAM);
 			if (parameters.containsKey(OSXConstants.ENCRYPTED_KEYS)) {
@@ -73,14 +71,14 @@ public class OfficeStreamingReaderHealper {
 	/**
 	 * 
 	 */
-	public DmxWorkbook loadXlsxData(
+	public XWorkbook loadXlsxData(
 			String workbookId, 
 			InputStream workbookInputStream, 
 			String encryptionKey, 
 			String[] worksheetIds) throws OsxException {
 		Workbook workbook = null;
-		DmxWorksheet worksheet = null;
-		DmxWorkbook dataWorkbook = DmxWorkbook.builder().build();
+		XWorksheet worksheet = null;
+		XWorkbook dataWorkbook = XWorkbook.builder().build();
 		List<String> processingWorksheetIds = null;
 		try {
 			if (CommonUtility.isNotEmpty(encryptionKey)) {
@@ -117,9 +115,9 @@ public class OfficeStreamingReaderHealper {
 		return dataWorkbook;
 	}
 
-	private OSXWorksheet buildDataWorksheet(Sheet sheet) throws OsxException {
+	private XWorksheet buildDataWorksheet(Sheet sheet) throws OsxException {
 		List<Object> dataRow = null;
-		OSXWorksheet dataWorksheet = OSXWorksheet.builder()
+		XWorksheet dataWorksheet = XWorksheet.builder()
 				.id(sheet.getSheetName())
 				.build();
 		Cell currentCell = null;
@@ -132,7 +130,7 @@ public class OfficeStreamingReaderHealper {
 		}
 
 		for (Row currentRow : sheet) {
-			dataRow = CollectionsUtility.createArrayList();
+			dataRow = CollectionsUtility.newList();
 			for (short idx = firstCellNum; idx <= lastCellNum; idx++) {
 				currentCell = currentRow.getCell(idx);
 				if (null==currentCell || CellType._NONE.equals(currentCell.getCellType()) || CellType.BLANK.equals(currentCell.getCellType())) {
@@ -156,15 +154,15 @@ public class OfficeStreamingReaderHealper {
 					dataRow.add(currentCell.toString());
 				}
 			}
-			dataWorksheet.addDataRows(Integer.valueOf(currentRow.getRowNum()), dataRow);
+			dataWorksheet.put(Integer.valueOf(currentRow.getRowNum()), dataRow);
 		}
 
 		return dataWorksheet;
 	}
 
-	private DmxWorksheet transformWorksheet(Sheet sheet) throws OsxException {
+	private XWorksheet transformWorksheet(Sheet sheet) throws OsxException {
 		List<Object> dataRow = null;
-		DmxWorksheet dataWorksheet = DmxWorksheet.builder()
+		XWorksheet dataWorksheet = XWorksheet.builder()
 				.id(sheet.getSheetName())
 				.build();
 		Cell currentCell = null;
@@ -177,7 +175,7 @@ public class OfficeStreamingReaderHealper {
 		}
 
 		for (Row currentRow : sheet) {
-			dataRow = CollectionsUtility.createArrayList();
+			dataRow = CollectionsUtility.newList();
 			for (short idx = firstCellNum; idx <= lastCellNum; idx++) {
 				currentCell = currentRow.getCell(idx);
 				if (null==currentCell || CellType._NONE.equals(currentCell.getCellType()) || CellType.BLANK.equals(currentCell.getCellType())) {

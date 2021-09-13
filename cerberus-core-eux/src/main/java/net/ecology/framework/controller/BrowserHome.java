@@ -27,15 +27,15 @@ public abstract class BrowserHome<E, F extends FilterBase> extends Home <E, F> {
 	@Getter
 	protected String instantSearch;
 
-	private List<E> businessObjects = CollectionsUtility.createList();
+	private List<E> businessObjects = CollectionsUtility.newList();
 
 	@Setter
 	@Getter
-	protected List<E> selectedObjects = CollectionsUtility.createList();
+	protected List<E> selectedObjects = CollectionsUtility.newList();
 
 	@Setter
 	@Getter
-  protected List<E> filteredObjects = CollectionsUtility.createList();
+  protected List<E> filteredObjects = CollectionsUtility.newList();
 
 	protected abstract List<E> requestBusinessObjects();
 

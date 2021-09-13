@@ -74,8 +74,8 @@ public class ResourcesStorageServiceHelper {
 
 		String defaultContactsData = "Vietbank_14.000.xlsx", defaultCataloguesData = "data-catalog.xlsx";
 		//File zipFile = resourcesServicesHelper.loadClasspathResourceFile("data/marshall/develop_data.zip");
-		Map<String, String> secretKeyMap = CollectionsUtility.createHashMapData(defaultContactsData, "thanhcong");
-		Map<String, List<String>> sheetIdMap = CollectionsUtility.createMap();
+		Map<String, String> secretKeyMap = CollectionsUtility.newHashedMap(defaultContactsData, "thanhcong");
+		Map<String, List<String>> sheetIdMap = CollectionsUtility.newMap();
 		sheetIdMap.put(defaultContactsData, CollectionsUtility.arraysAsList(new String[] {"File Tổng hợp", "Các trưởng phó phòng", "9"}));
 
 		executionContext.put(OSXConstants.MASTER_BUFFER_DATA_BYTES, resourcesServicesHelper.loadClasspathResourceBytes("data/marshall/develop_data.zip"));

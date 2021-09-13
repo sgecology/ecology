@@ -33,11 +33,11 @@ import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.global.GlobalConstants;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.model.ConfigureMarshallObjects;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.service.general.CatalogueService;
 
 /**
@@ -72,16 +72,16 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	@Inject 
 	private DmxConfigurationHelper dmxConfigurationHelper;
 
-	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.createMap();
+	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.newMap();
 	
-	private Map<String, Catalogue> catalogueMap = CollectionsUtility.createMap();
+	private Map<String, Catalogue> catalogueMap = CollectionsUtility.newMap();
 
-	private Map<String, MeasureUnit> measureUnitMap = CollectionsUtility.createMap();
+	private Map<String, MeasureUnit> measureUnitMap = CollectionsUtility.newMap();
 
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
 		List<String> marshallingObjects = null;
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = null;
 		try {
 			marshallingObjects = (List<String>)executionContext.get(OSXConstants.MARSHALLING_OBJECTS);
@@ -94,10 +94,10 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 				throw new CerberusException("There is no data in OSX container!");
 
 			if (osxBucketContainer.containsKey(workingDatabookId)){
-				dataWorkbook = (DmxWorkbook)osxBucketContainer.get(workingDatabookId);
+				dataWorkbook = (XWorkbook)osxBucketContainer.get(workingDatabookId);
 			}
 
-			List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.createDataList(workingDatabookId));
+			List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.newList(workingDatabookId));
 			if (CommonUtility.isNotEmpty(marshalledObjects)) {
 				for (Entity entityBase :marshalledObjects) {
 					inventoryItemService.saveOrUpdate((InventoryItem)entityBase);
@@ -111,7 +111,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+	protected List<Entity> doUnmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
 		Map<String, Configuration> configDetailMap = null;
 		if (CommonUtility.isEmpty(configDetailIndexMap)) {
 			configDetailMap = dmxConfigurationHelper.fetchInventoryItemConfig(ConfigureMarshallObjects.INVENTORY_ITEMS.getConfigName());
@@ -120,9 +120,9 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 			}
 		}
 
-		List<Entity> results = CollectionsUtility.createDataList();
+		List<Entity> results = CollectionsUtility.newList();
 		InventoryCore currentBizObject = null;
-		DmxWorksheet dataWorksheet = dataWorkbook.get(ConfigureMarshallObjects.INVENTORY_ITEMS.getName());
+		XWorksheet dataWorksheet = dataWorkbook.get(ConfigureMarshallObjects.INVENTORY_ITEMS.getName());
 		if (CommonUtility.isNotEmpty(dataWorksheet)) {
 			System.out.println("Processing sheet: " + dataWorksheet.getId());
 			for (Object key :dataWorksheet.keys()) {
@@ -162,9 +162,9 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 		long count = 0;
 		try {
 			if (CommonUtility.isNotEmpty(marshallingDataRow.get(this.configDetailIndexMap.get("idxCode")))) {
-				count = this.productService.count("countByCode", CollectionsUtility.createHashMapData("code", marshallingDataRow.get(this.configDetailIndexMap.get("idxCode")).toString()));
+				count = this.productService.count("countByCode", CollectionsUtility.newHashedMap("code", marshallingDataRow.get(this.configDetailIndexMap.get("idxCode")).toString()));
 			} else if (CommonUtility.isNotEmpty(marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")))) {
-				count = this.productService.count("countByBarcode", CollectionsUtility.createHashMapData("barcode", marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")).toString()));
+				count = this.productService.count("countByBarcode", CollectionsUtility.newHashedMap("barcode", marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")).toString()));
 			}
 			if (count > 0)
 				return null;

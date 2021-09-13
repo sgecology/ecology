@@ -16,12 +16,10 @@ import net.ecology.framework.service.impl.GenericService;
 @Service
 @Transactional
 public class AttachmentServiceImpl extends GenericService<Attachment, Long> implements AttachmentService{
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7761477574156308888L;
-
+	private static final long serialVersionUID = 2379422815520267736L;
 	@Inject 
 	private AttachmentPersistence repository;
 	

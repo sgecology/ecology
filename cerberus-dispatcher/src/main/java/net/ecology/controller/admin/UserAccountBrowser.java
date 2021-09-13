@@ -53,7 +53,7 @@ public class UserAccountBrowser implements Serializable {
 	}
 
 	public List<String> completeModel(String query) {
-		List<String> result = CollectionsUtility.createDataList();// carService.getModels(query);
+		List<String> result = CollectionsUtility.newList();// carService.getModels(query);
 		return result;
 	}
 

@@ -9,7 +9,7 @@ import net.ecology.global.GlobeConstants;
  * 
  * Taken from: https://stackoverflow.com/a/3646601/1260910
  *
- * @author rafael-pestano
+ * @author ducbq
  */
  @Component
 public class CustomResourceBundle extends MultiplePropertiesResourceBundle {
@@ -24,9 +24,6 @@ public class CustomResourceBundle extends MultiplePropertiesResourceBundle {
     }
 
     public CustomResourceBundle() {
-    	//super("i18n/*." + BUNDLE_EXTENSION);
-    	//super("net.paragon.resources.i18n", "*.properties");//ok. Fine
-    	super(new String[] {"i18n", "i18n.admin", "i18n.general", i18nMvp}, 
-    			"*.properties");//ok. Fine
+    	super(new String[] {"i18n", "i18n.admin", "i18n.general", i18nMvp}, "*.properties");
     }
 }

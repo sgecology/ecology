@@ -20,4 +20,6 @@ public interface MessageService extends MessageSource {
 	Map<String, String> getMessagesMap(Locale locale);
 	List<Message> getMessages(Locale locale);
 	void saveMessage(String key, String label, I18nLocale locale);
+	void saveMessage(Message message);
+	boolean exists(I18nLocale locale, String messageKey);
 }

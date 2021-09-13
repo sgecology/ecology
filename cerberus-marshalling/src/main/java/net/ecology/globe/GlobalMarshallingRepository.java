@@ -17,6 +17,7 @@ import org.springframework.util.ResourceUtils;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.exceptions.CerberusException;
+import net.ecology.global.GlobeConstants;
 import net.ecology.model.IOContainer;
 
 /**
@@ -85,7 +86,9 @@ public class GlobalMarshallingRepository {
 	  	resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(path);
 	  	for (Resource resource :resources) {
 	  		resourceName = getRelativeResourcePath(null, resource);
-				ioContainer.getInputDataStreams().put(resourceName, resource.getInputStream());
+	  		//if (!resourceName.endsWith(GlobeConstants.REPO_MASTER)){
+				ioContainer.put(resourceName, resource.getInputStream());
+	  		//}
 	  	}
     } catch (Exception e) {
       throw new CerberusException(e);

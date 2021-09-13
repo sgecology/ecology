@@ -28,7 +28,7 @@ import net.ecology.model.IOContainer;
  */
 public class FileIOUtility {
 	public static List<InputStream> getZipFileInputStreams(File file) throws CerberusException {
-		List<InputStream> resp = CollectionsUtility.createArrayList();
+		List<InputStream> resp = CollectionsUtility.newList();
 		ZipFile zipFile;
 		try {
 			zipFile = new ZipFile(file);
@@ -46,7 +46,7 @@ public class FileIOUtility {
 	}
 
 	public static List<InputStream> extractZipFile(File zipFile, List<String> zipEntryNames) throws CerberusException {
-		List<InputStream> resp = CollectionsUtility.createArrayList();
+		List<InputStream> resp = CollectionsUtility.newList();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -72,7 +72,7 @@ public class FileIOUtility {
 	}
 
 	public static Map<String, InputStream> extractZipInputStreams(File zipFile) throws CerberusException {
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -124,7 +124,7 @@ public class FileIOUtility {
 		if (CommonUtility.isEmpty(zipEntryNames))
 			return extractAllZipInputStreams(zipFile);
 
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -157,7 +157,7 @@ public class FileIOUtility {
 	}
 
 	public static Map<String, InputStream> extractAllZipInputStreams(File zipFile) throws CerberusException {
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;

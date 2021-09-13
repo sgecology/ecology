@@ -38,7 +38,7 @@ public class AccessPolicyServiceImpl extends GenericService<AccessPolicy, Long> 
 
 	@Override
 	public List<AccessPolicy> getAccessPoliciesByAuthority(Authority authority) {
-		List<AccessPolicy> fetchedResults = CollectionsUtility.createList();
+		List<AccessPolicy> fetchedResults = CollectionsUtility.newList();
 		List<GrantedAccessPolicy> accessDecisionAuthorities = grantedAccessPolicyRepository.findByAuthority(authority);
 		for (GrantedAccessPolicy accessDecisionAuthority :accessDecisionAuthorities) {
 			fetchedResults.add(accessDecisionAuthority.getAccessPolicy());

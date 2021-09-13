@@ -17,11 +17,10 @@ import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.model.DmxWorkbook;
 import net.ecology.osx.model.OfficeDocumentType;
 import net.ecology.osx.model.OfficeMarshalType;
 
@@ -48,16 +47,16 @@ public class OfficeSuiteServiceProvider {
 		return excelSheetType;
 	}
 
-	protected OSXWorkbook readXlsxByEventHandler(final Map<?, ?> params) throws CerberusException {
+	protected XWorkbook readXlsxByEventHandler(final Map<?, ?> params) throws CerberusException {
 		return XSSFEventDataHelper.instance(params).readXlsx();
 	}
 
-	protected OSXWorkbook readXlsxByStreaming(final Map<?, ?> params) throws CerberusException {
+	protected XWorkbook readXlsxByStreaming(final Map<?, ?> params) throws CerberusException {
 		return OfficeStreamingReaderHealper.builder().build().readXlsx(params);
 	}
 
-	public DmxWorkbook loadExcelData(Context context) throws CerberusException {
-		DmxWorkbook dataWorkbook = DmxWorkbook.builder().build();
+	public XWorkbook loadExcelData(Context context) throws CerberusException {
+		XWorkbook dataWorkbook = XWorkbook.builder().build();
 		OfficeMarshalType officeMarshalType = OfficeMarshalType.STREAMING;
 		if (context.containsKey(OSXConstants.XLSX_MARSHALLING_DATA_METHOD)) {
 			officeMarshalType = (OfficeMarshalType) context.get(OSXConstants.XLSX_MARSHALLING_DATA_METHOD);
@@ -78,8 +77,8 @@ public class OfficeSuiteServiceProvider {
 		return dataWorkbook;
 	}
 
-	public OSXWorkbook readExcelFile(final Map<?, ?> parameters) throws CerberusException {
-	  OSXWorkbook workbookContainer = null;
+	public XWorkbook readExcelFile(final Map<?, ?> parameters) throws CerberusException {
+	  XWorkbook workbookContainer = null;
 		OfficeMarshalType officeMarshalType = OfficeMarshalType.STREAMING;
 		if (parameters.containsKey(OSXConstants.XLSX_MARSHALLING_DATA_METHOD)) {
 			officeMarshalType = (OfficeMarshalType) parameters.get(OSXConstants.XLSX_MARSHALLING_DATA_METHOD);
@@ -96,7 +95,7 @@ public class OfficeSuiteServiceProvider {
 		return workbookContainer;
 	}
 
-	public OSXWorkbook readExcelFile(final Context context) throws CerberusException {
+	public XWorkbook readExcelFile(final Context context) throws CerberusException {
     return readExcelFile(context.getContextData());
   }
 
@@ -104,9 +103,9 @@ public class OfficeSuiteServiceProvider {
 		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.createMap();
+		Map<String, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
-		OSXWorkbook workbookContainer = null;
+		XWorkbook workbookContainer = null;
 		InputStream zipInputStream = null;
 		Map<String, List<String>> sheetIdsMap = null;
 		List<String> worksheetIds = null;
@@ -147,11 +146,11 @@ public class OfficeSuiteServiceProvider {
 	public Context loadSpreadsheetData(final Context context) throws CerberusException {
 		Context targetContext = null;
 		Map<String, InputStream> inputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.createMap();
+		Map<String, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		InputStream inputStream = null;
 		Context currentContext = Context.builder().build();
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		try {
 			if (Boolean.TRUE.equals(context.get(OSXConstants.IS_COMPRESSED_FILE))){
 				inputStreams = CommonUtility.extractZipInputStreams(
@@ -161,7 +160,7 @@ public class OfficeSuiteServiceProvider {
 					return targetContext;
 				}
 			} else {
-				inputStreams = CollectionsUtility.createMap();
+				inputStreams = CollectionsUtility.newMap();
 			}
 
 			targetContext = Context.builder().build();
@@ -200,9 +199,9 @@ public class OfficeSuiteServiceProvider {
 		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.createMap();
+		Map<String, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
-		OSXWorkbook workbookContainer = null;
+		XWorkbook workbookContainer = null;
 		InputStream zipInputStream = null;
 		Map<String, List<String>> sheetIdsMap = null;
 		List<String> workbookIds = null;
@@ -262,10 +261,10 @@ public class OfficeSuiteServiceProvider {
 		String zipFileName = "D:\\git\\paramount\\msp-osx\\src\\main\\resources\\data\\develop_data.zip";
 		
 		OsxBucketContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadDefaultZipConfiguredData(new File(zipFileName));
-		OSXWorkbook workbookContainer = null;
+		XWorkbook workbookContainer = null;
 		Set<Object> keys = bucketContainer.getKeys();
 		for (Object key : keys) {
-			workbookContainer = (OSXWorkbook) bucketContainer.get(key);
+			workbookContainer = (XWorkbook) bucketContainer.get(key);
 			System.out.println("############################### " + key + " ###############################");
 			displayWorkbookContainer(workbookContainer);
 		}
@@ -274,10 +273,10 @@ public class OfficeSuiteServiceProvider {
 			return;
 	}
 
-	protected static void displayWorkbookContainer(OSXWorkbook workbookContainer) {
-		for (OSXWorksheet worksheetContainer : workbookContainer.datasheets()) {
+	protected static void displayWorkbookContainer(XWorkbook workbookContainer) {
+		for (XWorksheet worksheetContainer : workbookContainer.values()) {
 			System.out.println("Sheet: " + worksheetContainer.getId());
-			for (List<?> dataRow : worksheetContainer.getValues()) {
+			for (List<?> dataRow : worksheetContainer.values()) {
 				System.out.println(dataRow);
 			}
 			System.out.println("============================DONE==============================");

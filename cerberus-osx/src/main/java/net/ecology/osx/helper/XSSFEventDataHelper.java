@@ -33,9 +33,9 @@ import org.xml.sax.XMLReader;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.exceptions.CerberusException;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.model.osx.OsxBucketContainer;
 
 /**
@@ -68,7 +68,7 @@ public class XSSFEventDataHelper {
 		@Override
 		public void startRow(int rowNum) {
 			//Initialize the 
-			sbCurrentRow = CollectionsUtility.createArrayList();
+			sbCurrentRow = CollectionsUtility.newList();
 
 			// If there were gaps, output the missing rows
 			outputMissingRows(rowNum - currentRow - 1);
@@ -152,7 +152,7 @@ public class XSSFEventDataHelper {
 	 */
 	private XSSFEventDataHelper(OPCPackage pkg, Map<?, ?> params) {
 		this.xlsxPackage = pkg;
-		this.parameters = CollectionsUtility.createMap();
+		this.parameters = CollectionsUtility.newMap();
 		this.parameters.putAll(params);
 
 		int procLimitedColumns = defaultNumberOfCells;
@@ -247,7 +247,7 @@ public class XSSFEventDataHelper {
 		while (iter.hasNext()) {
 			stream = iter.next();
 			if (sheets.contains(iter.getSheetName())){
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				//Process the started row index 
 				rowIndexKey = iter.getSheetName() + OSXConstants.STARTED_ROW_INDEX;
 				if (null != configParams && configParams.containsKey(rowIndexKey)){
@@ -290,7 +290,7 @@ public class XSSFEventDataHelper {
 			while (iter.hasNext()) {
 				stream = iter.next();
 				if (sheets.contains(iter.getSheetName())){
-					this.stringTable = CollectionsUtility.createArrayList();
+					this.stringTable = CollectionsUtility.newList();
 					//Process the started row index 
 					rowIndexKey = iter.getSheetName() + OSXConstants.STARTED_ROW_INDEX;
 					if (this.parameters.containsKey(rowIndexKey)){
@@ -336,7 +336,7 @@ public class XSSFEventDataHelper {
 			iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
 			sheetContentsHandler = new BufferedSheetContentsHandler();
 			while (iter.hasNext()) {
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				inputStream = iter.next();
 				if (!sheetIds.contains(iter.getSheetName()))
 					continue;
@@ -365,7 +365,7 @@ public class XSSFEventDataHelper {
 		return dataBucket;
 	}
 
-	public OSXWorkbook readXlsx() throws CerberusException {
+	public XWorkbook readXlsx() throws CerberusException {
 		InputStream inputStream = null;
 		String sheetName = null;
 		ReadOnlySharedStringsTable sharedStringTable = null;
@@ -376,11 +376,11 @@ public class XSSFEventDataHelper {
 		List<String> sheetIds = (List<String>)this.parameters.get(OSXConstants.PROCESSING_WORKSHEET_IDS);
 		String rowIndexKey = null;
 		Integer startedRowIndex = null;
-		OSXWorksheet worksheetContainer = null;
-		OSXWorkbook workbookContainer = null;
+		XWorksheet worksheetContainer = null;
+		XWorkbook workbookContainer = null;
 		List<String> dataRows = null;
 		try {
-			workbookContainer = OSXWorkbook.builder().build();
+			workbookContainer = XWorkbook.builder().build();
 
 			sharedStringTable = new ReadOnlySharedStringsTable(this.xlsxPackage);
 			xssfReader = new XSSFReader(this.xlsxPackage);
@@ -388,13 +388,13 @@ public class XSSFEventDataHelper {
 			iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
 			sheetContentsHandler = new BufferedSheetContentsHandler();
 			while (iter.hasNext()) {
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				inputStream = iter.next();
 				if (!sheetIds.contains(iter.getSheetName()))
 					continue;
 
 				sheetName = iter.getSheetName();
-				worksheetContainer = OSXWorksheet.builder()
+				worksheetContainer = XWorksheet.builder()
 						.id(sheetName)
 						.build();
 
@@ -414,7 +414,7 @@ public class XSSFEventDataHelper {
 
 				for (int idx=0; idx < this.stringTable.size(); idx++) {
 					dataRows = this.stringTable.get(idx);
-					worksheetContainer.addDataRows(idx, dataRows);
+					worksheetContainer.put(idx, dataRows);
 				}
 				workbookContainer.put(sheetName, worksheetContainer);
 				inputStream.close();

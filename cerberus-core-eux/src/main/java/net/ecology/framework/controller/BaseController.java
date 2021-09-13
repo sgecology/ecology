@@ -130,7 +130,7 @@ public abstract class BaseController extends UIControllerRoot {
 	protected List<SelectItem> buildCategorySelectedItems(List<?> objects) {
 		Long objectId = null;
 		String objectCode = null, objectName = null;
-		List<SelectItem> selectItems = CollectionsUtility.createArrayList();
+		List<SelectItem> selectItems = CollectionsUtility.newList();
 		if (CommonUtility.isNotEmpty(objects)) {
 			for (Object object : objects) {
 				try {
@@ -183,8 +183,8 @@ public abstract class BaseController extends UIControllerRoot {
 
 	protected List<SelectItem> buildSelectItems(List<?> objects, String keyProperty, String[] displayProperties) {
 		Long objectId = null;
-		List<SelectItem> selectItems = CollectionsUtility.createArrayList();
-		Map<String, Object> displayValueMap = CollectionsUtility.createMap();
+		List<SelectItem> selectItems = CollectionsUtility.newList();
+		Map<String, Object> displayValueMap = CollectionsUtility.newMap();
 		for (Object object : objects) {
 			try {
 				objectId = (Long) BeanUtility.getBeanProperty(object, keyProperty);

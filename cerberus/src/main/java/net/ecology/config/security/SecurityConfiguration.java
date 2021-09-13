@@ -42,11 +42,11 @@ import net.ecology.servlet.ServletConstants;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	@Inject 
-	protected DigesterEncryptorReporistory encryptoReporistory;
+	/*@Inject 
+	protected DigesterEncryptorReporistory encryptoReporistory;*/
 
 	@Inject
-	private AuthenticationProvider globalAuthenticationProvider;
+	private AuthenticationProvider authenticationProvider;// globalAuthenticationProvider;
 
 	@Inject
 	private AccessDeniedHandler customAccessDeniedHandler;
@@ -83,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(this.globalAuthenticationProvider);
+		auth.authenticationProvider(this.authenticationProvider);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
        		.deleteCookies("JSESSIONID")
           .permitAll()
       .and()
-      	.authenticationProvider(this.globalAuthenticationProvider)
+      	.authenticationProvider(this.authenticationProvider)
       	.exceptionHandling().accessDeniedHandler(this.customAccessDeniedHandler)
 
       .and()

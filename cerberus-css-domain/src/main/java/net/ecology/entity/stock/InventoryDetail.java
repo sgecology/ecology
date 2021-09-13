@@ -95,23 +95,23 @@ public class InventoryDetail extends RepoObject {
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<InventoryPrice> productProfileDiscountList = CollectionsUtility.createList();
+	private List<InventoryPrice> productProfileDiscountList = CollectionsUtility.newList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfileTax> productProfileTaxList = CollectionsUtility.createList();
+	private List<ProductProfileTax> productProfileTaxList = CollectionsUtility.newList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<InventoryCategory> productProfileCategoryList = CollectionsUtility.createList();
+	private List<InventoryCategory> productProfileCategoryList = CollectionsUtility.newList();
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<InventoryImage> productImageList = CollectionsUtility.createList();
+	private List<InventoryImage> productImageList = CollectionsUtility.newList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfilePartner> productProfilePartnerList = CollectionsUtility.createList();
+	private List<ProductProfilePartner> productProfilePartnerList = CollectionsUtility.newList();
 
 	/**
 	 * The institution keeps its information.

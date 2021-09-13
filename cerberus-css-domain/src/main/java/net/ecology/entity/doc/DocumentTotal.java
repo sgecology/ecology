@@ -28,7 +28,7 @@ import net.ecology.entity.general.MoneySet;
  */
 public class DocumentTotal {
 
-	private Map<Long, MoneySet> data = CollectionsUtility.createMap();
+	private Map<Long, MoneySet> data = CollectionsUtility.newMap();
 	private BigDecimal localTotal = BigDecimal.ZERO;
 
 	public void add(MoneySet amount) {

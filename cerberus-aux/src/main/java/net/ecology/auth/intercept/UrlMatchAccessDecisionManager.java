@@ -9,7 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.StringUtils;
+
+import net.ecology.common.StringUtilities;
 
 /**
  *
@@ -52,10 +53,10 @@ public class UrlMatchAccessDecisionManager implements AccessDecisionManager {
 			if (!(authority instanceof UrlGrantedAuthority))
 				continue;
 			UrlGrantedAuthority urlGrantedAuthority = (UrlGrantedAuthority) authority;
-			if (StringUtils.isEmpty(urlGrantedAuthority.getAuthority()))
+			if (StringUtilities.isEmpty(urlGrantedAuthority.getAuthority()))
 				continue;
 			// 如果method为null，则默认为所有类型都支持
-			String httpMethod2 = (!StringUtils.isEmpty(urlGrantedAuthority.getHttpMethod())) ? urlGrantedAuthority.getHttpMethod() : httpMethod;
+			String httpMethod2 = (!StringUtilities.isEmpty(urlGrantedAuthority.getHttpMethod())) ? urlGrantedAuthority.getHttpMethod() : httpMethod;
 			// AntPathRequestMatcher进行匹配，url支持ant风格（如：/user/**）
 			AntPathRequestMatcher antPathRequestMatcher = new AntPathRequestMatcher(urlGrantedAuthority.getAuthority(), httpMethod2);
 			if (antPathRequestMatcher.matches(((FilterInvocation) object).getRequest())) {

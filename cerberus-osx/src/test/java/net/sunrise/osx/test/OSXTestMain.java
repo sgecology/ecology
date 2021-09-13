@@ -12,14 +12,12 @@ import java.util.Map;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.helper.OfficeSuiteServiceProvider;
 import net.ecology.osx.helper.OfficeSuiteServicesHelper;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.osx.model.OfficeMarshalType;
 
 /**
@@ -37,21 +35,21 @@ public class OSXTestMain {
 	}
 
 	protected static void doTestReadXlsx() {
-		Map<Object, Object> params = CollectionsUtility.createMap();
+		Map<Object, Object> params = CollectionsUtility.newMap();
 		String[] sheetIds = new String[]{/*"languages", "items", "localized-items"*/"inventory-items", "business-units"}; 
 		OsxBucketContainer dataBucket = null;
 		String dataSheetSource = "D:\\workspace\\aquariums.git\\aquarium\\aquarium-admin\\src\\main\\resources\\config\\data\\data-catalog.xlsx";
-		List<String> sheetIdList = CollectionsUtility.createList("inventory-items", "business-units");
+		List<String> sheetIdList = CollectionsUtility.newList("inventory-items", "business-units");
 		dataSheetSource = "D:/git/heron/heron/src/main/resources/master-data/data-catalog.xlsx";
 		try {
 			params.put(OSXConstants.INPUT_STREAM, new FileInputStream(dataSheetSource));
 			params.put(OSXConstants.PROCESSING_WORKSHEET_IDS, sheetIdList);
 			params.put(OSXConstants.STARTED_ROW_INDEX, new Integer[] {1, 1, 1});
-			OSXWorkbook workbookContainer = OfficeSuiteServiceProvider.builder()
+			XWorkbook workbookContainer = OfficeSuiteServiceProvider.builder()
 			.build()
 			.readExcelFile(params);
 			
-			OSXWorksheet osxWorksheet = workbookContainer.getDatasheet(sheetIds[0]);
+			XWorksheet osxWorksheet = workbookContainer.get(sheetIds[0]);
 			displayDatasheet(osxWorksheet);
 			/*List<?> details = null;
 			List<?> forthcomingBooks = (List<?>)workbookContainer.get("Forthcoming");
@@ -108,7 +106,7 @@ public class OSXTestMain {
 		try {
 			File compressedFile = new File(compressedFileName);
       String[] compressedEntries = new String[]{"contact-data.xlsx", "catalog-data.xlsx"};
-      Map<String, String[]> sheetIdList = CollectionsUtility.createHashMapData("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
+      Map<String, String[]> sheetIdList = CollectionsUtility.newHashedMap("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
       
       context = initCompressedContextData(compressedFile, compressedEntries, null, sheetIdList);
 			long started = System.currentTimeMillis();
@@ -130,37 +128,37 @@ public class OSXTestMain {
 	    OsxBucketContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadZipDataFromInputStream(dataFile, inputStream);
 	    started = System.currentTimeMillis()-started;
 	    System.out.println("Taken: "+started);
-	    displayWorkbook((OSXWorkbook)bucketContainer.get(dataFile));
+	    displayWorkbook((XWorkbook)bucketContainer.get(dataFile));
 	    System.out.println();
 	  } catch (Exception e) {
 	    e.printStackTrace();
 	  }
 	}
 
-	private static void displayWorkbook(OSXWorkbook workbook){
-	  for (OSXWorksheet worksheet :workbook.datasheets()){
+	private static void displayWorkbook(XWorkbook workbook){
+	  for (XWorksheet worksheet :workbook.values()){
 	    System.out.println("+++++++++++++++++" + worksheet.getId() + "+++++++++++++++++");
-	    for (Integer key :worksheet.getKeys()){
-	      System.out.println(worksheet.getDataRow(key));
+	    for (Object key :worksheet.keys()){
+	      System.out.println(worksheet.get(key));
 	    }
 	  }
     System.out.println("+++++++++++++++++");
   }
 
-	private static void displayDatasheet(OSXWorksheet osxWorksheet){
+	private static void displayDatasheet(XWorksheet osxWorksheet){
 	  System.out.println("+++++++++++++++++");
-	  for (Integer key :osxWorksheet.getKeys()){
-	    System.out.println(osxWorksheet.getDataRow(key));
+	  for (Object key :osxWorksheet.keys()){
+	    System.out.println(osxWorksheet.get(key));
 	  }
     System.out.println("+++++++++++++++++");
 	}
 
 	private static void displayContextData(Context context){
-		DmxWorkbook workbook = null;
+		XWorkbook workbook = null;
 		for (Object key :context.keys()){
 	    System.out.println("+++++++++++++++++" + key + "+++++++++++++++++");
-	    workbook = (DmxWorkbook)context.get((String)key);
-	    for (DmxWorksheet worksheet :workbook.values()){
+	    workbook = (XWorkbook)context.get((String)key);
+	    for (XWorksheet worksheet :workbook.values()){
 		    for (Object sheetKey :worksheet.keys()){
 		    	System.out.println(worksheet.get(sheetKey));
 	    	}

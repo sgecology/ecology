@@ -36,11 +36,12 @@ import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
 import net.ecology.globe.GlobalMarshallingRepository;
 import net.ecology.globe.MarshallingConstants;
+import net.ecology.lingual.service.LocaleService;
 import net.ecology.model.Context;
 import net.ecology.model.IOContainer;
 import net.ecology.model.MarshallingProvider;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.auth.AccessDecision;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.service.general.CatalogueService;
 
 /**
@@ -88,14 +89,14 @@ public class GlobalMarshalingHelper extends ComponentRoot {
 
   @Inject
   private ContactService contactService;
-
-  protected void initialize() {
-    initCountries();
-  }
+  
+  @Inject
+  private LocaleService localeService;
 
   private void setupMasterAuthorizations() {
     this.loadMasterAuthorities();
     this.loadMasterSecurityOptions();
+    this.loadAccessPolicies();
   }
 
   private void loadAccessPolicies() {
@@ -441,7 +442,7 @@ public class GlobalMarshalingHelper extends ComponentRoot {
 		/*
 		antMatcher|authority|authorityDisplayName|userName|email|firstName|lastName
 		*/
-		Map<String, Authority> authorities = CollectionsUtility.createMap();
+		Map<String, Authority> authorities = CollectionsUtility.newMap();
 		Authority authority = null;
 		AccessPolicy accessDecisionPolicy = null;
 		for (String[] values :fetchedData){
@@ -512,12 +513,6 @@ public class GlobalMarshalingHelper extends ComponentRoot {
     }
   }
 
-  private void initCountries() {
-    logger.info("Enter countries intialize");
-    // this.lingualHelper.initAvailableCountries();
-    logger.info("Leave countries intialize");
-  }
-
   public void dispatch(Context context) {
     logger.info("Enter GlobalMarshalingHelper.dispatch()");
     try {
@@ -531,11 +526,14 @@ public class GlobalMarshalingHelper extends ComponentRoot {
   }
 
 	private void marshallingCatalogues(Context context){
-  	DmxWorksheet dataWorksheet = (DmxWorksheet)context.get(MarshallingConstants.CATALOGUE_DATA_FILE);
-  	List<?> catalogueParts = null;
+  	XWorksheet worksheet = (XWorksheet)context.get(MarshallingConstants.CATALOGUE_DATA_FILE);
+		if (null==worksheet)
+			return;
+
+		List<?> catalogueParts = null;
   	Catalogue catalogue = null;
-  	for (Object key :dataWorksheet.keys()){
-  		catalogueParts = dataWorksheet.get(key);
+  	for (Object key :worksheet.keys()){
+  		catalogueParts = worksheet.get(key);
   		if (!this.catalogueService.exists(GlobeConstants.PROP_CODE, catalogueParts.get(1))){
     		catalogue = marshallCatalogue(catalogueParts);
     		this.catalogueService.save(catalogue);
@@ -567,7 +565,7 @@ public class GlobalMarshalingHelper extends ComponentRoot {
   	Contact contact = null;
   	if (!this.securityAccountService.exists(propSsoId, baseACL.getUser())) {
   		contact = buildContact(baseACL);
-  		this.contactService.saveAndFlush(contact);
+    	this.contactService.saveAndFlush(contact);
 
   		userPrincipal = UserPrincipal.valueOf(baseACL.getUser(), 
 					passwordEncoder.encode(baseACL.getUser()), 

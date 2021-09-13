@@ -139,7 +139,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 
 	@Override
 	public List<AccessPolicy> getAccessDecisionPolicies(PrincipalDetails authenticationDetails) throws ObjectNotFoundException {
-		List<AccessPolicy> accessDecisionPolicies = CollectionsUtility.createDataList();
+		List<AccessPolicy> accessDecisionPolicies = CollectionsUtility.newList();
 		List<AccessPolicy> currentADPs = null; 
 		for (GrantedAuthority authority :authenticationDetails.getAuthorities()) {
 			currentADPs = accessDecisionPolicyService.getAccessPoliciesByAuthority((Authority)authority);
@@ -160,7 +160,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 
 		accessDecisionPolicies = (List<AccessPolicy>)filterInvocation.getHttpRequest().getSession(false).getAttribute(MY_ACCESSED_DECISION_POLICIES);
     if (null==accessDecisionPolicies) {
-    	accessDecisionPolicies = CollectionsUtility.createDataList();
+    	accessDecisionPolicies = CollectionsUtility.newList();
   		for (GrantedAuthority authority :authentication.getAuthorities()) {
   			currentADPs = accessDecisionPolicyService.getAccessPoliciesByAuthority((Authority)authority);
   			if (!currentADPs.isEmpty()) {

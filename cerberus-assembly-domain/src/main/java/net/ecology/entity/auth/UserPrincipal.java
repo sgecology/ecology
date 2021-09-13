@@ -70,7 +70,7 @@ public class UserPrincipal extends PrincipalEntity implements PrincipalDetails {
 	@Builder.Default
 	@LazyCollection(LazyCollectionOption.FALSE)
   @OneToMany(mappedBy="principal", cascade=CascadeType.ALL)
-  private List<GrantedPermission> grantedAuthorities = CollectionsUtility.createDataList();
+  private List<GrantedPermission> grantedAuthorities = CollectionsUtility.newList();
 	
 	@Setter @Getter
 	@Column(name = "info", columnDefinition="text")
@@ -106,7 +106,7 @@ public class UserPrincipal extends PrincipalEntity implements PrincipalDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorities = CollectionsUtility.createHashSet();
+		Set<GrantedAuthority> authorities = CollectionsUtility.newHashSet();
 		for (GrantedPermission accountPrivilege :this.grantedAuthorities) {
 			authorities.add(accountPrivilege.getAuthority());
 		}

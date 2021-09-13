@@ -26,6 +26,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
@@ -35,7 +36,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
-import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
 import net.ecology.lingual.service.MessageService;
 import net.ecology.lingual.service.MessageServiceImpl;
@@ -138,6 +138,9 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	@Inject
 	private MessageSource persistenceMessageSource;
 
+  @Inject
+  private HttpSession session;
+	
 	/*@Inject 
 	private LocaleManager localeManager;*/
 
@@ -237,7 +240,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 
 		String message = null;
 		MessageService persistenceMessageService = null;
-		if (GlobalConstants.VIETNAM.equals(locale)) {
+		if (CommonUtility.LOCALE_VIETNAM.equals(locale)) {
 			if (!localMessages.containsKey(key)) {
 				persistenceMessageService = (MessageService)this.getMessageSource();
 				message = persistenceMessageService.getMessage(key, null, locale);
@@ -277,8 +280,8 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 
 	private void loadPersistenceMessages() {
 		MessageService persistenceMessageService = (MessageService)this.getMessageSource();
-		localMessages = persistenceMessageService.getMessagesMap(GlobalConstants.VIETNAM);
-		messages = persistenceMessageService.getMessagesMap(GlobalConstants.USA);
+		localMessages = persistenceMessageService.getMessagesMap(CommonUtility.LOCALE_VIETNAM);
+		messages = persistenceMessageService.getMessagesMap(CommonUtility.LOCALE_USA);
 	}
 
 	/*
@@ -301,12 +304,25 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 
 	private Locale getCurrentLocale() {
 		Locale currentLocale = null;
-		if (null != FacesContext.getCurrentInstance()){
-			currentLocale = GlobalConstants.USA;
-		} else {
-			currentLocale = GlobalConstants.VIETNAM;
+		try {
+			//currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+			this.session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+			currentLocale = (Locale)this.session.getAttribute(GlobeConstants.WORKING_LOCALE);
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		return currentLocale;
+		/*Locale currentLocale = null;
+		if (null==this.globalLocaleRepository){
+			this.globalLocaleRepository = GlobalLocaleRepository.builder().build();
+		}
+		FacesContext.getCurrentInstance().getViewRoot().getLocale();
+		if (null != FacesContext.getCurrentInstance()){
+			currentLocale = CommonUtility.LOCALE_VIETNAM;
+		} else {
+			currentLocale = CommonUtility.LOCALE_USA;
+		}
+		return currentLocale;*/
 	}
 
 	/**
@@ -523,7 +539,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 		ResourceBundle resourceBundle = null;
 		//PathMatchingResourcePatternResolver innerResolver = null;
 		try {
-			List<String> scannedResources = CollectionsUtility.createArrayList();
+			List<String> scannedResources = CollectionsUtility.newList();
 			Resource[] resources = resolver.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX);
 			//Resource[] innerResources = null;
 			for (Resource resource : resources) {
@@ -557,7 +573,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	}
 	
 	private List<String> getResourceBundleNames(PathMatchingResourcePatternResolver resolver, String resourcePath, String resourceName) throws IOException{
-		List<String> resourceBundleNames = CollectionsUtility.createArrayList();
+		List<String> resourceBundleNames = CollectionsUtility.newList();
 		Resource[] resources = resolver.getResources(resourceName);
 		ResourceBundle bundle = null;
 		for (Resource resource :resources) {

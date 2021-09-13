@@ -24,8 +24,6 @@ import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
 import net.ecology.osx.exceptions.OsxException;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 
 /**
  * @author ducbq
@@ -134,7 +132,7 @@ public class OSXStreamingReader {
 		}
 
 		for (Row currentRow : sheet) {
-			dataRow = CollectionsUtility.createArrayList();
+			dataRow = CollectionsUtility.newList();
 			for (short idx = firstCellNum; idx <= lastCellNum; idx++) {
 				currentCell = currentRow.getCell(idx);
 				if (null==currentCell || CellType._NONE.equals(currentCell.getCellType()) || CellType.BLANK.equals(currentCell.getCellType())) {
@@ -179,7 +177,7 @@ public class OSXStreamingReader {
 		}
 
 		for (Row currentRow : sheet) {
-			dataRow = CollectionsUtility.createArrayList();
+			dataRow = CollectionsUtility.newList();
 			for (short idx = firstCellNum; idx <= lastCellNum; idx++) {
 				currentCell = currentRow.getCell(idx);
 				if (null==currentCell || CellType._NONE.equals(currentCell.getCellType()) || CellType.BLANK.equals(currentCell.getCellType())) {

@@ -19,8 +19,6 @@ import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.osx.model.OfficeDocumentType;
 import net.ecology.osx.model.OfficeMarshalType;
 
@@ -102,7 +100,7 @@ public class OSXDataRepository {
 		Context targetContext = null;
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> parameters = CollectionsUtility.createMap();
+		Map<String, Object> parameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		XWorkbook workbook = null;
 		InputStream zipInputStream = null;
@@ -145,7 +143,7 @@ public class OSXDataRepository {
 	public Context loadSpreadsheetData(final Context context) throws CerberusException {
 		Context targetContext = null;
 		Map<String, InputStream> inputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.createMap();
+		Map<String, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		InputStream inputStream = null;
 		Context currentContext = Context.builder().build();
@@ -196,7 +194,7 @@ public class OSXDataRepository {
 		Context targetContext = null;
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.createMap();
+		Map<String, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		XWorkbook workbookContainer = null;
 		InputStream zipInputStream = null;
@@ -256,8 +254,8 @@ public class OSXDataRepository {
   protected static Context initConfigData(final File zipFile) {
 		Context context = Context.builder().build();
 
-		Map<String, String> secretKeyMap = CollectionsUtility.createHashMapData("Vietbank_14.000.xlsx", "thanhcong");
-		Map<String, List<String>> sheetIdMap = CollectionsUtility.createMap();
+		Map<String, String> secretKeyMap = CollectionsUtility.newHashedMap("Vietbank_14.000.xlsx", "thanhcong");
+		Map<String, List<String>> sheetIdMap = CollectionsUtility.newMap();
 		sheetIdMap.put("Vietbank_14.000.xlsx", CollectionsUtility.arraysAsList(new String[] {"File Tổng hợp", "Các trưởng phó phòng", "9"}));
 
 		context.put(OSXConstants.DATA_FILE, zipFile);
@@ -291,13 +289,13 @@ public class OSXDataRepository {
 		}
 	}
 
-	protected static void displayWorkbookContainer(OSXWorkbook workbookContainer) {
-		for (OSXWorksheet worksheetContainer : workbookContainer.datasheets()) {
+	/*protected static void displayWorkbookContainer(XWorkbook workbookContainer) {
+		for (XWorksheet worksheetContainer : workbookContainer.datasheets()) {
 			System.out.println("Sheet: " + worksheetContainer.getId());
 			for (List<?> dataRow : worksheetContainer.getValues()) {
 				System.out.println(dataRow);
 			}
 			System.out.println("============================DONE==============================");
 		}
-	}
+	}*/
 }

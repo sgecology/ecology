@@ -12,12 +12,17 @@ import javax.inject.Inject;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.stereotype.Component;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.entity.i18n.I18nLocale;
 import net.ecology.entity.i18n.Message;
+import net.ecology.framework.persistence.IPersistence;
+import net.ecology.framework.service.impl.GenericService;
 import net.ecology.lingual.persistence.LocalePersistence;
 import net.ecology.lingual.persistence.MessagePersistence;
 
@@ -26,7 +31,9 @@ import net.ecology.lingual.persistence.MessagePersistence;
  *
  */
 @Component("persistenceMessageSource")
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl extends GenericService<Message, Long> implements MessageService {
+	private static final long serialVersionUID = 149700141639581672L;
+
 	@Inject
 	private LocalePersistence localePersistence;
 
@@ -103,6 +110,8 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	private String resolveMessage(String code, Object[] args, Locale locale) {
+		if (null==locale)
+			return code;
 		I18nLocale i18nLocale = localePersistence.findByLanguage(locale.getLanguage());
 		Message messageSourceEntity = labelPersistence.findByKeyAndLocale(code, i18nLocale);
 		String resolvedMessage = (null != messageSourceEntity)?messageSourceEntity.getLabel():code;
@@ -128,6 +137,11 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
+	public void saveMessage(Message message) {
+		this.labelPersistence.saveAndFlush(message);
+	}
+
+	@Override
 	public List<Message> getMessages(Locale locale) {
 		I18nLocale i18nLocale = localePersistence.findByLanguage(locale.getLanguage());
 		return this.labelPersistence.findByLocale(i18nLocale);
@@ -136,11 +150,28 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public Map<String, String> getMessagesMap(Locale locale) {
 		List<Message> messages = this.getMessages(locale);
-		Map<String, String> messagesMap = CollectionsUtility.createMap();
+		Map<String, String> messagesMap = CollectionsUtility.newMap();
 		for (Message mse :messages) {
 			messagesMap.put(mse.getKey(), mse.getLabel());
 		}
 		return messagesMap;
 	}
 
+	@Override
+	public boolean exists(I18nLocale locale, String messageKey) {
+		Message probe = Message.builder()
+				.key(messageKey)
+				.locale(locale)
+				.build();
+
+		ExampleMatcher localeMatcher = ExampleMatcher.matching().withIgnorePaths("key"); 
+			  //.withMatcher("locale",	new GenericPropertyMatcher().ignoreCase());
+		Example<Message> message = Example.of(probe, localeMatcher);
+		return this.labelPersistence.exists(message);
+	}
+
+	@Override
+	protected IPersistence<Message, Long> getPersistence() {
+		return this.labelPersistence;
+	}
 }

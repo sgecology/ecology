@@ -94,7 +94,7 @@ public class EmailConfiguration extends ComponentRoot {
 	private JavaMailSender configEmailProfile() throws CommunicationException {
 		checkAndConfigureEmailService();
 		Optional<net.ecology.entity.config.Configuration> optConfig = configurationService.getByName(GlobalConstants.CONFIG_ENTRY_NAME_EMAIL);
-		Map<Object, Object> configDetailsMap = CollectionsUtility.createMap();
+		Map<Object, Object> configDetailsMap = CollectionsUtility.newMap();
 		if (!optConfig.isPresent()) {
 			throw new CommunicationException("There is no configuration for email!");
 		}

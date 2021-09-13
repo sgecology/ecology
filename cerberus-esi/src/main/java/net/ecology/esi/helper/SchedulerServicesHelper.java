@@ -125,7 +125,7 @@ public class SchedulerServicesHelper {
       return this.triggerDescriptors;
 
     if (null==this.triggerDescriptors){
-      this.triggerDescriptors = CollectionsUtility.createDataList();
+      this.triggerDescriptors = CollectionsUtility.newList();
     }
 
     Scheduler scheduler = this.schedulerFactory.getScheduler();
@@ -146,7 +146,7 @@ public class SchedulerServicesHelper {
   }
 
   private List<ScheduleJob> parseJobSchedules(List<String[]> dataElements){
-    List<ScheduleJob> loadedJobSchedules = CollectionsUtility.createDataList();
+    List<ScheduleJob> loadedJobSchedules = CollectionsUtility.newList();
     ScheduleJob jobSchedule = null;
     Marshaller<SchedulePlan, String[]> schedulePlanMarshaller = SchedulePlanMarshaller.builder().build();
     Marshaller<ScheduleJob, String[]> scheduleJobMarshaller = ScheduleJobMarshaller.builder().build();

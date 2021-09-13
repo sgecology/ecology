@@ -48,7 +48,7 @@ public abstract class RepositoryPredicator<T> {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				Object searchValue = null;
-				List<Predicate> predicates = CollectionsUtility.createArrayList();
+				List<Predicate> predicates = CollectionsUtility.newList();
 				if (CommonUtility.isNotEmpty(searchParameter.getParameterMap())){
 					for (String searchParam :searchParameter.getParameterMap().keySet()){
 						searchValue = searchParameter.getParameterMap().get(searchParam);

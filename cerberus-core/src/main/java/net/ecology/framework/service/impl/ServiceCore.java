@@ -38,7 +38,7 @@ public abstract class ServiceCore<EntityType extends Repo, Key extends Serializa
 
 	//////////////////////////Revise and exclude as soon as possible
 	protected final Page<EntityType> DUMMY_PAGEABLE = new PageImpl<EntityType>(new ArrayList<EntityType>());
-	protected final List<EntityType> DUMMY_LIST = CollectionsUtility.createDataList();
+	protected final List<EntityType> DUMMY_LIST = CollectionsUtility.newList();
 
 	protected Pageable createDefaultPageable() {
     PageRequest pageRequest = PageRequest.of(GlobeConstants.DEFAULT_PAGE_BEGIN, GlobeConstants.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
@@ -76,7 +76,7 @@ public abstract class ServiceCore<EntityType extends Repo, Key extends Serializa
 		Object findingResult = null;
 		List<EntityType> searchResult = null;
 		try {
-			findingResult = BeanUtility.callMethod(this.getPersistence(), "find", CollectionsUtility.createHashMapData("keyword", parameter), PACKAGE_PREFIX);
+			findingResult = BeanUtility.callMethod(this.getPersistence(), "find", CollectionsUtility.newHashedMap("keyword", parameter), PACKAGE_PREFIX);
 			if (findingResult instanceof List) {
 				searchResult = (List<EntityType>)findingResult;
 			}

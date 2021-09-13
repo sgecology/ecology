@@ -5,6 +5,7 @@ package net.ecology.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -17,20 +18,23 @@ import net.ecology.base.DataAdapter;
 import net.ecology.base.Marshaller;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonConstants;
+import net.ecology.common.CommonUtility;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.css.service.general.AttachmentService;
 import net.ecology.dmx.manager.GlobalDmxManager;
 import net.ecology.domain.entity.Attachment;
 import net.ecology.entity.config.Configuration;
 import net.ecology.entity.i18n.I18nLocale;
+import net.ecology.entity.i18n.Message;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.factory.DataMarshallingFactory;
 import net.ecology.framework.component.ComponentRoot;
-import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
 import net.ecology.global.SchedulingConstants;
 import net.ecology.globe.GlobalMarshallingRepository;
 import net.ecology.lingual.service.LocaleService;
+import net.ecology.lingual.service.MessageService;
+import net.ecology.marshal.MessageMarshaller;
 import net.ecology.marshal.ScheduleJobMarshaller;
 import net.ecology.marshal.SchedulePlanMarshaller;
 import net.ecology.model.Context;
@@ -66,14 +70,18 @@ public class GlobalEsiRepository extends ComponentRoot {
   @Inject
   private LocaleService localeService;
 
+  @Inject
+  private MessageService messageService;
+
   @Async
   public void dispatch(String path) throws CerberusException {
   	logger.info("Enter GlobalEsiRepository:dispatch");
-  	Collection<I18nLocale> i18nLocales = dispatchInitialI18n();
-  	dispatchInitialMessages(i18nLocales);
-  	
   	Context dataContext = loadDataRepository(path);
   	System.out.println(dataContext);
+  	Collection<I18nLocale> i18nLocales = dispatchInitialI18n();
+  	Collection<String[]> messages = (Collection<String[]>)dataContext.get("classpath:/repo/messages.csv");
+  	dispatchInitialMessages(messages, i18nLocales);
+  	
 
   	loadSchedules(null);
   	loadSystemMasterData();
@@ -171,34 +179,53 @@ public class GlobalEsiRepository extends ComponentRoot {
 		Collection<I18nLocale> i18nLocales = CollectionsUtility.newCollection();
 		logger.info("Enter dispatch initial I18n");
 		I18nLocale i18nLocale = null;
-		if (!this.localeService.exists(languageProp, GlobalConstants.USA.getLanguage())) {
+		if (!this.localeService.exists(languageProp, CommonUtility.LOCALE_USA.getLanguage())) {
 			i18nLocale = I18nLocale.builder()
-					.displayLanguage(GlobalConstants.USA.getDisplayLanguage())
-					.language(GlobalConstants.USA.getLanguage())
+					.displayLanguage(CommonUtility.LOCALE_USA.getDisplayLanguage())
+					.language(CommonUtility.LOCALE_USA.getLanguage())
 					.build();
 			this.localeService.saveAndFlush(i18nLocale);
 			i18nLocales.add(i18nLocale);
 		} else {
-			i18nLocales.add(this.localeService.getLocale(GlobalConstants.USA.getLanguage()));
+			i18nLocales.add(this.localeService.getLocale(CommonUtility.LOCALE_USA.getLanguage()));
 		}
 		
-		if (!this.localeService.exists(languageProp, GlobalConstants.VIETNAM.getLanguage())) {
+		if (!this.localeService.exists(languageProp, CommonUtility.LOCALE_VIETNAM.getLanguage())) {
 			i18nLocale = I18nLocale.builder()
-					.displayLanguage(GlobalConstants.VIETNAM.getDisplayLanguage())
-					.language(GlobalConstants.VIETNAM.getLanguage())
+					.displayLanguage(CommonUtility.LOCALE_VIETNAM.getDisplayLanguage())
+					.language(CommonUtility.LOCALE_VIETNAM.getLanguage())
 					.build();
 			this.localeService.saveAndFlush(i18nLocale);
 			i18nLocales.add(i18nLocale);
 		} else {
-			i18nLocales.add(this.localeService.getLocale(GlobalConstants.VIETNAM.getLanguage()));
+			i18nLocales.add(this.localeService.getLocale(CommonUtility.LOCALE_VIETNAM.getLanguage()));
 		}
 		logger.info("Leave dispatch initial I18n");
 		return i18nLocales;
 	}
 
-	private void dispatchInitialMessages(Collection<I18nLocale> i18nLocales) {
+	private void dispatchInitialMessages(Collection<String[]> messages, Collection<I18nLocale> i18nLocales) {
   	logger.info("Enter GlobalEsiRepository:dispatchInitialMessages");
-  	logger.info("Enter GlobalEsiRepository:dispatchInitialMessages");
+  	Marshaller<Message, String[]> messageMarshaller = MessageMarshaller.builder().build();
+  	Message message = null;
+  	Map<String, I18nLocale> localeMap = CollectionsUtility.newMap();
+  	i18nLocales.forEach(action->{
+  		localeMap.put(action.getLanguage(), action);
+  	});
+
+  	for (String[] messageParts :messages) {
+  		try {/*
+  			if (this.messageService.exists(localeMap.get(messageParts[MessageMarshaller.idx_locale]), messageParts[MessageMarshaller.idx_key]))
+  				continue;
+
+    		message = messageMarshaller.marshal(messageParts);
+    		message.setLocale(localeMap.get(messageParts[MessageMarshaller.idx_locale]));
+    		this.messageService.saveMessage(message);*/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+  	}
+  	logger.info("Leave GlobalEsiRepository:dispatchInitialMessages");
 	}
 	//-----------------------------------------------------------------End of I18n-Locale----------------------------------------------------------
 }

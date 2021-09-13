@@ -63,10 +63,11 @@ public class SystemEventManager extends ComponentRoot {
 	public void onApplicationReady() {
     logger.info("Enter onApplicationReady");
 		try {
+			this.globalDataRepository.dispatch(Context.builder().build().put(GlobeConstants.CONTEXT_DISPATCH_REPO_PATH, GlobeConstants.REPO_DIRECTORY + GlobeConstants.ALL_CSV_FILES));
 			//this.globalDataRepository.dispatch(Context.builder().build().put(GlobeConstants.REPO_DIRECTORY + GlobeConstants.ALL_CSV_FILES));
 			//globalEsiRepository.dispatch(GlobeConstants.REPO_DIRECTORY);
 		  //configureMasterData();
-	    this.globalMarshalingHelper.dispatch(Context.builder().build());
+	    //this.globalMarshalingHelper.dispatch(Context.builder().build());
 		} catch (Exception e) {
 			logger.error(e);
 		}

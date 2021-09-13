@@ -63,7 +63,7 @@ public class Configuration extends RepoObject {
 	@Builder.Default
 	@Getter @Setter
 	@OneToMany(mappedBy="parent")
-	private Set<Configuration> subordinates = CollectionsUtility.createHashSet();
+	private Set<Configuration> subordinates = CollectionsUtility.newHashSet();
 	
 	public Configuration addSubordinates(List<Configuration> configurations) {
 		if (CommonUtility.isEmpty(configurations))
@@ -87,7 +87,7 @@ public class Configuration extends RepoObject {
 	}
 
 	public Map<Object, Object> getConfigDetailsMap(){
-		Map<Object, Object> fetchedResults = CollectionsUtility.createMap();
+		Map<Object, Object> fetchedResults = CollectionsUtility.newMap();
 		this.subordinates.forEach((configDetail)->{
 			fetchedResults.put(configDetail.getName(), configDetail.getValue());
 		});

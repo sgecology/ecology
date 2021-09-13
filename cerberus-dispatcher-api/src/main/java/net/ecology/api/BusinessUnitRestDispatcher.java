@@ -91,7 +91,7 @@ public class BusinessUnitRestDispatcher extends RestCoreController<BusinessUnitP
 
 	@Override
 	protected List<BusinessUnitProxy> searchBusinessObjects(SearchCondition searchCondition) {
-		List<BusinessUnitProxy> list = CollectionsUtility.createList();
+		List<BusinessUnitProxy> list = CollectionsUtility.newList();
 		BusinessUnit fetchedBizObject = this.businessService.getObjectByCode(searchCondition.getCode());
 		if (null != fetchedBizObject) {
 			BusinessUnitProxy taxGroupProxy = BusinessUnitProxy.builder().build();

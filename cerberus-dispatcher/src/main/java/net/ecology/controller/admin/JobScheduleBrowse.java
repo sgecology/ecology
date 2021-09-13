@@ -77,7 +77,7 @@ public class JobScheduleBrowse implements Serializable {
     try {
       loadBusinessData();
       this.toggleTitle = "lbl.toggleExpand";
-      this.searchParameters = CollectionsUtility.createMap();
+      this.searchParameters = CollectionsUtility.newMap();
     } catch (Exception e) {
       log.error(e.getMessage());
     }
@@ -96,7 +96,7 @@ public class JobScheduleBrowse implements Serializable {
   }
 
   public List<String> completeModel(String query) {
-    List<String> result = CollectionsUtility.createDataList();// carService.getModels(query);
+    List<String> result = CollectionsUtility.newList();// carService.getModels(query);
     return result;
   }
 

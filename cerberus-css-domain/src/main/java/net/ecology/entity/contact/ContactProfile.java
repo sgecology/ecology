@@ -68,7 +68,7 @@ public class ContactProfile extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactAddress> addresses = CollectionsUtility.createList();
+	private List<ContactAddress> addresses = CollectionsUtility.newList();
 
 	@Builder.Default
   @OneToMany(
@@ -77,7 +77,7 @@ public class ContactProfile extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactCommunication> communications = CollectionsUtility.createList();
+	private List<ContactCommunication> communications = CollectionsUtility.newList();
 
   @Builder.Default
   @OneToMany(
@@ -86,7 +86,7 @@ public class ContactProfile extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactRelation> hierarchies = CollectionsUtility.createList();
+	private List<ContactRelation> hierarchies = CollectionsUtility.newList();
 
   @Builder.Default
   @OneToMany(
@@ -95,7 +95,7 @@ public class ContactProfile extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactAssignment> assignments = CollectionsUtility.createList();
+	private List<ContactAssignment> assignments = CollectionsUtility.newList();
 
 	@Transient
 	@Builder.Default

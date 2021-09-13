@@ -33,12 +33,11 @@ import net.ecology.global.GlobeConstants;
 import net.ecology.globe.GlobalMarshallingRepository;
 import net.ecology.model.Context;
 import net.ecology.model.IOContainer;
+import net.ecology.model.XWorkbook;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.helper.OfficeSuiteServiceProvider;
 import net.ecology.osx.model.ConfigureUnmarshallObjects;
-import net.ecology.osx.model.DmxWorkbook;
 import net.ecology.osx.model.MarshallingObjects;
 import net.ecology.osx.model.OfficeMarshalType;
 
@@ -247,7 +246,7 @@ public class GlobalDmxManager extends ComponentRoot {
   public OsxBucketContainer marshallArchivedOfficeData(Context context) throws CerberusException {
     OsxBucketContainer osxBucketContainer = null;
     InputStream inputStream = null;
-    OSXWorkbook workbook = null;
+    XWorkbook workbook = null;
     String archivedName = null;
     Optional<Attachment> optAttachment = null;
     Context executionContext = null;
@@ -299,16 +298,16 @@ public class GlobalDmxManager extends ComponentRoot {
 
 	public List<Entity> marshallContacts(String archivedResourceName, String dataWorkbookId, List<String> datasheetIdList) throws CerberusException {
 		List<Entity> contacts = null;
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = null;
 		List<String> databookIdList = null;
 		Map<String, List<String>> datasheetIdMap = null;
 		try {
-			databookIdList = CollectionsUtility.createDataList(dataWorkbookId);
-			datasheetIdMap = CollectionsUtility.createHashMapData(dataWorkbookId, datasheetIdList);
+			databookIdList = CollectionsUtility.newList(dataWorkbookId);
+			datasheetIdMap = CollectionsUtility.newHashedMap(dataWorkbookId, datasheetIdList);
 			osxBucketContainer = this.marshallDataFromArchivedInAttachment(archivedResourceName, databookIdList, datasheetIdMap);
 			if (null != osxBucketContainer && osxBucketContainer.containsKey(dataWorkbookId)){
-				dataWorkbook = (DmxWorkbook)osxBucketContainer.get(dataWorkbookId);
+				dataWorkbook = (XWorkbook)osxBucketContainer.get(dataWorkbookId);
 			}
 
 			contacts = contactDmxRepository.unmarshallBusinessObjects(dataWorkbook, datasheetIdList);
@@ -319,7 +318,7 @@ public class GlobalDmxManager extends ComponentRoot {
 	}
 
 	protected List<GeneralCatalogue> marshallItems(){
-		List<GeneralCatalogue> marshalledList = CollectionsUtility.createDataList();
+		List<GeneralCatalogue> marshalledList = CollectionsUtility.newList();
 		
 		return marshalledList;
 	}

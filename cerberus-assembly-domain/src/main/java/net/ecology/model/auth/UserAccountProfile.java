@@ -36,7 +36,7 @@ public class UserAccountProfile extends Repo {
 	private Authentication authentication;
 
 	@Builder.Default
-	private List<Authority> grantedAuthorities = CollectionsUtility.createList();
+	private List<Authority> grantedAuthorities = CollectionsUtility.newList();
 
 	@Builder.Default
 	private String displayName = GlobeConstants.ANONYMOUS_USER;

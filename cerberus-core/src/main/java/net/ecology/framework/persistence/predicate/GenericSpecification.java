@@ -39,7 +39,7 @@ public class GenericSpecification<T> implements Specification<T> {
 	public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
 		// create a new predicate list
-		List<Predicate> predicates = CollectionsUtility.createArrayList();
+		List<Predicate> predicates = CollectionsUtility.newList();
 
 		// add add criteria to predicates
 		for (SearchCriteria criteria : list) {

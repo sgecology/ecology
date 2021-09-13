@@ -26,10 +26,10 @@ import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.global.GlobeConstants;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
 import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 
 /**
  * @author ducbui
@@ -51,16 +51,16 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
 			throw new CerberusException("There is no data in OSX container!");
 
 		if (osxBucketContainer.containsKey(dmxCollaborator.getConfiguredContactWorkbookId())){
-			dataWorkbook = (DmxWorkbook)osxBucketContainer.get(dmxCollaborator.getConfiguredContactWorkbookId());
+			dataWorkbook = (XWorkbook)osxBucketContainer.get(dmxCollaborator.getConfiguredContactWorkbookId());
 		}
 
-		List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.createDataList(dmxCollaborator.getConfiguredContactWorksheetIds()));
+		List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.newList(dmxCollaborator.getConfiguredContactWorksheetIds()));
 		if (CommonUtility.isNotEmpty(marshalledObjects)) {
 			for (Entity entityBase :marshalledObjects) {
 				contactService.save((Contact)entityBase);
@@ -70,11 +70,11 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
-		List<Entity> results = CollectionsUtility.createDataList();
+	protected List<Entity> doUnmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+		List<Entity> results = CollectionsUtility.newList();
 		Contact currentContact = null;
 		if (null != datasheetIds) {
-			for (DmxWorksheet dataWorksheet :dataWorkbook.values()) {
+			for (XWorksheet dataWorksheet :dataWorkbook.values()) {
 				if (!datasheetIds.contains(dataWorksheet.getId()))
 					continue;
 
@@ -91,7 +91,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 				}
 			}
 		} else {
-			for (DmxWorksheet dataWorksheet :dataWorkbook.values()) {
+			for (XWorksheet dataWorksheet :dataWorkbook.values()) {
 				System.out.println("Processing sheet: " + dataWorksheet.getId());
 				for (Object key :dataWorksheet.keys()) {
 					try {
@@ -145,7 +145,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 	
 	public Address[] buildAddresses() {
-		List<Address> addresses = CollectionsUtility.createArrayList();
+		List<Address> addresses = CollectionsUtility.newList();
 		Random randomGenerator = new Random();
 		Faker faker = new Faker();
 		for (int i = 0; i < NUMBER_TO_GENERATE; ++i) {
@@ -161,7 +161,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	public List<BusinessUnit> generateFakeOfficeData(){
-		List<BusinessUnit> results = CollectionsUtility.createDataList();
+		List<BusinessUnit> results = CollectionsUtility.newList();
 		BusinessUnit currentObject = null;
 		Faker faker = new Faker();
 		Address[] addresses = this.buildAddresses();
@@ -184,7 +184,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	public List<Contact> generateFakeContactProfiles(){
-		List<Contact> results = CollectionsUtility.createDataList();
+		List<Contact> results = CollectionsUtility.newList();
 		Contact currentObject = null;
 		Faker faker = new Faker();
 		for (int i = 0; i < NUMBER_TO_GENERATE; i++) {

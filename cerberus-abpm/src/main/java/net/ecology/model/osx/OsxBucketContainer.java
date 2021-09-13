@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.ecology.model.XWorkbook;
 
 /**
  * @author bqduc
@@ -28,7 +29,7 @@ public class OsxBucketContainer {
 	private OfficeSuiteTarget suiteTargeted;
 
 	@Setter @Getter @Builder.Default
-	private Map<Object, OSXWorkbook> bucketData = new HashMap<>();
+	private Map<Object, XWorkbook> bucketData = new HashMap<>();
 
   @Setter @Getter
 	private List<Object> container;
@@ -55,12 +56,12 @@ public class OsxBucketContainer {
 		return bucketData.get(key);
 	}
 
-	public OsxBucketContainer putAll(Map<Object, OSXWorkbook> values) {
+	public OsxBucketContainer putAll(Map<Object, XWorkbook> values) {
 		this.bucketData.putAll(values);
 		return this;
 	}
 
-	public OsxBucketContainer put(Object key, OSXWorkbook value) {
+	public OsxBucketContainer put(Object key, XWorkbook value) {
 		this.bucketData.put(key, value);
 		return this;
 	}
@@ -87,7 +88,7 @@ public class OsxBucketContainer {
 		return this.bucketData.keySet();
 	}
 
-  public Collection<OSXWorkbook> getValues(){
+  public Collection<XWorkbook> getValues(){
     return this.bucketData.values();
   }
 	

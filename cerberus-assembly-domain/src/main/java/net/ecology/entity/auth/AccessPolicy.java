@@ -88,7 +88,7 @@ public class AccessPolicy extends RepoObject {
       , cascade = CascadeType.ALL
       , orphanRemoval = true
       , fetch = FetchType.EAGER)
-  private List<GrantedAccessPolicy> accessDecisionAuthorities = CollectionsUtility.createDataList();
+  private List<GrantedAccessPolicy> accessDecisionAuthorities = CollectionsUtility.newList();
 
 	public AccessPolicy addAccessDecisionAuthority(Authority authority) {
 		accessDecisionAuthorities.add(

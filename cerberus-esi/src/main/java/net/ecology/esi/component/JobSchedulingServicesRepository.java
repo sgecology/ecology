@@ -24,7 +24,7 @@ import net.ecology.global.SchedulingConstants;
  */
 @Component
 public class JobSchedulingServicesRepository {
-  Map<String, String> triggerSpecs = CollectionsUtility.createHashMapData(      
+  Map<String, String> triggerSpecs = CollectionsUtility.newHashedMap(      
       "ReconcileAuthServices",    "5 0/2 * * * ?",
       "SyncGeneralServices",      "10 0/3 * * * ?",
       "AquariumReminders",        "2 0/1 * * * ?",
@@ -34,7 +34,7 @@ public class JobSchedulingServicesRepository {
 
   @SuppressWarnings("unchecked")
   public List<TriggerDescriptor> getDefaultTriggerDescriptors(String group) throws ClassNotFoundException{    
-    List<TriggerDescriptor> triggerDescriptors = CollectionsUtility.createDataList();
+    List<TriggerDescriptor> triggerDescriptors = CollectionsUtility.newList();
     JobDetail currJobDetail = null;
     String jobPackageNameQualified = "net.brilliant.scheduler.";
     for (JobSpec jobSpec :JobSpec.values()){
@@ -56,7 +56,7 @@ public class JobSchedulingServicesRepository {
 
   @SuppressWarnings("unchecked")
   public List<JobDescriptor> generateJobDescriptors() throws ClassNotFoundException{    
-    List<JobDescriptor> jobDescriptors = CollectionsUtility.createDataList();
+    List<JobDescriptor> jobDescriptors = CollectionsUtility.newList();
     JobDetail currJobDetail = null;
     String jobPackageNameQualified = "net.brilliant.scheduler.";
     TriggerDescriptor triggerDescriptor;
@@ -73,14 +73,14 @@ public class JobSchedulingServicesRepository {
           jobSpec.getCronExpression(), 
           currJobDetail);
 
-      jobDescriptors.add(JobDescriptor.buildDescriptor(currJobDetail, CollectionsUtility.createList(triggerDescriptor.buildTrigger())));
+      jobDescriptors.add(JobDescriptor.buildDescriptor(currJobDetail, CollectionsUtility.newList(triggerDescriptor.buildTrigger())));
     }
     return jobDescriptors;
   }
 
   @SuppressWarnings("unchecked")
   public List<JobDescriptor> generateJobDescriptors(List<ScheduleJob> jobSchedules){    
-    List<JobDescriptor> jobDescriptors = CollectionsUtility.createDataList();
+    List<JobDescriptor> jobDescriptors = CollectionsUtility.newList();
     JobDetail currJobDetail = null;
     TriggerDescriptor triggerDescriptor;
     Class<? extends Job> jobScheduleClass = null;
@@ -106,7 +106,7 @@ public class JobSchedulingServicesRepository {
           jobSchedule.getCronExpression(), 
           currJobDetail);
 
-      jobDescriptors.add(JobDescriptor.buildDescriptor(currJobDetail, CollectionsUtility.createList(triggerDescriptor.buildTrigger())));
+      jobDescriptors.add(JobDescriptor.buildDescriptor(currJobDetail, CollectionsUtility.newList(triggerDescriptor.buildTrigger())));
     }
     return jobDescriptors;
   }

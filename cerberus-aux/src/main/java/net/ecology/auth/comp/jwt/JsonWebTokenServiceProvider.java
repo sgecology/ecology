@@ -18,7 +18,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import net.ecology.common.Base64Utils;
-import net.ecology.common.StringUtility;
+import net.ecology.common.StringUtilities;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.entity.auth.base.PrincipalDetails;
 import net.ecology.framework.component.ComponentRoot;
@@ -152,7 +152,7 @@ public class JsonWebTokenServiceProvider extends ComponentRoot implements JsonWe
 			}
 		}
 
-		if (StringUtility.isBase64(actualToken)) {
+		if (StringUtilities.isBase64(actualToken)) {
 			actualToken = Base64Utils.decode(actualToken);
 		}
 

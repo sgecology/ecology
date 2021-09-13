@@ -30,7 +30,7 @@ public class Bucket {
 	}
 
 	public Bucket(Object[] values) {
-		this.container = CollectionsUtility.createArrayList();
+		this.container = CollectionsUtility.newList();
 		for (int idx = 0; idx < values.length; idx++) {
 			this.container.add(values[idx]);
 		}

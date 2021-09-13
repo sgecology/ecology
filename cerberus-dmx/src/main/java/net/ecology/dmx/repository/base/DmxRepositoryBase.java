@@ -33,7 +33,7 @@ import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SequenceType;
 import net.ecology.global.GlobeConstants;
 import net.ecology.model.Context;
-import net.ecology.osx.model.DmxWorkbook;
+import net.ecology.model.XWorkbook;
 import net.ecology.service.general.CatalogueService;
 
 /**
@@ -86,13 +86,13 @@ public abstract class DmxRepositoryBase extends ComponentRoot {
 	@Inject
 	protected ResourcesStorageServiceHelper resourcesStorageServiceHelper;
 
-	protected Map<String, BusinessUnit> businessUnitMap = CollectionsUtility.createMap();
+	protected Map<String, BusinessUnit> businessUnitMap = CollectionsUtility.newMap();
 
-	protected Map<String, GeneralCatalogue> itemMap = CollectionsUtility.createMap();
-	protected Map<String, GeneralCatalogue> itemNameMap = CollectionsUtility.createMap();
+	protected Map<String, GeneralCatalogue> itemMap = CollectionsUtility.newMap();
+	protected Map<String, GeneralCatalogue> itemNameMap = CollectionsUtility.newMap();
 
-	protected Map<String, Catalogue> catalogueMap = CollectionsUtility.createMap();
-	protected Map<String, Catalogue> catalogueNameMap = CollectionsUtility.createMap();
+	protected Map<String, Catalogue> catalogueMap = CollectionsUtility.newMap();
+	protected Map<String, Catalogue> catalogueNameMap = CollectionsUtility.newMap();
 
 	protected BusinessUnit getBusinessUnit(List<?> contactDataRow) {
 		if (this.businessUnitMap.containsKey(contactDataRow.get(IDX_BUSINESS_UNIT_CODE))) {
@@ -258,7 +258,7 @@ public abstract class DmxRepositoryBase extends ComponentRoot {
 		return doUnmarshallBusinessObjects(executionContext);
 	}
 
-	public List<Entity> unmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+	public List<Entity> unmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
 		return doUnmarshallBusinessObjects(dataWorkbook, datasheetIds);
 	}
 
@@ -266,7 +266,7 @@ public abstract class DmxRepositoryBase extends ComponentRoot {
 		return doUnmarshallBusinessObject(marshallingDataRow);
 	}
 
-	protected List<Entity> doUnmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+	protected List<Entity> doUnmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
 		throw new CerberusException("Not implemented yet");
 	}
 

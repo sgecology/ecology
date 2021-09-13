@@ -6,12 +6,12 @@
                 xmlns:pe="http://primefaces.org/ui/extensions">	  
 	<ul class="nav navbar-nav">
 	<li>
-		<p:commandLink actionListener="#{localeManager.setLanguage('en')}" ajax="true">
+		<p:commandLink actionListener="#{localeManager.changeLocale('en')}" ajax="true">
 			<img src="/resources/images/unitedKingdom-3d-round-16.png" class="img-circle" alt="#{messages['lbl.english']}" title="#{messages['lbl.english']}" />
 		</p:commandLink>
 	</li>
 	<li>
-		<p:commandLink actionListener="#{localeManager.setLanguage('vi')}" ajax="true">
+		<p:commandLink actionListener="#{localeManager.changeLocale('vi')}" ajax="true">
     	<img src="/resources/images/vietNam-3d-round-16.png" class="img-circle" alt="#{messages['lbl.vietnamese']}" title="#{messages['lbl.vietnamese']}" />
 		</p:commandLink>
 	</li>

@@ -151,15 +151,15 @@ public class InventoryItem extends RepoObject {
 	@Builder.Default
 	@JsonIgnore
 	@OneToMany(mappedBy = "inventoryItem", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<InventoryItemCatalog> productCatalogues = CollectionsUtility.createArrayList();
+	private List<InventoryItemCatalog> productCatalogues = CollectionsUtility.newList();
 
 	@Transient
 	@Builder.Default
-	private List<Catalogue> catalogues = CollectionsUtility.createArrayList();
+	private List<Catalogue> catalogues = CollectionsUtility.newList();
 
 	@Transient
 	@Builder.Default
-	private List<InventoryItemProfile> profiles = CollectionsUtility.createArrayList();
+	private List<InventoryItemProfile> profiles = CollectionsUtility.newList();
 
 	@ManyToOne
 	@JoinColumn(name = "master_usage_direction_id")
@@ -178,7 +178,7 @@ public class InventoryItem extends RepoObject {
 			joinColumns = {@JoinColumn(name = "inventory_item_id")}
 	)
 	//@formatter:on
-	private Set<Catalogue> categories = CollectionsUtility.createHashSet();
+	private Set<Catalogue> categories = CollectionsUtility.newHashSet();
 
 	@Column(name = "servicing_code", length=GlobalConstants.SIZE_SERIAL)
 	private String servicingCode;

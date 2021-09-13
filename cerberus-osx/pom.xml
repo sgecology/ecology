@@ -189,7 +189,7 @@
     
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>cerberus-abpm</artifactId>
+      <artifactId>cerberus-assembly-comp</artifactId>
       <version>${project.version}</version>
     </dependency> 
   </dependencies>

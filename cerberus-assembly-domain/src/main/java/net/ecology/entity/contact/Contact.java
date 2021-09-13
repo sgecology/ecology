@@ -209,7 +209,7 @@ public class Contact extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactHierarchy> hierarchies = CollectionsUtility.createList();
+	private List<ContactHierarchy> hierarchies = CollectionsUtility.newList();
 
   @Setter @Getter
   @Builder.Default
@@ -219,7 +219,7 @@ public class Contact extends RepoObject {
       , orphanRemoval = true
       //, fetch = FetchType.EAGER
   )
-	private List<ContactAssignment> assignments = CollectionsUtility.createList();
+	private List<ContactAssignment> assignments = CollectionsUtility.newList();
 
   @Setter @Getter
 	@Builder.Default

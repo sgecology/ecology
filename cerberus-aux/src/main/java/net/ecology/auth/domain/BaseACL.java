@@ -20,15 +20,15 @@ public enum BaseACL {
 	MANAGER 							("/pages/management/**", "management", "Management Authority", "manager", "manager@ecosphere.net", "Lê Văn", "Manager"), 
 	COORDINATOR 					("/pages/coordination/**", "coordination", "Coordination Authority", "coordinator", "coordination@ecosphere.net", "Coordinator", "Hồ Hoàng"), 
 	SUBSCRIBER 						("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber", "subscriber@ecosphere.net", "Subscriber", "Ngô Thị"),
-	SUBSCRIBER_INTERNAL 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.internal", "subscriber.internal@ecosphere.net", "Subscriber", "Ngô Thị Thuyền Nội Bộ"),
-	SUBSCRIBER_EXTERNAL 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.external", "subscriber.external@ecosphere.net", "Subscriber", "Ngô Thị Tàu Bên Ngoài"),
+	SUBSCRIBER_INTERNAL 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.int", "subscriber.internal@ecosphere.net", "Subscriber", "Ngô Thị Thuyền Nội Bộ"),
+	SUBSCRIBER_EXTERNAL 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.ext", "subscriber.external@ecosphere.net", "Subscriber", "Ngô Thị Tàu Bên Ngoài"),
 	OSX 									("/pages/osx/**", "osx", "Osxer Authority", "osxer", "osxer@ecosphere.net", "Osxer Authority", "Thái Tông"),
 	CRSX 									("/pages/crsx/**", "crsx", "Crsx Authority", "crsxer", "crsxer@ecosphere.net", "Crsxer", "Phùng Hổ"),
 
-	SUBSCRIBER_PROTECTED 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.protected", "subscriber.protected@ecosphere.net", "Subscriber", "Nguyễn Lâm Thị Thuyền Bộ"),
-	SUBSCRIBER_PRIVATE 		("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.private", "subscriber.private@ecosphere.net", "Subscriber", "Trần Thị Thuyền Nội"),
+	SUBSCRIBER_PROTECTED 	("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.pro", "subscriber.protected@ecosphere.net", "Subscriber", "Nguyễn Lâm Thị Thuyền Bộ"),
+	SUBSCRIBER_PRIVATE 		("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.pri", "subscriber.private@ecosphere.net", "Subscriber", "Trần Thị Thuyền Nội"),
 
-	SUBSCRIBER_RESTRICTED ("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.restricted", "subscriber.restricted@ecosphere.net", "Restricted Subscriber", "Nguyễn Lâm Thị Thuyền"),
+	SUBSCRIBER_RESTRICTED ("/pages/subscription/**", "subscription", "Subscription Authority", "subscriber.res", "subscriber.restricted@ecosphere.net", "Restricted Subscriber", "Nguyễn Lâm Thị Thuyền"),
 	;
 
 	private String antMatcher;

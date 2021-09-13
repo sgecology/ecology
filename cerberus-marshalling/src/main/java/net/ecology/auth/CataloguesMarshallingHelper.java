@@ -19,9 +19,9 @@ import net.ecology.framework.component.ComponentRoot;
 import net.ecology.global.GlobeConstants;
 import net.ecology.globe.MarshallingConstants;
 import net.ecology.model.Context;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.IOContainer;
 import net.ecology.model.MarshallingProvider;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.service.general.CatalogueService;
 
 /**
@@ -75,7 +75,10 @@ public class CataloguesMarshallingHelper extends ComponentRoot {
 	}
 
 	private void marshallingCatalogues(Context context) {
-		DmxWorksheet dataWorksheet = (DmxWorksheet) context.get(MarshallingConstants.CATALOGUE_DATA_FILE);
+		XWorksheet dataWorksheet = (XWorksheet) context.get(MarshallingConstants.CATALOGUE_DATA_FILE);
+		if (null==dataWorksheet)
+			return;
+
 		List<?> catalogueParts = null;
 		Catalogue catalogue = null;
 		for (Object key : dataWorksheet.keys()) {

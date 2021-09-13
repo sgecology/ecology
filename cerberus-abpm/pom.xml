@@ -8,10 +8,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>cerberus-abpm</artifactId>
+    <artifactId>cerberus-assembly-comp</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Virtual Crossed Functional Sharing</name>
-    <description>Module that contains all bpm entities to be used in the project. </description>
+    <name>Brilliant - Assembly-Compere</name>
+    <description>Module that contains all asessmbly compere definitions to be used in the project. </description>
 
 	<dependencies>
 

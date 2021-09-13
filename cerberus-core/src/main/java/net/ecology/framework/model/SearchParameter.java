@@ -36,7 +36,7 @@ public class SearchParameter {
 	private String keyword;
 
 	@Builder.Default
-	private Map<String, Object> parameterMap = CollectionsUtility.createHashMapData();
+	private Map<String, Object> parameterMap = CollectionsUtility.newHashedMap();
 
 	public String getPlatform() {
 		return platform;

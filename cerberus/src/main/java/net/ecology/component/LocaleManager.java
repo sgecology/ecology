@@ -15,9 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.omnifaces.util.Faces;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import net.ecology.global.GlobalConstants;
+import net.ecology.common.CommonUtility;
 import net.ecology.global.GlobeConstants;
-import net.ecology.i18n.GlobalI18Repository;
 
 /**
  * @author ducbq
@@ -33,7 +32,7 @@ public class LocaleManager {
 
   @PostConstruct
   public void init() {
-      locale = GlobalConstants.VIETNAM; //FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+      locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
   }
 
   public Locale getLocale() {
@@ -45,19 +44,43 @@ public class LocaleManager {
   }
 
   public void setLanguage(String language) {
-  	if ("en".equalsIgnoreCase(language)) {
+  	if (CommonUtility.LOCALE_USA.getLanguage().equalsIgnoreCase(language)) {
     	locale = Locale.US;
   	} else {
-  		locale = GlobalConstants.VIETNAM;
+  		locale = CommonUtility.LOCALE_VIETNAM;
   	}
 
   	String currentRequestPath = ServletUriComponentsBuilder.fromCurrentRequest().build().getPath();
   	this.session.setAttribute(GlobeConstants.WORKING_LOCALE, locale);
-  	GlobalI18Repository.builder().build().switchLocale(locale);
+  	//GlobalI18nRepository.builder().build().switchLocale(locale);
     FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     try {
 			Faces.redirect(currentRequestPath);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+  }
+
+  public void changeLocale(String language){
+  	try {
+  		//Locale currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+  		System.out.println("..............................................................");
+    	if (CommonUtility.LOCALE_USA.getLanguage().equalsIgnoreCase(language)) {
+      	locale = Locale.US;
+    	} else {
+    		locale = CommonUtility.LOCALE_VIETNAM;
+    	}
+
+    	String currentRequestPath = ServletUriComponentsBuilder.fromCurrentRequest().build().getPath();
+    	this.session.setAttribute(GlobeConstants.WORKING_LOCALE, locale);
+    	//this.globalLocaleRepository.switchLocale(locale);
+      FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+      try {
+  			Faces.redirect(currentRequestPath);
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		}
+  	} catch (Exception e) {
 			e.printStackTrace();
 		}
   }

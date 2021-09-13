@@ -23,6 +23,7 @@ public interface GlobeConstants {
   
   static final String APP_DEFAULT_CATALOUE_DATA = "data-catalog.xlsx";
   static final String REPO_DIRECTORY = ResourceUtils.CLASSPATH_URL_PREFIX + "/repo/";//"classpath:/repo/";
+  static final String REPO_MASTER = "repo-master.csv";
 
   static final String ALL_CSV_FILES = "**/*.csv";
 
@@ -108,12 +109,6 @@ public interface GlobeConstants {
 	static final String RIGHT_BRACKET = "]";
 	static final String STRING_BLANK_CAPTION = LEFT_BRACKET + RIGHT_BRACKET;
 
-  static final String LOCALE_VIETNAM_LANGUAGE = "vi";
-  static final String LOCALE_VIETNAM_COUNTRY = "VN";
-
-  static final String PERSPECTIVE_DEFAULT_EN = "en";
-	static final String PERSPECTIVE_DEFAULT_VI = LOCALE_VIETNAM_LANGUAGE;
-	
 	static final int ENTITY_REFERENCE_SIZE = 15;
 
 	static final int NUMBER_OF_IMAGE_COPIES = 256;
@@ -304,7 +299,7 @@ public interface GlobeConstants {
 	
   static final short	SIZE_COUNTRY = 80;
 
-	//static final String SERIAL_PATTERN = StringUtils.repeat("0", SIZE_CODE);
+	//static final String SERIAL_PATTERN = StringUtilities.repeat("0", SIZE_CODE);
 
 	static final String KEY_CONTEXT_CLASS = "contextClass";
 

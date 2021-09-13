@@ -38,7 +38,7 @@ public class DmxConfigurationHelper {
 	private ConfigurationService configurationSerice;
 
 	public Map<String, Configuration> fetchInventoryItemConfig(String configName) {
-		Map<String, Configuration> configDetailMap = CollectionsUtility.createMap();
+		Map<String, Configuration> configDetailMap = CollectionsUtility.newMap();
 		Optional<Configuration> optInventoryItemConfig = configurationSerice.getByName(configName);
 		if (optInventoryItemConfig.isPresent()) {
 			for (Configuration config :optInventoryItemConfig.get().getSubordinates()) {

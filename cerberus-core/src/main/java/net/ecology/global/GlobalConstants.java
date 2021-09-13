@@ -3,23 +3,13 @@
  */
 package net.ecology.global;
 
-import java.util.Locale;
-
-import org.apache.commons.lang.StringUtils;
+import net.ecology.common.StringUtilities;
 
 /**
  * @author bqduc
  *
  */
 public interface GlobalConstants {
-	/////////////////////////////////////////////////////////////////////////////////
-	static final String language_vi = "vi";
-	static final String country_VN = "VN";
-
-	static final Locale USA = Locale.US;
-	static final Locale VIETNAM = new Locale(language_vi, country_VN);
-	/////////////////////////////////////////////////////////////////////////////////
-	
 	static final String QNS_PACKAGE = "net.ecology";
 	static final String QNS_PACKAGE_ADMINFACES = "com.github.adminfaces";
 
@@ -54,7 +44,7 @@ public interface GlobalConstants {
 	
   static final short	SIZE_COUNTRY = 80;
 
-	static final String SERIAL_PATTERN = StringUtils.repeat("0", GlobalConstants.SIZE_CODE);
+	static final String SERIAL_PATTERN = StringUtilities.repeat("0", GlobalConstants.SIZE_CODE);
 
 	static final String KEY_CONTEXT_CLASS = "contextClass";
 

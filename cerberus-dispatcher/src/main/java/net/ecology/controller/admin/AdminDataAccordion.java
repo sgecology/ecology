@@ -22,14 +22,12 @@ import net.ecology.dmx.manager.GlobalDmxManager;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.global.GlobeConstants;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.helper.OfficeSuiteServiceProvider;
 import net.ecology.osx.helper.OfficeSuiteServicesHelper;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 import net.ecology.osx.model.OfficeMarshalType;
 
 /**
@@ -47,7 +45,7 @@ public class AdminDataAccordion implements Serializable {
   @Inject
   private GlobalDmxManager globalDmxManager;
 
-  private List<String> processingSheetIds = CollectionsUtility.createList();
+  private List<String> processingSheetIds = CollectionsUtility.newList();
 
   @PostConstruct
   public void initDataModel() {
@@ -77,7 +75,7 @@ public class AdminDataAccordion implements Serializable {
           null, 
           new String[] {masterDataFile+".xlsx"},  
           CollectionsUtility.createMap(),
-          CollectionsUtility.createHashMapData(masterDataFile, CollectionsUtility.createDataList("contacts", "contacts-ext", "saleman", "inventory-items", "business-units")));
+          CollectionsUtility.newHashedMap(masterDataFile, CollectionsUtility.createDataList("contacts", "contacts-ext", "saleman", "inventory-items", "business-units")));
     } catch (CerberusException e) {
       log.error(e.getMessage(), e);
     }
@@ -117,7 +115,7 @@ public class AdminDataAccordion implements Serializable {
     context.put(OSXConstants.INPUT_STREAM, inputStream);
     context.put(OSXConstants.PROCESSING_WORKSHEET_IDS, processingSheetIds);
     context.put(OSXConstants.STARTED_ROW_INDEX, new Integer[] {1, 1, 1});
-    OSXWorkbook workbook = null;//OfficeSuiteServiceProvider.builder().build().readExcelFile(context);
+    XWorkbook workbook = null;//OfficeSuiteServiceProvider.builder().build().readExcelFile(context);
     //processLoadedData(workbook);
   }
   /*
@@ -128,7 +126,7 @@ public class AdminDataAccordion implements Serializable {
       OsxBucketContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadZipDataFromInputStream(dataFile, inputStream);
       started = System.currentTimeMillis()-started;
       System.out.println("Taken: "+started);
-      displayWorkbook((OSXWorkbook)bucketContainer.get(dataFile));
+      displayWorkbook((XWorkbook)bucketContainer.get(dataFile));
       System.out.println();
     } catch (Exception e) {
       e.printStackTrace();
@@ -141,7 +139,7 @@ public class AdminDataAccordion implements Serializable {
 		try {
 			File compressedFile = new File(compressedFileName);
       String[] compressedEntries = new String[]{"contact-data.xlsx", "catalog-data.xlsx"};
-      Map<String, String[]> sheetIdList = CollectionsUtility.createHashMapData("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
+      Map<String, String[]> sheetIdList = CollectionsUtility.newHashedMap("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
       
       context = initCompressedContextData(compressedFile, compressedEntries, null, sheetIdList);
 			long started = System.currentTimeMillis();
@@ -167,7 +165,7 @@ public class AdminDataAccordion implements Serializable {
       }
 
       String[] compressedEntries = new String[]{"contact-data.xlsx", "catalog-data.xlsx"};
-      Map<String, String[]> sheetIdList = CollectionsUtility.createHashMapData("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
+      Map<String, String[]> sheetIdList = CollectionsUtility.newHashedMap("catalog-data.xlsx", new String[]{"Measure Units", "inventory-items", "Catalogues"});
 
       context = initCompressedContextData(resource.getFile(), compressedEntries, null, sheetIdList);
 			long started = System.currentTimeMillis();
@@ -182,11 +180,11 @@ public class AdminDataAccordion implements Serializable {
 	}
 
   private void displayContactData(Context context){
-		DmxWorkbook workbook = null;
+		XWorkbook workbook = null;
 		for (Object key :context.keys()){
 	    System.out.println("+++++++++++++++++" + key + "+++++++++++++++++");
-	    workbook = (DmxWorkbook)context.get((String)key);
-	    for (DmxWorksheet worksheet :workbook.values()){
+	    workbook = (XWorkbook)context.get((String)key);
+	    for (XWorksheet worksheet :workbook.values()){
 		    for (Object sheetKey :worksheet.keys()){
 		    	System.out.println(worksheet.get(sheetKey));
 	    	}
@@ -257,10 +255,10 @@ public class AdminDataAccordion implements Serializable {
     if (null==bucketContainer)
       return;
 
-    for (OSXWorkbook workbook :bucketContainer.getValues()){
+    for (XWorkbook workbook :bucketContainer.getValues()){
       log.info("+++++++++++++++++");
-      for (OSXWorksheet worksheet :workbook.datasheets()){
-        log.info("Sheet [" + worksheet.getId() + "]: " + worksheet.getSize());
+      for (XWorksheet worksheet :workbook.values()){
+        log.info("Sheet [" + worksheet.getId() + "]: " + worksheet.values().size());
         /*
         for (Integer key :worksheet.getKeys()){
           System.out.println(worksheet.getDataRow(key));

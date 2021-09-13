@@ -131,8 +131,7 @@ public class Option extends RepoObject {
 		return o;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void setAsEnum(Enum enumVal) {
+	public void setAsEnum(Enum<?> enumVal) {
 		value = enumVal.name();
 	}
 

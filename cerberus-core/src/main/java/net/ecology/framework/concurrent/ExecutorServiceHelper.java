@@ -45,7 +45,7 @@ public class ExecutorServiceHelper extends ComponentRoot {
 		WorkerThreadBase workerThread = invokeWorkerThread(executionContext);
 		ExecutorService executorService = getExecutorService();
 
-		List<Future<Context>> futures = executorService.invokeAll(CollectionsUtility.createDataList(workerThread));
+		List<Future<Context>> futures = executorService.invokeAll(CollectionsUtility.newList(workerThread));
 		return futures.get(0);//CompletableFuture.completedFuture(executionContext);
 	}
 }

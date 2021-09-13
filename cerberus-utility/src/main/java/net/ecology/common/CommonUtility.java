@@ -22,8 +22,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,6 +52,7 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import net.ecology.exceptions.CerberusException;
 import net.ecology.global.GlobeConstants;
+import net.ecology.model.IOContainer;
 
 /**
  * @author bqduc
@@ -78,8 +77,13 @@ public class CommonUtility implements GlobeConstants {
 
 	public static final String[] formattedDatePatterns = { "dd/MM/yyyy", "dd-MM-yyyy", "MM/dd/yyyy", "MM-dd-yyyy", "yyyy/MM/dd", "yyyy-MM-dd", "yyyyMMdd" };
 
-	/*public static final Locale LOCALE_US = Locale.US;
-	public static final Locale LOCALE_VIETNAMESE = new Locale("vi", "VN");*/
+	/////////////////////////////////////////////////////////////////////////////////
+	public static final String language_vi = "vi";
+	public static final String country_VN = "VN";
+
+	public static final Locale LOCALE_USA = Locale.US;
+	public static final Locale LOCALE_VIETNAM = new Locale(language_vi, country_VN);
+	/////////////////////////////////////////////////////////////////////////////////
 
 	public static String[] SEPARATORS = new String[]{",", ";", "|"};
 
@@ -300,7 +304,7 @@ public class CommonUtility implements GlobeConstants {
 			System.out.println(uniqueField);
 			boolean hasField = IntrospectorUtility.instance().hasField(beanClass, property);
 			System.out.println(hasField);*/
-			getterMethod = beanClass.getMethod(new StringBuilder("get").append(StringUtils.capitalize(property)).toString(), nullParameters);
+			getterMethod = beanClass.getMethod(new StringBuilder("get").append(StringUtilities.capitalize(property)).toString(), nullParameters);
 		} catch (Exception e) {
 			//log.info(e);
 			getterMethod = null;
@@ -1251,7 +1255,7 @@ public class CommonUtility implements GlobeConstants {
 	}
 
 	public static List<InputStream> getZipFileInputStreams(File file) throws CerberusException {
-		List<InputStream> resp = CollectionsUtility.createArrayList();
+		List<InputStream> resp = CollectionsUtility.newList();
 		ZipFile zipFile;
 		try {
 			zipFile = new ZipFile(file);
@@ -1270,7 +1274,7 @@ public class CommonUtility implements GlobeConstants {
 
 	/*
 	public static List<InputStream> getZipFileInputStreams(File file, String encryptionKey) throws EcosysException {
-		List<InputStream> resp = CollectionsUtility.createArrayList();
+		List<InputStream> resp = CollectionsUtility.newList();
 		ZipFile zipFile;
 		try {
 			ZipDecryptInputStream zipDecryptInputStream = new ZipDecryptInputStream(new FileInputStream(file), encryptionKey);
@@ -1294,7 +1298,7 @@ public class CommonUtility implements GlobeConstants {
 	*/
 
 	public static List<InputStream> extractZipFile(File zipFile, List<String> zipEntryNames) throws CerberusException {
-		List<InputStream> resp = CollectionsUtility.createArrayList();
+		List<InputStream> resp = CollectionsUtility.newList();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -1320,7 +1324,7 @@ public class CommonUtility implements GlobeConstants {
 	}
 
 	public static Map<String, InputStream> extractZipInputStreams(File zipFile) throws CerberusException {
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -1372,7 +1376,7 @@ public class CommonUtility implements GlobeConstants {
 		if (CommonUtility.isEmpty(zipEntryNames))
 			return extractAllZipInputStreams(zipFile);
 
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;
@@ -1410,7 +1414,7 @@ public class CommonUtility implements GlobeConstants {
 	}
 
 	public static Map<String, InputStream> extractAllZipInputStreams(File zipFile) throws CerberusException {
-		Map<String, InputStream> resp = CollectionsUtility.createMap();
+		Map<String, InputStream> resp = CollectionsUtility.newMap();
 		ZipFile innerZipFile = null;
 		Enumeration<? extends ZipEntry> zipEntries = null;
 		ZipEntry zipEntry = null;

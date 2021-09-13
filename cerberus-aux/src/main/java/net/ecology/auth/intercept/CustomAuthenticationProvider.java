@@ -26,7 +26,7 @@ public class CustomAuthenticationProvider extends ComponentRoot implements Authe
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8355652678792800184L;
+	private static final long serialVersionUID = -2315026041215148528L;
 
 	@Inject
 	ObjectFactory<HttpSession> httpSessionFactory;

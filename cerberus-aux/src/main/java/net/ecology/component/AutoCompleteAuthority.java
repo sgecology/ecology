@@ -37,7 +37,7 @@ public class AutoCompleteAuthority implements Serializable {
 
 	public List<Authority> completeItem(String query) {
 		List<Authority> allItems = businessService.getObjects();
-		List<Authority> filteredItems = CollectionsUtility.createDataList();
+		List<Authority> filteredItems = CollectionsUtility.newList();
 		Authority skin = null;
 		for (int i = 0; i < allItems.size(); i++) {
 			skin = allItems.get(i);
@@ -51,7 +51,7 @@ public class AutoCompleteAuthority implements Serializable {
 
 	public List<Authority> completeItemContains(String query) {
 		List<Authority> allItems = businessService.getObjects();
-		List<Authority> filteredItems = CollectionsUtility.createDataList();
+		List<Authority> filteredItems = CollectionsUtility.newList();
 
 		for (int i = 0; i < allItems.size(); i++) {
 			Authority skin = allItems.get(i);

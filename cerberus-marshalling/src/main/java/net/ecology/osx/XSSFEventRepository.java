@@ -36,8 +36,6 @@ import net.ecology.exceptions.CerberusException;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OSXWorkbook;
-import net.ecology.model.osx.OSXWorksheet;
 import net.ecology.model.osx.OsxBucketContainer;
 
 /**
@@ -70,7 +68,7 @@ public class XSSFEventRepository {
 		@Override
 		public void startRow(int rowNum) {
 			//Initialize the 
-			sbCurrentRow = CollectionsUtility.createArrayList();
+			sbCurrentRow = CollectionsUtility.newList();
 
 			// If there were gaps, output the missing rows
 			outputMissingRows(rowNum - currentRow - 1);
@@ -154,7 +152,7 @@ public class XSSFEventRepository {
 	 */
 	private XSSFEventRepository(OPCPackage pkg, Map<?, ?> params) {
 		this.xlsxPackage = pkg;
-		this.parameters = CollectionsUtility.createMap();
+		this.parameters = CollectionsUtility.newMap();
 		this.parameters.putAll(params);
 
 		int procLimitedColumns = defaultNumberOfCells;
@@ -249,7 +247,7 @@ public class XSSFEventRepository {
 		while (iter.hasNext()) {
 			stream = iter.next();
 			if (sheets.contains(iter.getSheetName())){
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				//Process the started row index 
 				rowIndexKey = iter.getSheetName() + OSXConstants.STARTED_ROW_INDEX;
 				if (null != configParams && configParams.containsKey(rowIndexKey)){
@@ -292,7 +290,7 @@ public class XSSFEventRepository {
 			while (iter.hasNext()) {
 				stream = iter.next();
 				if (sheets.contains(iter.getSheetName())){
-					this.stringTable = CollectionsUtility.createArrayList();
+					this.stringTable = CollectionsUtility.newList();
 					//Process the started row index 
 					rowIndexKey = iter.getSheetName() + OSXConstants.STARTED_ROW_INDEX;
 					if (this.parameters.containsKey(rowIndexKey)){
@@ -338,7 +336,7 @@ public class XSSFEventRepository {
 			iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
 			sheetContentsHandler = new BufferedSheetContentsHandler();
 			while (iter.hasNext()) {
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				inputStream = iter.next();
 				if (!sheetIds.contains(iter.getSheetName()))
 					continue;
@@ -388,7 +386,7 @@ public class XSSFEventRepository {
 			iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
 			sheetContentsHandler = new BufferedSheetContentsHandler();
 			while (iter.hasNext()) {
-				this.stringTable = CollectionsUtility.createArrayList();
+				this.stringTable = CollectionsUtility.newList();
 				inputStream = iter.next();
 				if (!sheetIds.contains(iter.getSheetName()))
 					continue;

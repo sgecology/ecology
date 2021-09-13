@@ -49,7 +49,7 @@ public class IdentityAccessManager {
 
 		accessDecisionPolicies = (List<AccessPolicy>)request.getSession(false).getAttribute(MY_ACCESSED_DECISION_POLICIES);
     if (CommonUtility.isEmpty(accessDecisionPolicies)) {
-    	accessDecisionPolicies = CollectionsUtility.createDataList();
+    	accessDecisionPolicies = CollectionsUtility.newList();
   		for (GrantedAuthority authority :authentication.getAuthorities()) {
   			currentADPs = accessPolicyService.getAccessPoliciesByAuthority((Authority)authority);
   			if (!currentADPs.isEmpty()) {
@@ -70,6 +70,6 @@ public class IdentityAccessManager {
 				hasAccessedPermission = true;
 			}
 		}
-		return true;//hasAccessedPermission;
+		return hasAccessedPermission;
   }
 }

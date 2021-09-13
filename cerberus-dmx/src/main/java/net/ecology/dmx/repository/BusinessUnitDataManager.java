@@ -21,11 +21,11 @@ import net.ecology.entity.config.Configuration;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.model.Context;
+import net.ecology.model.XWorkbook;
+import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
 import net.ecology.model.osx.OsxBucketContainer;
 import net.ecology.osx.model.ConfigureUnmarshallObjects;
-import net.ecology.osx.model.DmxWorkbook;
-import net.ecology.osx.model.DmxWorksheet;
 
 /**
  * @author ducbui
@@ -47,23 +47,23 @@ public class BusinessUnitDataManager extends DmxRepositoryBase {
 	@Inject 
 	private DmxConfigurationHelper dmxConfigurationHelper;
 
-	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.createMap();
+	private Map<String, Byte> configDetailIndexMap = CollectionsUtility.newMap();
 
-	private Map<String, BusinessUnit> businessObjectsMap = CollectionsUtility.createMap();
+	private Map<String, BusinessUnit> businessObjectsMap = CollectionsUtility.newMap();
 
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
-		DmxWorkbook dataWorkbook = null;
+		XWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
 			throw new CerberusException("There is no business unit data in OSX container!");
 
 		String workingDatabookId = dmxCollaborator.getConfiguredDataCatalogueWorkbookId();
 		if (osxBucketContainer.containsKey(workingDatabookId)){
-			dataWorkbook = (DmxWorkbook)osxBucketContainer.get(workingDatabookId);
+			dataWorkbook = (XWorkbook)osxBucketContainer.get(workingDatabookId);
 		}
 
-		unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.createDataList(ConfigureUnmarshallObjects.BUSINESS_UNITS.getDataSheetId()));
+		unmarshallBusinessObjects(dataWorkbook, CollectionsUtility.newList(ConfigureUnmarshallObjects.BUSINESS_UNITS.getDataSheetId()));
 		/*
 		List<Entity> marshalledObjects = 
 		if (CommonUtility.isNotEmpty(marshalledObjects)) {
@@ -75,7 +75,7 @@ public class BusinessUnitDataManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DmxWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
+	protected List<Entity> doUnmarshallBusinessObjects(XWorkbook dataWorkbook, List<String> datasheetIds) throws CerberusException {
 		Map<String, Configuration> configDetailMap = null;
 		if (CommonUtility.isEmpty(configDetailIndexMap)) {
 			configDetailMap = dmxConfigurationHelper.fetchInventoryItemConfig(ConfigureUnmarshallObjects.BUSINESS_UNITS.getConfiguredEntryName());
@@ -84,9 +84,9 @@ public class BusinessUnitDataManager extends DmxRepositoryBase {
 			}
 		}
 
-		List<Entity> marshallingObjects = CollectionsUtility.createDataList();
+		List<Entity> marshallingObjects = CollectionsUtility.newList();
 		BusinessUnit unmarshalledObject = null;
-		DmxWorksheet dataWorksheet = dataWorkbook.get(ConfigureUnmarshallObjects.BUSINESS_UNITS.getDataSheetId());
+		XWorksheet dataWorksheet = dataWorkbook.get(ConfigureUnmarshallObjects.BUSINESS_UNITS.getDataSheetId());
 		if (CommonUtility.isNotEmpty(dataWorksheet)) {
 			for (Object key :dataWorksheet.keys()) {
 				try {
