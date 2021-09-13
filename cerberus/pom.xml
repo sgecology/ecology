@@ -7,7 +7,7 @@
 	<artifactId>cerberus</artifactId>
 	<version>0.1</version>
 	<packaging>war</packaging>
-	<name>Brilliant - Web administration</name>
+	<name>Brilliant - Web administration app</name>
 
 	<parent>
 		<groupId>net.acerberus</groupId>
