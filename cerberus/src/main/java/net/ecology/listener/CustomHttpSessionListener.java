@@ -5,7 +5,6 @@ package net.ecology.listener;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
