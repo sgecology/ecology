@@ -15,13 +15,13 @@ import org.apache.poi.poifs.filesystem.FileMagic;
 import lombok.Builder;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.Context;
+import net.ecology.domain.model.OfficeDocumentType;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.model.OfficeDocumentType;
+import net.ecology.model.osx.XContainer;
 import net.ecology.osx.model.OfficeMarshalType;
 
 /**
@@ -96,14 +96,14 @@ public class OfficeSuiteServiceProvider {
 	}
 
 	public XWorkbook readExcelFile(final Context context) throws CerberusException {
-    return readExcelFile(context.getContextData());
+    return readExcelFile(context.getValues());
   }
 
-	public OsxBucketContainer loadSpreadsheetInZip(final Context context) throws CerberusException {
-		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
+	public XContainer loadSpreadsheetInZip(final Context context) throws CerberusException {
+		XContainer bucketContainer = XContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.newMap();
+		Map<Object, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		XWorkbook workbookContainer = null;
 		InputStream zipInputStream = null;
@@ -127,7 +127,7 @@ public class OfficeSuiteServiceProvider {
 				}
 
 				worksheetIds = (List<String>) sheetIdsMap.get(zipEntry);
-				processingParameters.putAll(context.getContextData());
+				processingParameters.putAll(context.getValues());
 				processingParameters.remove(OSXConstants.DATA_FILE);
 				processingParameters.put(OSXConstants.INPUT_STREAM, zipInputStream);
 				processingParameters.put(OSXConstants.PROCESSING_WORKSHEET_IDS, worksheetIds);
@@ -146,7 +146,7 @@ public class OfficeSuiteServiceProvider {
 	public Context loadSpreadsheetData(final Context context) throws CerberusException {
 		Context targetContext = null;
 		Map<String, InputStream> inputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.newMap();
+		Map<Object, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		InputStream inputStream = null;
 		Context currentContext = Context.builder().build();
@@ -171,7 +171,7 @@ public class OfficeSuiteServiceProvider {
 					continue;
 				}
 
-				processingParameters.putAll(context.getContextData());
+				processingParameters.putAll(context.getValues());
 				processingParameters.remove(OSXConstants.DATA_FILE);
 				
 				currentContext.put(OSXConstants.PROCESSING_WORKBOOK_STREAM, inputStream);
@@ -195,11 +195,11 @@ public class OfficeSuiteServiceProvider {
 		return targetContext;
 	}
 
-	public OsxBucketContainer extractOfficeDataFromZip(final Context context) throws CerberusException {
-		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
+	public XContainer extractOfficeDataFromZip(final Context context) throws CerberusException {
+		XContainer bucketContainer = XContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
-		Map<String, Object> processingParameters = CollectionsUtility.newMap();
+		Map<Object, Object> processingParameters = CollectionsUtility.newMap();
 		OfficeDocumentType officeDocumentType = OfficeDocumentType.INVALID;
 		XWorkbook workbookContainer = null;
 		InputStream zipInputStream = null;
@@ -242,7 +242,7 @@ public class OfficeSuiteServiceProvider {
 				if (null != sheetIdsMap) {
 					processingParameters.put(OSXConstants.PROCESSING_WORKSHEET_IDS, sheetIdsMap.get(zipEntry));
 				}
-				processingParameters.putAll(context.getContextData());
+				processingParameters.putAll(context.getValues());
 				processingParameters.remove(OSXConstants.DATA_FILE);
 				processingParameters.put(OSXConstants.INPUT_STREAM, zipInputStream);
 				processingParameters.put(OSXConstants.ENCRYPTED_KEYS, (String) passwordMap.get(zipEntry));
@@ -260,7 +260,7 @@ public class OfficeSuiteServiceProvider {
 	public static void main(String[] args) throws Exception {
 		String zipFileName = "D:\\git\\paramount\\msp-osx\\src\\main\\resources\\data\\develop_data.zip";
 		
-		OsxBucketContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadDefaultZipConfiguredData(new File(zipFileName));
+		XContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadDefaultZipConfiguredData(new File(zipFileName));
 		XWorkbook workbookContainer = null;
 		Set<Object> keys = bucketContainer.getKeys();
 		for (Object key : keys) {

@@ -3,6 +3,7 @@
  */
 package net.ecology.dmx.manager;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -16,29 +17,28 @@ import org.springframework.util.FileCopyUtils;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
-import net.ecology.common.FileIOUtility;
+import net.ecology.common.SystemIOUtility;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.css.service.general.AttachmentService;
-import net.ecology.dmx.helper.ResourcesStorageServiceHelper;
+import net.ecology.dmx.helper.ResourcesServiceHelper;
 import net.ecology.dmx.repository.BusinessUnitDataManager;
 import net.ecology.dmx.repository.ContactRepositoryManager;
 import net.ecology.dmx.repository.InventoryItemRepositoryManager;
+import net.ecology.domain.Context;
 import net.ecology.domain.entity.Attachment;
+import net.ecology.domain.model.ConfigureUnmarshallObjects;
+import net.ecology.domain.model.MarshallingObjects;
 import net.ecology.entity.config.Configuration;
 import net.ecology.entity.general.GeneralCatalogue;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.framework.entity.Entity;
 import net.ecology.global.GlobeConstants;
-import net.ecology.globe.GlobalMarshallingRepository;
-import net.ecology.model.Context;
-import net.ecology.model.IOContainer;
+import net.ecology.marshalling.GlobalResourcesRepository;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
+import net.ecology.model.osx.XContainer;
 import net.ecology.osx.helper.OfficeSuiteServiceProvider;
-import net.ecology.osx.model.ConfigureUnmarshallObjects;
-import net.ecology.osx.model.MarshallingObjects;
 import net.ecology.osx.model.OfficeMarshalType;
 
 /**
@@ -46,7 +46,7 @@ import net.ecology.osx.model.OfficeMarshalType;
  *
  */
 @Component
-public class GlobalDmxManager extends ComponentRoot {
+public class GlobalDmxManager extends BasisComp {
 	private static final long serialVersionUID = -759495846609992244L;
 
 	public static final int NUMBER_OF_CATALOGUE_SUBTYPES_GENERATE = 500;
@@ -63,7 +63,7 @@ public class GlobalDmxManager extends ComponentRoot {
 	protected AttachmentService attachmentService;
 
 	@Inject
-	protected ResourcesStorageServiceHelper resourcesStorageServiceHelper;
+	protected ResourcesServiceHelper resourcesServiceHelper;
 
 	@Inject
 	protected ConfigurationService configurationService;
@@ -78,7 +78,7 @@ public class GlobalDmxManager extends ComponentRoot {
   private ResourceLoader resourceLoader;*/
 
   @Inject
-  private GlobalMarshallingRepository globalMarshallingRepository;
+  private GlobalResourcesRepository globalMarshallingRepository;
 
 	@SuppressWarnings("unchecked")
 	public Context marshallData(Context context) throws CerberusException {
@@ -127,14 +127,14 @@ public class GlobalDmxManager extends ComponentRoot {
 	/**
 	 * Archive resource data to database unit
 	 */
-	public void archive(final String archivedFileName, final IOContainer ioContainer, final String encryptionKey) throws CerberusException {
+	public void archive(final String archivedFileName, final Context ioContainer, final String encryptionKey) throws CerberusException {
 		Attachment attachment = null;
 		Optional<Attachment> optAttachment = null;
     logger.info("Enter GlobalDmxManager.archive(String, InputStream, String)");
 		try {
 			optAttachment = this.attachmentService.getByName(archivedFileName);
 			if (!optAttachment.isPresent()) {
-				attachment = resourcesStorageServiceHelper.buildAttachment(archivedFileName, ioContainer, encryptionKey);
+				attachment = resourcesServiceHelper.buildAttachment(archivedFileName, ioContainer, encryptionKey);
 				this.attachmentService.save(attachment);
 			}
 		} catch (Exception e) {
@@ -146,39 +146,44 @@ public class GlobalDmxManager extends ComponentRoot {
 	/**
 	 * Archive resource data to database unit
 	 */
-	public Collection<String> archive(final IOContainer ioContainer) throws CerberusException {
-    logger.info("Enter GlobalDmxManager.archive(IOContainer)");
-    Collection<Attachment> attachments = this.resourcesStorageServiceHelper.buildAttachments(ioContainer);
-    Collection<String> archivedAttachmentNames = CollectionsUtility.newCollection();
+	public Collection<String> archive(Map<Object, Object> resourceMap, Map<Object, String> secretKeys) throws CerberusException {
+    logger.info("Enter GlobalDmxManager.archive(resourceMap)");
+    Context ioContext = Context
+    		.valueOf(resourceMap)
+    		.putSecrets(secretKeys);
+
+    Collection<Attachment> attachments = this.resourcesServiceHelper.buildAttachments(ioContext);
+    Collection<String> archivedNames = CollectionsUtility.newCollection();
     for (Attachment attachment :attachments) {
-			archivedAttachmentNames.add(attachment.getName());
+			archivedNames.add(attachment.getName());
 			if (this.attachmentService.exists(GlobeConstants.PROP_NAME, attachment.getName()))
 				continue;
 
 			this.attachmentService.saveAndFlush(attachment);
     }
-    logger.info("Enter GlobalDmxManager.archive(IOContainer)");
-    return archivedAttachmentNames;
+    logger.info("Enter GlobalDmxManager.archive(resourceMap)");
+    return archivedNames;
 	}
 
 	/**
 	 * De-archive resource data to database unit
+	 * @throws IOException 
 	 */
-	public IOContainer unarchive(final Collection<String> archivedNames) throws CerberusException {
-		IOContainer ioContainer = IOContainer.builder().build();
-		logger.info("Enter GlobalDmxManager.unarchive(Collection<String>)");
+	public Context unpack(final Collection<String> archivedNames) throws CerberusException, IOException {
+		Context result = Context.builder().build();
+		logger.info("Enter GlobalDmxManager.unpack(Collection<String>)");
 		Attachment attachment = null;
-		IOContainer ioContainerProcessing = null;
+		Map<String, InputStream> ioContainerProcessing = null;
 		for (String archivedName :archivedNames) {
 			attachment = this.attachmentService.getByName(archivedName).orElse(null);
 			if (null==attachment)
 				continue;
 
-			ioContainerProcessing = FileIOUtility.buildDataStream(attachment.getName(), attachment.getData());
-			ioContainer.put(archivedName, ioContainerProcessing.get(archivedName));
+			ioContainerProcessing = SystemIOUtility.buildDataStream(attachment.getName(), attachment.getData());
+			result.put(archivedName, ioContainerProcessing.get(archivedName));
 		}
-    logger.info("Enter GlobalDmxManager.archive(String, InputStream, String)");
-    return ioContainer;
+    logger.info("Enter GlobalDmxManager.unpack(String, InputStream, String)");
+    return result;
 	}
 
 	/**
@@ -191,7 +196,7 @@ public class GlobalDmxManager extends ComponentRoot {
       logger.info("There is no input resource ro be archived. ");
       return context;
     }
-    IOContainer ioDataContainer = this.globalMarshallingRepository.resourceAsIOContainer((String)context.get(OSXConstants.RESOURCE_REPO));
+    Context ioDataContainer = this.globalMarshallingRepository.resourceAsIOContainer((String)context.get(OSXConstants.RESOURCE_REPO));
     if (null==ioDataContainer){
     	logger.error("The input stream for path: " + (String)context.get(OSXConstants.RESOURCE_REPO) + " does not valid. ");
     	return context;
@@ -213,13 +218,13 @@ public class GlobalDmxManager extends ComponentRoot {
     return context;
   }
 
-  public OsxBucketContainer marshallDataFromArchivedInAttachment(String archivedName, List<String> databookIds, Map<String, List<String>> datasheetIds) throws CerberusException {
+  public XContainer marshallDataFromArchivedInAttachment(String archivedName, List<String> databookIds, Map<String, List<String>> datasheetIds) throws CerberusException {
 		Optional<Attachment> optAttachment = this.attachmentService.getByName(archivedName);
 		if (!optAttachment.isPresent())
 			return null;
 
 		Optional<Configuration> optConfig = null;
-		OsxBucketContainer osxBucketContainer = null;
+		XContainer osxBucketContainer = null;
 		InputStream inputStream = null;
 		Context defaultExecutionContext = null;
 		try {
@@ -229,7 +234,7 @@ public class GlobalDmxManager extends ComponentRoot {
 
 			optConfig = configurationService.getByName(archivedName);
 			if (optConfig.isPresent()) {
-				defaultExecutionContext = resourcesStorageServiceHelper.syncExecutionContext(optConfig.get(), optAttachment.get().getData());
+				defaultExecutionContext = resourcesServiceHelper.syncExecutionContext(optConfig.get(), optAttachment.get().getData());
 			}
 
 			defaultExecutionContext.put(OSXConstants.PROCESSING_DATABOOK_IDS, databookIds);
@@ -243,8 +248,8 @@ public class GlobalDmxManager extends ComponentRoot {
 		return osxBucketContainer;
 	}
 
-  public OsxBucketContainer marshallArchivedOfficeData(Context context) throws CerberusException {
-    OsxBucketContainer osxBucketContainer = null;
+  public XContainer marshallArchivedOfficeData(Context context) throws CerberusException {
+    XContainer osxBucketContainer = null;
     InputStream inputStream = null;
     XWorkbook workbook = null;
     String archivedName = null;
@@ -271,7 +276,7 @@ public class GlobalDmxManager extends ComponentRoot {
       executionContext.put(OSXConstants.INPUT_STREAM, inputStream);
       workbook = OfficeSuiteServiceProvider.builder().build().readExcelFile(executionContext);
       if (workbook != null) {
-        osxBucketContainer = OsxBucketContainer.builder().build().put(archivedName, workbook);
+        osxBucketContainer = XContainer.builder().build().put(archivedName, workbook);
       }
     } catch (Exception e) {
       throw new CerberusException(e);
@@ -281,7 +286,7 @@ public class GlobalDmxManager extends ComponentRoot {
 
   public Context marshallDataFromArchived(Context executionContext) throws CerberusException {
 		InputStream inputStream;
-		OsxBucketContainer osxBucketContainer = null;
+		XContainer osxBucketContainer = null;
 		Context workingExecutionContext = null;
 		try {
 			inputStream = (InputStream)executionContext.get(OSXConstants.INPUT_STREAM);
@@ -299,7 +304,7 @@ public class GlobalDmxManager extends ComponentRoot {
 	public List<Entity> marshallContacts(String archivedResourceName, String dataWorkbookId, List<String> datasheetIdList) throws CerberusException {
 		List<Entity> contacts = null;
 		XWorkbook dataWorkbook = null;
-		OsxBucketContainer osxBucketContainer = null;
+		XContainer osxBucketContainer = null;
 		List<String> databookIdList = null;
 		Map<String, List<String>> datasheetIdMap = null;
 		try {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.entity.system.Option;
 import net.ecology.entity.system.Sequence;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
 
 /**
@@ -20,7 +20,7 @@ import net.ecology.global.GlobalConstants;
  *
  */
 @Component
-public class SequenceManager extends ComponentRoot {
+public class SequenceManager extends BasisComp {
 	/**
 	 * 
 	 */

@@ -21,9 +21,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.common.CommonUtility;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.domain.auth.UserAccountProfile;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -33,7 +33,7 @@ import net.ecology.model.auth.UserAccountProfile;
 @Named(value = "globalDispatcher")
 //@ViewScoped
 @SessionScoped
-public class GlobalDispatcher extends ComponentRoot {
+public class GlobalDispatcher extends BasisComp {
 	private static final long serialVersionUID = -4189926376687700775L;
 
 	@Inject
@@ -110,7 +110,7 @@ public class GlobalDispatcher extends ComponentRoot {
 		}
 
 		if (null==securityPrincipalProfile || null==securityPrincipalProfile.getSecurityAccount() || null == securityPrincipalProfile.getSecurityAccount().getContact().getProfilePicture()) {
-			inputStream = servletContext.getResourceAsStream("/resources/images/anonymous-user-small.png");
+			inputStream = servletContext.getResourceAsStream("/resources/images/8025287921598811056.png");
 			try {
 				imageBytes = CommonUtility.getByteArray(inputStream);
 			} catch (IOException e) {

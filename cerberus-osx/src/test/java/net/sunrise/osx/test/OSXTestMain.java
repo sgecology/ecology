@@ -11,11 +11,11 @@ import java.util.Map;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
-import net.ecology.model.Context;
+import net.ecology.domain.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
+import net.ecology.model.osx.XContainer;
 import net.ecology.osx.helper.OfficeSuiteServiceProvider;
 import net.ecology.osx.helper.OfficeSuiteServicesHelper;
 import net.ecology.osx.model.OfficeMarshalType;
@@ -37,7 +37,7 @@ public class OSXTestMain {
 	protected static void doTestReadXlsx() {
 		Map<Object, Object> params = CollectionsUtility.newMap();
 		String[] sheetIds = new String[]{/*"languages", "items", "localized-items"*/"inventory-items", "business-units"}; 
-		OsxBucketContainer dataBucket = null;
+		XContainer dataBucket = null;
 		String dataSheetSource = "D:\\workspace\\aquariums.git\\aquarium\\aquarium-admin\\src\\main\\resources\\config\\data\\data-catalog.xlsx";
 		List<String> sheetIdList = CollectionsUtility.newList("inventory-items", "business-units");
 		dataSheetSource = "D:/git/heron/heron/src/main/resources/master-data/data-catalog.xlsx";
@@ -77,7 +77,7 @@ public class OSXTestMain {
       final String originalFileName,
       final InputStream compressedZipInputStream) {
 
-    return Context.builder().build()
+    return (Context) Context.builder().build()
         .put(OSXConstants.DATA_FILE, CommonUtility.createFileFromInputStream(originalFileName, compressedZipInputStream))
         .put(OSXConstants.ENCRYPTED_KEYS, secretKeys)
         .put(OSXConstants.PROCESSING_WORKBOOK_IDS, CollectionsUtility.arraysAsList(zipEntries))
@@ -91,7 +91,7 @@ public class OSXTestMain {
       final Map<String, String> secretKeys, 
       final Map<String, String[]> sheetIdList) {
 
-    return Context.builder().build()
+    return (Context) Context.builder().build()
     		.put(OSXConstants.IS_COMPRESSED_FILE, Boolean.TRUE)
         .put(OSXConstants.DATA_FILE, compressedFile)
         .put(OSXConstants.ENCRYPTED_KEYS, secretKeys)
@@ -125,7 +125,7 @@ public class OSXTestMain {
 	  try {
 	    long started = System.currentTimeMillis();
 	    InputStream inputStream = new FileInputStream("D:/git/heron/heron/src/main/resources/master/data-catalog-high.zip");
-	    OsxBucketContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadZipDataFromInputStream(dataFile, inputStream);
+	    XContainer bucketContainer = OfficeSuiteServicesHelper.builder().build().loadZipDataFromInputStream(dataFile, inputStream);
 	    started = System.currentTimeMillis()-started;
 	    System.out.println("Taken: "+started);
 	    displayWorkbook((XWorkbook)bucketContainer.get(dataFile));

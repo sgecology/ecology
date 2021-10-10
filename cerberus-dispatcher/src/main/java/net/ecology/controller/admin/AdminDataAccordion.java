@@ -1,11 +1,9 @@
 package net.ecology.controller.admin;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -17,18 +15,13 @@ import org.springframework.core.io.ResourceLoader;
 
 import lombok.extern.slf4j.Slf4j;
 import net.ecology.common.CollectionsUtility;
-import net.ecology.common.CommonUtility;
 import net.ecology.dmx.manager.GlobalDmxManager;
+import net.ecology.domain.Context;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.global.GlobeConstants;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.helper.OfficeSuiteServiceProvider;
-import net.ecology.osx.helper.OfficeSuiteServicesHelper;
-import net.ecology.osx.model.OfficeMarshalType;
+import net.ecology.model.osx.XContainer;
 
 /**
  * @author ducbq
@@ -55,7 +48,7 @@ public class AdminDataAccordion implements Serializable {
 
   public void onLoadMasterDataFromCompressed() {
     log.info("On loading master data.");
-    Context context = Context.builder().build()
+    /*Context context = Context.builder().build()
         .put(OSXConstants.RESOURCE_NAME, GlobeConstants.APP_DEFAULT_CATALOUE_DATA)
         .put(OSXConstants.XLSX_MARSHALLING_DATA_METHOD, OfficeMarshalType.STREAMING)
         ;
@@ -64,7 +57,7 @@ public class AdminDataAccordion implements Serializable {
       System.out.println(bucketContainer.hashCode());
     } catch (CerberusException e1) {
       e1.printStackTrace();
-    }
+    }*/
     /*
     final String masterDataDirectory = "classpath:/META-INF/";
     final String masterDataFile = "data-catalog-high";
@@ -85,7 +78,7 @@ public class AdminDataAccordion implements Serializable {
   public void onLoadMasterData() {
     log.info("On loading master data.");
     try {
-    	loadContactsFromSpreadsheet();
+    	//loadContactsFromSpreadsheet();
       //loadDataFromExcel();
     } catch (Exception e) {
       log.error(e.getMessage(), e);
@@ -133,7 +126,7 @@ public class AdminDataAccordion implements Serializable {
     }
   */
 
-  protected void loadSpreadsheetData() {
+ /* protected void loadSpreadsheetData() {
 		String compressedFileName = "D:/git/cerberus-v1/cerberus/src/main/resources/repo/data_repo.zip";
 		Context context = null;
 		try {
@@ -151,9 +144,9 @@ public class AdminDataAccordion implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-  public void loadContactsFromSpreadsheet() {
+  /*public void loadContactsFromSpreadsheet() {
 		Context context = null;
 		Resource resource = null;
 		String resourceRepo = "classpath:/repo/data_repo.zip";
@@ -177,7 +170,7 @@ public class AdminDataAccordion implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
   private void displayContactData(Context context){
 		XWorkbook workbook = null;
@@ -193,7 +186,7 @@ public class AdminDataAccordion implements Serializable {
     System.out.println("+++++++++++++++++");
   }
 
-	protected Context initCompressedContextData(
+	/*protected Context initCompressedContextData(
   		File compressedFile,
       final String[] compressedEntries,
       final Map<String, String> secretKeys, 
@@ -206,9 +199,9 @@ public class AdminDataAccordion implements Serializable {
         .put(OSXConstants.PROCESSING_WORKBOOK_IDS, compressedEntries)
         .put(OSXConstants.XLSX_MARSHALLING_DATA_METHOD, OfficeMarshalType.STREAMING)
         .put(OSXConstants.PROCESSING_WORKSHEET_IDS, sheetIdList);
-  }
+  }*/
   
-  protected void loadDataFromCompressedZip(
+ /* protected void loadDataFromCompressedZip(
       String compressedZipFile, 
       String compressedZipFileSecretKey, 
       String[] processingDataFileEntries,  
@@ -234,7 +227,6 @@ public class AdminDataAccordion implements Serializable {
       return;
     }
 
-    //String originalFileName = compressedZipFile.substring(compressedZipFile.lastIndexOf("/")+1, compressedZipFile.lastIndexOf("."));
     context = Context.builder().build()
         .put(OSXConstants.DATA_FILE, CommonUtility.createFileFromInputStream(compressedZipFile, compressedZipInputStream))
         .put(OSXConstants.ENCRYPTED_KEYS, secretKeys)
@@ -249,9 +241,9 @@ public class AdminDataAccordion implements Serializable {
     duration = System.currentTimeMillis()-duration;
     log.info("Loading taken: " + duration + " miliseconds!");
     processLoadedData(bucketContainer);
-  }
+  }*/
 
-  protected void processLoadedData(OsxBucketContainer bucketContainer){
+  protected void processLoadedData(XContainer bucketContainer){
     if (null==bucketContainer)
       return;
 

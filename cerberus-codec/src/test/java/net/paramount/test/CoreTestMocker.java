@@ -19,13 +19,13 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import net.ecology.encryption.MD5Utility;
 import net.ecology.exceptions.CryptographyException;
 import net.ecology.global.GlobeConstants;
 import net.ecology.security.CryptographyAlgorithm;
 import net.ecology.security.GlobalCryptogramRepository;
 import net.ecology.security.SecretAlgorithm;
 import net.ecology.security.base.Cryptographer;
-import net.ecology.util.MD5Utility;
 
 /**
  * @author ducbq

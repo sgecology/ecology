@@ -19,7 +19,8 @@ import net.ecology.common.GUUISequenceGenerator;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.css.service.config.IGeneralItemService;
 import net.ecology.css.service.org.BusinessUnitService;
-import net.ecology.dmx.helper.ResourcesStorageServiceHelper;
+import net.ecology.dmx.helper.ResourcesServiceHelper;
+import net.ecology.domain.Context;
 import net.ecology.embeddable.Phone;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.entity.general.Catalogue;
@@ -27,12 +28,11 @@ import net.ecology.entity.general.Currency;
 import net.ecology.entity.general.GeneralCatalogue;
 import net.ecology.entity.general.Money;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.framework.entity.Entity;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SequenceType;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.service.general.CatalogueService;
 
@@ -40,7 +40,7 @@ import net.ecology.service.general.CatalogueService;
  * @author ducbui
  *
  */
-public abstract class DmxRepositoryBase extends ComponentRoot {
+public abstract class DmxRepositoryBase extends BasisComp {
 	/**
 	 * 
 	 */
@@ -84,7 +84,7 @@ public abstract class DmxRepositoryBase extends ComponentRoot {
 	protected IGeneralItemService itemService;
 
 	@Inject
-	protected ResourcesStorageServiceHelper resourcesStorageServiceHelper;
+	protected ResourcesServiceHelper resourcesStorageServiceHelper;
 
 	protected Map<String, BusinessUnit> businessUnitMap = CollectionsUtility.newMap();
 

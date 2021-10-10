@@ -8,11 +8,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import net.ecology.domain.Context;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.exceptions.ContextExecutionException;
 import net.ecology.framework.entity.Repo;
 import net.ecology.framework.model.SearchParameter;
-import net.ecology.model.Context;
 
 public interface IGenericService<T extends Repo, K extends Serializable> extends IService<T, K> {
 	T save(T entity);

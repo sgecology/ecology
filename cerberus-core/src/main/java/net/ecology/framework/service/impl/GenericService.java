@@ -23,6 +23,7 @@ import net.ecology.common.BeanUtility;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.common.StringUtilities;
+import net.ecology.domain.Context;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.exceptions.ContextExecutionException;
 import net.ecology.exceptions.ObjectNotFoundException;
@@ -37,7 +38,6 @@ import net.ecology.framework.predicator.BrilliancePredicator;
 import net.ecology.framework.service.IGenericService;
 import net.ecology.framework.specification.DefaultSpecification;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.Context;
 
 
 @SuppressWarnings({"rawtypes", "unchecked"})

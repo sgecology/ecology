@@ -8,14 +8,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import net.ecology.common.CommonUtility;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbq
  *
  */
 @Component
-public class SecurityServiceContextHelper extends ComponentRoot {
+public class SecurityServiceContextHelper extends BasisComp {
 	/**
 	 * 
 	 */

@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-communicator</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Corporate Communication Extension</name>
+    <name>Aquarius - Corporate Communication Extension</name>
     <description>Module that contains all communication services for enterprise management in the project. </description>
 
 	<dependencies>

@@ -1,4 +1,3 @@
-SP-Code|SP-Name|SP-StartTime|SP-Job|SP-Type|Job-Crontime|Job-Class|Job-Code|Job-Name|Job-Display Name|Job-Category
 20210215-SP-01|Default schedule plan||System Job|Root Schedule Plan|1 0/2 * * * ?||TBTCP|background job Step Overview|Basis - Background Processing|Transparent Table
 20210215-SP-01|Default schedule plan||System Job|Root Schedule Plan|3 0/2 * * * ?||ABAP|ABAP/4 language-internal type declarations|630 - Workbench Tools: Editors|Structure
 20210215-SP-01|Default schedule plan||System Job|Root Schedule Plan|5 0/2 * * * ?||ABAPLIST|Structure for Internal Table as List Container|40A - Syntax|Structure

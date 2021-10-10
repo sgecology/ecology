@@ -5,14 +5,14 @@ package net.ecology.dmx.repository;
 
 import org.springframework.stereotype.Component;
 
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbq
  *
  */
 @Component
-public class GlobaRepositoryManagement extends ComponentRoot {
+public class GlobaRepositoryManagement extends BasisComp {
 	/**
 	 * 
 	 */

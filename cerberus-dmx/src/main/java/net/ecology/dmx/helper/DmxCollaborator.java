@@ -5,7 +5,7 @@ package net.ecology.dmx.helper;
 
 import org.springframework.stereotype.Component;
 
-import net.ecology.osx.model.MarshallingObjects;
+import net.ecology.domain.model.MarshallingObjects;
 
 /**
  * This class to be hold all configuration for OSX and data loading and can be load data from database in future.

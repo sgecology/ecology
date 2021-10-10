@@ -25,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.domain.model.Filter;
-import net.ecology.entity.scheduler.ScheduleJob;
-import net.ecology.esi.common.CommonScheduleUtility;
-import net.ecology.esi.service.JobScheduleService;
+import net.ecology.entity.scheduler.Schedule;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.global.GlobeConstants;
+import net.ecology.service.ScheduleService;
+import net.ecology.utility.SchedulerUtility;
 
 /**
  * @author ducbq
@@ -45,17 +45,17 @@ public class JobScheduleBrowse implements Serializable {
 
   private final String cachedBusinessObjects = "cachedJobSchedules";
   @Inject
-  private JobScheduleService businessService;
+  private ScheduleService businessService;
 
-  private List<ScheduleJob> selectedObjects;
-  private List<ScheduleJob> businessObjects;
-  private List<ScheduleJob> filteredObjects;// datatable filteredValue attribute (column filters)
+  private List<Schedule> selectedObjects;
+  private List<Schedule> businessObjects;
+  private List<Schedule> filteredObjects;// datatable filteredValue attribute (column filters)
 
   Long id;
 
-  Filter<ScheduleJob> filter = new Filter<>(new ScheduleJob());
+  Filter<Schedule> filter = new Filter<>(new Schedule());
 
-  List<ScheduleJob> filteredValue;// datatable filteredValue attribute (column filters)
+  List<Schedule> filteredValue;// datatable filteredValue attribute (column filters)
 
   @Setter
   @Getter
@@ -92,7 +92,7 @@ public class JobScheduleBrowse implements Serializable {
   }
 
   public void clear() {
-    filter = new Filter<ScheduleJob>(new ScheduleJob());
+    filter = new Filter<Schedule>(new Schedule());
   }
 
   public List<String> completeModel(String query) {
@@ -104,7 +104,7 @@ public class JobScheduleBrowse implements Serializable {
     PageRequest pageRequest = PageRequest.of(0, 500, Sort.Direction.ASC, "id");
     SearchParameter searchParameter = SearchParameter.getInstance().setPageable(pageRequest);
     searchParameter.put("code", this.searchParameters.get("searchCode"));
-    Page<ScheduleJob> jobSchedules = businessService.getObjects(searchParameter);
+    Page<Schedule> jobSchedules = businessService.getObjects(searchParameter);
     this.businessObjects.clear();
     if (!jobSchedules.isEmpty()) {
       this.businessObjects.addAll(jobSchedules.getContent());
@@ -114,7 +114,7 @@ public class JobScheduleBrowse implements Serializable {
 
   public void delete() {
     if (CommonUtility.isNotEmpty(this.selectedObjects)) {
-      for (ScheduleJob removalItem : this.selectedObjects) {
+      for (Schedule removalItem : this.selectedObjects) {
         System.out.println("#" + removalItem.getDisplayName());
         this.businessObjects.remove(removalItem);
       }
@@ -122,32 +122,32 @@ public class JobScheduleBrowse implements Serializable {
     }
   }
 
-  public List<ScheduleJob> getFilteredValue() {
+  public List<Schedule> getFilteredValue() {
     return filteredValue;
   }
 
-  public void setFilteredValue(List<ScheduleJob> filteredValue) {
+  public void setFilteredValue(List<Schedule> filteredValue) {
     this.filteredValue = filteredValue;
   }
 
-  public Filter<ScheduleJob> getFilter() {
+  public Filter<Schedule> getFilter() {
     return filter;
   }
 
-  public void setFilter(Filter<ScheduleJob> filter) {
+  public void setFilter(Filter<Schedule> filter) {
     this.filter = filter;
   }
 
-  public List<ScheduleJob> getBusinessObjects() {
+  public List<Schedule> getBusinessObjects() {
     // System.out.println("Biz objects: " + businessObjects.size());
     return businessObjects;
   }
 
-  public void setBusinessObjects(List<ScheduleJob> businessObjects) {
+  public void setBusinessObjects(List<Schedule> businessObjects) {
     this.businessObjects = businessObjects;
   }
 
-  public List<ScheduleJob> getSelectedObjects() {
+  public List<Schedule> getSelectedObjects() {
     if (null != selectedObjects) {
       // System.out.println("Sel objects: " + selectedObjects.size());
     }
@@ -155,15 +155,15 @@ public class JobScheduleBrowse implements Serializable {
     return selectedObjects;
   }
 
-  public void setSelectedObjects(List<ScheduleJob> selectedObjects) {
+  public void setSelectedObjects(List<Schedule> selectedObjects) {
     this.selectedObjects = selectedObjects;
   }
 
-  public List<ScheduleJob> getFilteredObjects() {
+  public List<Schedule> getFilteredObjects() {
     return filteredObjects;
   }
 
-  public void setFilteredObjects(List<ScheduleJob> filteredObjects) {
+  public void setFilteredObjects(List<Schedule> filteredObjects) {
     this.filteredObjects = filteredObjects;
   }
 
@@ -174,13 +174,13 @@ public class JobScheduleBrowse implements Serializable {
   private void loadBusinessData() {
     // Check and load cached data first
     if (null != this.session.getAttribute(cachedBusinessObjects)) {
-      this.businessObjects = (List<ScheduleJob>) this.session.getAttribute(cachedBusinessObjects);
+      this.businessObjects = (List<Schedule>) this.session.getAttribute(cachedBusinessObjects);
     } else {
       this.businessObjects = businessService.getObjects();
       this.businessObjects.forEach(jobSchedule -> {
         try {
           Locale locale = (Locale) this.session.getAttribute(GlobeConstants.WORKING_LOCALE);
-          jobSchedule.setCronExpressionReadable(CommonScheduleUtility.parseCronExpressionReadable(jobSchedule.getCronExpression(), locale));
+          jobSchedule.setCronExpressionReadable(SchedulerUtility.parseCronExpressionReadable(jobSchedule.getCronExpression(), locale));
         } catch (Exception e) {
           log.error(e.getMessage(), e);
         }

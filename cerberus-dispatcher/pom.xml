@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 	
     <artifactId>cerberus-dispatcher</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Dispatcher services</name>
+    <name>Aquarius - Dispatcher services</name>
     <description>Module that contains all services for enterprise management in the project. </description>
 
 	<dependencies>
@@ -34,12 +34,6 @@
 			<artifactId>cerberus-aux</artifactId>
 			<version>${project.version}</version>
 		</dependency> -->	
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-esi</artifactId>
-			<version>${project.version}</version>
-		</dependency>	
 
     <!-- <dependency>
       <groupId>${project.groupId}</groupId>

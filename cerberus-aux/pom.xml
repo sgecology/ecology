@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
 		<version>0.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>cerberus-aux</artifactId>
 	<packaging>jar</packaging>
-	<name>Brilliant - Authentication and authorization</name>
+	<name>Aquarius - Authentication and authorization</name>
 	<description>Module that contains all services for clinical trial and data management in the project. </description>
 
 	<dependencies>

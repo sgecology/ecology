@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.general.MeasureUnit;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class MeasureUnitSpecification extends CoreSpecifications<MeasureUnit, SearchSpec>{
+public class MeasureUnitSpecification extends SpecificationBasis<MeasureUnit, SearchSpec>{
 
 	/**
 	 * 

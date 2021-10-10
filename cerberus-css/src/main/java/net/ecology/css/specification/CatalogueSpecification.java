@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.general.Catalogue;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class CatalogueSpecification extends CoreSpecifications<Catalogue, SearchSpec>{
+public class CatalogueSpecification extends SpecificationBasis<Catalogue, SearchSpec>{
 
 	/**
 	 * 

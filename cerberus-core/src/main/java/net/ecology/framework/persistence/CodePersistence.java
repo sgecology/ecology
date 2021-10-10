@@ -15,4 +15,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface CodePersistence<T, PK extends Serializable> extends BasePersistence<T, PK> {
 	Optional<T> findByCode(String code);
+	boolean existsByCode(String code);
 }

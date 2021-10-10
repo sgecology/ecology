@@ -7,9 +7,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Component;
 
-import net.ecology.comm.domain.CorpMimeMessage;
+import net.ecology.comm.domain.MailMessage;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.model.Context;
 
 /**
  * @author ducbq
@@ -19,15 +18,15 @@ import net.ecology.model.Context;
 public class EmailCommunicator implements Communicator {
 
 	@Inject 
-	private CommunicatorServiceHelper communicatorServiceHelper;
+	private CommunicatorManager communicatorServiceHelper;
 
 	@Override
-	public void sendEmail(CorpMimeMessage mailMessage) throws CerberusException {
+	public void sendEmail(MailMessage mailMessage) throws CerberusException {
 		System.out.println("net.paramount.comm.component.EmailServiceImpl.send(MailMessage)");
 	}
 
 	@Override
-	public void send(Context context) throws CerberusException {
-		communicatorServiceHelper.sendEmail(context);
+	public boolean sendEmail(MailMessage mailMessage, String templateId, String mailTemplateLoadingDir) throws CerberusException {
+		return communicatorServiceHelper.sendEmail(mailMessage, templateId, mailTemplateLoadingDir);
 	}
 }

@@ -13,8 +13,6 @@ import net.ecology.security.base.CryptographyBase;
  */
 @Builder
 public class PlainTextCryptographer extends CryptographyBase implements Cryptographer {
-	private static final long serialVersionUID = 3762580979910681616L;
-
 	@Override
 	public String stringEncode(String plainText) {
 		return super.addSalts(plainText);

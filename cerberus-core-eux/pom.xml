@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-core-eux</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Core EUX</name>
+    <name>Aquarius - Core EUX</name>
     <description>Module that contains all services for clinical trial and data management in the project. </description>
 
 	<dependencies>

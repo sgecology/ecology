@@ -14,8 +14,8 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.common.CollectionsUtility;
-import net.ecology.framework.component.ComponentRoot;
-import net.ecology.model.auth.UserAccountProfile;
+import net.ecology.domain.auth.UserAccountProfile;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbq
@@ -23,7 +23,7 @@ import net.ecology.model.auth.UserAccountProfile;
  */
 @Component("securityOfficer")
 @SessionScope
-public class SecurityOfficer extends ComponentRoot {
+public class SecurityOfficer extends BasisComp {
 	/**
 	 * 
 	 */

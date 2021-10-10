@@ -1,13 +1,13 @@
-/pages/**|SysAdmin|SysAdmin Authority|sysmadmin|sysadmin@ecosphere.net|SysAdmin|Nguyễn Ngô Trần
-/pages/**|SystemAdmin|System Administrator Authority|systemadmin|systemadmin@ecosphere.net|SystemAdmin|Hồ Lê Phạm Nguyễn Trần
-/pages/administration/**|administration|Administration Authority|administrator|administrator@ecosphere.net|Admin|Nguyễn Trần
-/pages/management/**|management|Management Authority|manager|manager@ecosphere.net|Lê Văn|Manager
-/pages/coordination/**|coordination|Coordination Authority|coordinator|coordination@ecosphere.net|Coordinator|Hồ Hoàng
-/pages/subscription/**|subscription|Subscription Authority|subscriber|subscriber@ecosphere.net|Subscriber|Ngô Thị
-/pages/subscription/**|subscription|Subscription Authority|subscriber.int|subscriber.internal@ecosphere.net|Subscriber|Ngô Thị Thuyền Nội Bộ
-/pages/subscription/**|subscription|Subscription Authority|subscriber.ext|subscriber.external@ecosphere.net|Subscriber|Ngô Thị Tàu Bên Ngoài
-/pages/osx/**|osx|Osxer Authority|osxer|osxer@ecosphere.net|Osxer Authority|Thái Tông
-/pages/crsx/**|crsx|Crsx Authority|crsxer|crsxer@ecosphere.net|Crsxer|Phùng Hổ
-/pages/subscription/**|subscription|Subscription Authority|subscriber.pro|subscriber.protected@ecosphere.net|Subscriber|Nguyễn Lâm Thị Thuyền Bộ
-/pages/subscription/**|subscription|Subscription Authority|subscriber.pri|subscriber.private@ecosphere.net|Subscriber|Trần Thị Thuyền Nội
-/pages/subscription/**|subscription|Subscription Authority|subscriber.res|subscriber.restricted@ecosphere.net|Restricted Subscriber|Nguyễn Lâm Thị Thuyền
+/pages/**|SysAdmin|SysAdmin Authority|sysmadmin|sysadmin@ecosphere.net|SysAdmin Tô|Nguyễn Ngô Trần
+/pages/**|SystemAdmin|System Administrator Authority|systemadmin|systemadmin@ecosphere.net|SystemAdmin Huế|Hồ Lê Phạm Nguyễn Trần
+/pages/administration/**|administration|Administration Authority|administrator|administrator@ecosphere.net|Admin Huệ|Nguyễn Trần
+/pages/management/**|management|Management Authority|manager|manager@ecosphere.net|Lê Văn|Manager Hóa
+/pages/coordination/**|coordination|Coordination Authority|coordinator|coordination@ecosphere.net|Coordinator Chuyền|Hồ Hoàng
+/pages/subscription/**|subscription|Subscription Authority|subscriber|subscriber@ecosphere.net|Subscriber Bưởi|Ngô Thị
+/pages/subscription/**|subscription|Subscription Authority|subscriber.int|subscriber.internal@ecosphere.net|Subscriber Sabô|Ngô Thị Thuyền Nội Bộ
+/pages/subscription/**|subscription|Subscription Authority|subscriber.ext|subscriber.external@ecosphere.net|Subscriber Huyễn|Ngô Thị Tàu Bên Ngoài
+/pages/osx/**|osx|Osxer Authority|osxer|osxer@ecosphere.net|Osxer Authority Luyệt|Thái Tông
+/pages/crsx/**|crsx|Crsx Authority|crsxer|crsxer@ecosphere.net|Crsxer Cuyết|Phùng Hổ
+/pages/subscription/**|subscription|Subscription Authority|subscriber.pro|subscriber.protected@ecosphere.net|Subscriber Nguyện|Nguyễn Lâm Thị Thuyền Bộ
+/pages/subscription/**|subscription|Subscription Authority|subscriber.pri|subscriber.private@ecosphere.net|Subscriber Thuyệt|Trần Thị Thuyền Nội
+/pages/subscription/**|subscription|Subscription Authority|subscriber.res|subscriber.restricted@ecosphere.net|Restricted Subscriber Quyện|Nguyễn Lâm Thị Thuyền

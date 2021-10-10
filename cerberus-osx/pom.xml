@@ -5,13 +5,13 @@
   <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>cerberus-osx</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Office SX</name>
+    <name>Aquarius - Office SX</name>
 	
 <!--
   <groupId>com.monitorjbl</groupId>
@@ -189,9 +189,16 @@
     
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>cerberus-assembly-comp</artifactId>
+      <artifactId>cerberus-surrogate</artifactId>
       <version>${project.version}</version>
     </dependency> 
+    
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cerberus-assembly-domain</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
   </dependencies>
 
 </project>

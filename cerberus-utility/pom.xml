@@ -4,20 +4,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
 		<version>0.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>cerberus-utility</artifactId>
 	<packaging>jar</packaging>
-	<name>Brilliant - Common Utilities</name>
+	<name>Aquarius - Common Utilities</name>
 	<description>Module that contains all bpm entities to be used in the project. </description>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-assembly-comp</artifactId>
+			<artifactId>cerberus-assembly</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

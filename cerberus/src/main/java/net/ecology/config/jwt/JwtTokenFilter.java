@@ -18,7 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import net.ecology.auth.comp.jwt.JsonWebTokenService;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 import net.ecology.entity.auth.base.PrincipalDetails;
 
 /**
@@ -27,9 +27,9 @@ import net.ecology.entity.auth.base.PrincipalDetails;
  */
 public class JwtTokenFilter extends GenericFilterBean {
 	private static Logger logger = LogManager.getLogger(JwtTokenFilter.class);
-	private JsonWebTokenService jwtTokenProvider;
+	private TokenAuthenticationService jwtTokenProvider;
 
-	public JwtTokenFilter(JsonWebTokenService jwtTokenProvider) {
+	public JwtTokenFilter(TokenAuthenticationService jwtTokenProvider) {
 		this.jwtTokenProvider = jwtTokenProvider;
 	}
 
@@ -42,7 +42,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 //			System.out.println(request.getHeader("authorization"));
 			String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
 			if (token != null && jwtTokenProvider.validateToken(token)) {
-				authenticationDetails = jwtTokenProvider.generateAuthenticationDetails(token);
+				authenticationDetails = jwtTokenProvider.resolve(token);
 				authentication = new UsernamePasswordAuthenticationToken(authenticationDetails.getUsername(), authenticationDetails.getPassword(), authenticationDetails.getAuthorities());
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);

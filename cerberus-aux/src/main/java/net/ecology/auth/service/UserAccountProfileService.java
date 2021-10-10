@@ -1,10 +1,10 @@
 package net.ecology.auth.service;
 
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.service.IGenericService;
-import net.ecology.model.auth.UserAccountProfile;
 
 public interface UserAccountProfileService extends IGenericService<UserAccountProfile, Long> {
   /**
@@ -19,7 +19,7 @@ public interface UserAccountProfileService extends IGenericService<UserAccountPr
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	UserAccountProfile register(UserPrincipal user) throws NgepAuthException;
+	UserAccountProfile register(UserPrincipal user) throws AuthException;
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -44,5 +44,5 @@ public interface UserAccountProfileService extends IGenericService<UserAccountPr
 	 * Check if a user with the supplied login name exists in the system.
 	 */
 	boolean userExists(String username);
-	UserAccountProfile confirm(String confirmedEmail) throws NgepAuthException;
+	UserAccountProfile confirm(String confirmedEmail) throws AuthException;
 }

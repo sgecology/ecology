@@ -7,15 +7,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.4</version>
-		<relativePath />
+		<version>2.5.5</version>
 	</parent>	
 	
 	<groupId>net.acerberus</groupId>
-	<artifactId>aquariums</artifactId>
+	<artifactId>aquarius</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1</version>
-	<name>Brilliant - Aggregator</name>
+	<name>Aquarius - Aggregator</name>
  
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +72,7 @@
  
 	<modules>
 		<module>cerberus-assembly-domain</module>
-    <module>cerberus-abpm</module>
+    <module>cerberus-assembly</module>
 		<module>cerberus-utility</module>
 		<module>cerberus-osx</module>
 		<module>cerberus-codec</module>
@@ -85,14 +84,12 @@
 		<module>cerberus-i18n</module>
 		<module>cerberus-aux-domain</module>
 		<module>cerberus-aux</module>
-		<module>cerberus-cmx</module>
 		<module>cerberus-dispatcher</module>
 		<module>cerberus-dispatcher-api</module>
 		<module>cerberus-remote</module>
-		<module>cerberus-esi</module>
 		<module>cerberus-dmx</module>
 		<module>cerberus-aspector</module>
-		<module>cerberus-marshalling</module>
+		<module>cerberus-surrogate</module>
 		<module>cerberus</module>
     </modules>
 

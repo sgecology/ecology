@@ -18,22 +18,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.ecology.auth.comp.JWTService;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 import net.ecology.auth.persistence.UserPrincipalPersistence;
 import net.ecology.auth.service.AuthorityService;
 import net.ecology.auth.service.UserPrincipalService;
 import net.ecology.common.BeanUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.common.DateTimeUtility;
+import net.ecology.domain.auth.AuthorityGroup;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.Authority;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.exceptions.EcosExceptionCode;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.persistence.IPersistence;
 import net.ecology.framework.service.impl.GenericService;
-import net.ecology.model.auth.AuthorityGroup;
-import net.ecology.model.auth.UserAccountProfile;
 
 
 @Service
@@ -50,7 +50,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	private PasswordEncoder passwordEncoder;
 
 	@Inject
-	private JWTService jwtServiceProvider;
+	private TokenAuthenticationService jwtService;
 
 	@Override
   protected IPersistence<UserPrincipal, Long> getPersistence() {
@@ -63,16 +63,16 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String login) throws NgepAuthException {
+	public UserDetails loadUserByUsername(String login) throws AuthException {
 		logger.debug("Authenticating {}", login);
 		String lowercaseLogin = login;//.toLowerCase();
 		UserPrincipal userFromDatabase = repository.findByUsername(login);
 
 		if (null==userFromDatabase)
-			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
+			throw new AuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
 
 		if (Boolean.FALSE.equals(userFromDatabase.getEnabled()))
-			throw new NgepAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, String.format("User %s is not activated", lowercaseLogin));
+			throw new AuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, String.format("User %s is not activated", lowercaseLogin));
 
 		List<GrantedAuthority> grantedAuthorities = userFromDatabase.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthority())).collect(Collectors.toList());
@@ -90,24 +90,24 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 		}
 
 		if (!Boolean.TRUE.equals(userFromDatabase.getEnabled()))
-				throw new NgepAuthException(String.format("User with email %s is not activated", email));
+				throw new AuthException(String.format("User with email %s is not activated", email));
 		
 		Collection<? extends GrantedAuthority> authorities = userFromDatabase.getAuthorities();
 		return this.buildUserDetails(userFromDatabase, authorities);
 	}
 
 	@Override
-	public UserAccountProfile register(UserPrincipal userAccount) throws NgepAuthException {
+	public UserAccountProfile register(UserPrincipal userAccount) throws AuthException {
 		UserPrincipal updatedUserAccount = null;
 		UserAccountProfile registrationProfile = null;
 		try {
 			updatedUserAccount = (UserPrincipal)BeanUtility.clone(userAccount);
-			updatedUserAccount.setRegisteredDate(DateTimeUtility.getSystemDateTime());
+			updatedUserAccount.setRegisteredDate(DateTimeUtility.systemDateTime());
 
 			updatedUserAccount.setPassword(passwordEncoder.encode(updatedUserAccount.getPassword()));
 			updatedUserAccount = this.save(updatedUserAccount);
 
-			updatedUserAccount.setToken(jwtServiceProvider.generateToken(updatedUserAccount));
+			updatedUserAccount.setToken(jwtService.generateToken(updatedUserAccount));
 			updatedUserAccount = this.saveOrUpdate(updatedUserAccount);
 
 			registrationProfile = UserAccountProfile.builder()
@@ -115,7 +115,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 					.securityAccount(updatedUserAccount)
 					.build();
 		} catch (Exception e) {
-			throw new NgepAuthException(e);
+			throw new AuthException(e);
 		}
 		return registrationProfile;
 	}
@@ -168,7 +168,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}*/
 
 	@Override
-	public UserPrincipal getUserAccount(String loginId, String password) throws NgepAuthException {
+	public UserPrincipal getUserAccount(String loginId, String password) throws AuthException {
 		UserPrincipal authenticatedUser = null;
 		UserDetails userDetails = null;
 		UserPrincipal repositoryUser = null;
@@ -179,13 +179,13 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 		}
 
 		if (null == repositoryUser)
-			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
+			throw new AuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
 
 		if (!this.passwordEncoder.matches(password, repositoryUser.getPassword()))
-			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
+			throw new AuthException(EcosExceptionCode.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
 
 		if (!Boolean.TRUE.equals(repositoryUser.getEnabled()))
-			throw new NgepAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, "Login information is fine but this account did not activated yet. ");
+			throw new AuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, "Login information is fine but this account did not activated yet. ");
 
 		Collection<? extends GrantedAuthority> authorities = repositoryUser.getAuthorities();
 		userDetails = buildUserDetails(repositoryUser, authorities);
@@ -195,7 +195,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}
 
 	@Override
-	public UserPrincipal getUserAccount(String userToken) throws NgepAuthException {
+	public UserPrincipal getUserAccount(String userToken) throws AuthException {
 		UserPrincipal repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(userToken)){
 			repositoryUser = repository.findByEmail(userToken);
@@ -204,14 +204,14 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 		}
 
 		if (null==repositoryUser){
-			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
+			throw new AuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
 		}
 
 		return repositoryUser;
 	}
 
 	@Override
-	public void initializeMasterData() throws NgepAuthException {
+	public void initializeMasterData() throws AuthException {
 		//UserAccount adminUser = null, clientUser = null, user = null;
 		Authority clientRoleEntity = null, userRoleEntity = null, adminRoleEntity = null;
 		//Setup authorities/roles
@@ -246,15 +246,15 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 			userAuthorities.add(userRoleEntity);
 
 		} catch (Exception e) {
-			throw new NgepAuthException(e);
+			throw new AuthException(e);
 		}
 	}
 
 	@Override
-	public UserPrincipal confirm(String confirmedEmail) throws NgepAuthException {
+	public UserPrincipal confirm(String confirmedEmail) throws AuthException {
 		UserPrincipal confirmUser = repository.findByEmail(confirmedEmail);
 		if (null == confirmUser)
-			throw new NgepAuthException("The email not found in database: " + confirmedEmail);
+			throw new AuthException("The email not found in database: " + confirmedEmail);
 
 		confirmUser.setEnabled(true);
 		repository.save(confirmUser);

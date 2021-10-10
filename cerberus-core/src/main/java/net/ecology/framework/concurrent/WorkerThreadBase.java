@@ -5,14 +5,14 @@ package net.ecology.framework.concurrent;
 
 import java.util.concurrent.Callable;
 
-import net.ecology.framework.component.ComponentRoot;
-import net.ecology.model.Context;
+import net.ecology.domain.Context;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbq
  *
  */
-public abstract class WorkerThreadBase extends ComponentRoot implements Callable<Context> {
+public abstract class WorkerThreadBase extends BasisComp implements Callable<Context> {
 	private static final long serialVersionUID = -1054379747356010375L;
 
 	private Context executionContext;

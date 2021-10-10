@@ -12,17 +12,17 @@ import org.springframework.stereotype.Component;
 
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.common.CommonUtility;
-import net.ecology.exceptions.NgepAuthException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.domain.auth.UserAccountProfile;
+import net.ecology.exceptions.AuthException;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * Created by aLeXcBa1990 on 24/11/2018.
  * 
  */
 @Component(value="authenticationProvider")
-public class CustomAuthenticationProvider extends ComponentRoot implements AuthenticationProvider {
+public class CustomAuthenticationProvider extends BasisComp implements AuthenticationProvider {
 	/**
 	 * 
 	 */
@@ -43,7 +43,7 @@ public class CustomAuthenticationProvider extends ComponentRoot implements Authe
 			} else {
 				authenticateResp = authenticateByToken(authentication.getName());
 			}
-		} catch (NgepAuthException cae) {
+		} catch (AuthException cae) {
 			logger.error(cae);
 			throw cae;
 		}
@@ -55,7 +55,7 @@ public class CustomAuthenticationProvider extends ComponentRoot implements Authe
 		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
 	}
 
-	private Authentication authenticateBySsoId(String ssoId, String password) throws NgepAuthException {
+	private Authentication authenticateBySsoId(String ssoId, String password) throws AuthException {
 		Authentication authObject = null;
 		UserAccountProfile securityPrincipalProfile = null;
 		try {
@@ -67,13 +67,13 @@ public class CustomAuthenticationProvider extends ComponentRoot implements Authe
 				httpSessionFactory.getObject().setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, securityPrincipalProfile);
 			}
 		} catch (Exception uae) {
-			throw new NgepAuthException(uae);
+			throw new AuthException(uae);
 		}
 
 		return authObject;
 	}
 
-	private Authentication authenticateByToken(String token) throws NgepAuthException {
+	private Authentication authenticateByToken(String token) throws AuthException {
 		Authentication authByToken = null;
 		UserAccountProfile userAccountProfile = null;
 		try {
@@ -82,7 +82,7 @@ public class CustomAuthenticationProvider extends ComponentRoot implements Authe
 				authByToken = new UsernamePasswordAuthenticationToken(token, CommonUtility.STRING_BLANK, userAccountProfile.getSecurityAccount().getAuthorities());			
 			}
 		} catch (Exception e) {
-			throw new NgepAuthException(e);
+			throw new AuthException(e);
 		}
 
 		return authByToken;

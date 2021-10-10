@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class BusinessUnitSpecification extends CoreSpecifications <BusinessUnit, SearchSpec>{
+public class BusinessUnitSpecification extends SpecificationBasis <BusinessUnit, SearchSpec>{
 	/**
 	 * 
 	 */

@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
 
 import net.ecology.common.CommonUtility;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbui
  *
  */
 @Component
-public class ResourcesServicesHelper extends ComponentRoot {
+public class ResourcesServicesHelper extends BasisComp {
 	private static final String CLASSPATH = "classpath:/";
 	/**
 	 * 

@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-i18n</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Lingual</name>
+    <name>Aquarius - Lingual</name>
     <description>Module that contains all services for POS management in the project. </description>
 
 	<dependencies>

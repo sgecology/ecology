@@ -7,11 +7,11 @@
 	<artifactId>cerberus</artifactId>
 	<version>0.1</version>
 	<packaging>war</packaging>
-	<name>Brilliant - Web administration app</name>
+	<name>Aquarius - Web administration app</name>
 
 	<parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
 		<version>0.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -106,11 +106,6 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-marshalling</artifactId>
-			<version>${project.version}</version>
-		</dependency>
     <!-- <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cerberus-dmx</artifactId>

@@ -3,11 +3,11 @@ package net.ecology.auth.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.service.IGenericService;
-import net.ecology.model.auth.UserAccountProfile;
 
 public interface UserPrincipalService extends IGenericService<UserPrincipal, Long>, UserDetailsService {
     /**
@@ -22,7 +22,7 @@ public interface UserPrincipalService extends IGenericService<UserPrincipal, Lon
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	UserAccountProfile register(UserPrincipal user) throws NgepAuthException;
+	UserAccountProfile register(UserPrincipal user) throws AuthException;
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -52,8 +52,8 @@ public interface UserPrincipalService extends IGenericService<UserPrincipal, Lon
 
 	UserDetails loadUserByEmail(final String email);
 	//SecurityAccount save(SecurityAccount user);
-	UserPrincipal getUserAccount(String loginId, String password) throws NgepAuthException;
-	UserPrincipal getUserAccount(String userToken) throws NgepAuthException;
-	UserPrincipal confirm(String confirmedEmail) throws NgepAuthException;
-	void initializeMasterData() throws NgepAuthException;
+	UserPrincipal getUserAccount(String loginId, String password) throws AuthException;
+	UserPrincipal getUserAccount(String userToken) throws AuthException;
+	UserPrincipal confirm(String confirmedEmail) throws AuthException;
+	void initializeMasterData() throws AuthException;
 }

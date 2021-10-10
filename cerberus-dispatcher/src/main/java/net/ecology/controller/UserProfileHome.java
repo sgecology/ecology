@@ -20,17 +20,17 @@ import lombok.Getter;
 import lombok.Setter;
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.auth.service.UserPrincipalService;
+import net.ecology.common.CommonConstants;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.Context;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.exceptions.AccessDeniedException;
 import net.ecology.framework.controller.DetailHome;
 import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.Context;
-import net.ecology.model.auth.UserAccountProfile;
 import net.ecology.repository.GlobalDataRepository;
-import net.ecology.repository.GlobalEsiRepository;
 
 /**
  * @author ducbq
@@ -38,19 +38,13 @@ import net.ecology.repository.GlobalEsiRepository;
 @Named
 @FlowScoped("userProfileHome")
 public class UserProfileHome extends DetailHome<UserAccountProfile> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 122890735173420046L;
+	private static final long serialVersionUID = -7263475216587275607L;
 
 	@Inject
 	private UserPrincipalService businessService;
 
 	@Inject 
 	private AuthorizationService authorizationService;
-
-	@Inject 
-	private GlobalEsiRepository globalEsiRepository;
 
 	@Inject 
 	private GlobalDataRepository globalDataRepository;
@@ -171,10 +165,10 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 
 	private void preProcessUserAccount() {
 		if (null==this.entity.getId()){
-			int latDotPos = this.entity.getEmail().lastIndexOf(GlobeConstants.DOT_SEPARATOR);
+			int latDotPos = this.entity.getEmail().lastIndexOf(CommonConstants.DOT_SIGN);
 			String ssoId = this.entity.getEmail().substring(0, latDotPos)
-					.replace(GlobeConstants.DOT_SEPARATOR, GlobeConstants.STRING_BLANK)
-					.replace(GlobeConstants.AT_SIGN, GlobeConstants.STRING_BLANK);
+					.replace(CommonConstants.DOT_SIGN, GlobeConstants.STRING_BLANK)
+					.replace(CommonConstants.AT_SIGN, GlobeConstants.STRING_BLANK);
 			this.entity.setUsername(ssoId);
 		}
 	}
@@ -286,7 +280,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 
 	@Override
 	protected void onPreRenderComponent() {
-		this.globalDataRepository.dispatch(Context.builder().build().put(GlobeConstants.CONTEXT_DISPATCH_REPO_PATH, GlobeConstants.REPO_DIRECTORY + GlobeConstants.ALL_CSV_FILES));
+		//this.globalDataRepository.dispatch(Context.builder().build().put(GlobeConstants.CONTEXT_DISPATCH_REPO_PATH, GlobeConstants.REPO_DIRECTORY + GlobeConstants.ALL_CSV_FILES));
 		//this.globalEsiRepository.dispatch(GlobeConstants.REPO_DIRECTORY + GlobeConstants.ALL_CSV_FILES);
 		System.out.println("DONE!!!!!");
 	}

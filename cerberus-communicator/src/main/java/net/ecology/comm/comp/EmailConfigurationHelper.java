@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.entity.config.Configuration;
 import net.ecology.exceptions.CryptographyException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
 import net.ecology.security.GlobalCryptogramRepository;
@@ -22,7 +22,7 @@ import net.ecology.security.base.Cryptographer;
  * Global communication repository manager
  */
 @Component
-public class EmailConfigurationHelper extends ComponentRoot {
+public class EmailConfigurationHelper extends BasisComp {
 	private static final long serialVersionUID = -2433918570834008630L;
 
 	@Inject

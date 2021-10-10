@@ -7,8 +7,8 @@ import java.util.GregorianCalendar;
 
 import javax.inject.Inject;
 
+import net.ecology.domain.Context;
 import net.ecology.framework.logging.LogService;
-import net.ecology.model.Context;
 
 /**
  * @author bqduc_2

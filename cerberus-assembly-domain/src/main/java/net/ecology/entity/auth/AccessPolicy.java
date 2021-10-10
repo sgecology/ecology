@@ -35,8 +35,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.ecology.common.CollectionsUtility;
+import net.ecology.domain.auth.AccessDecision;
 import net.ecology.framework.entity.RepoObject;
-import net.ecology.model.auth.AccessDecision;
 
 /**
  * Module.

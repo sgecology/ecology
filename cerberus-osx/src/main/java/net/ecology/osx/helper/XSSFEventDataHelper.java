@@ -36,7 +36,7 @@ import net.ecology.exceptions.CerberusException;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
+import net.ecology.model.osx.XContainer;
 
 /**
  * @author bqduc
@@ -234,9 +234,9 @@ public class XSSFEventDataHelper {
 		return actualMaxPhysicalCells;
 	}
 
-	public OsxBucketContainer extractData(List<String> sheets, Map<Object, Object> configParams) throws InvalidOperationException, IOException, OpenXML4JException, SAXException{
+	public XContainer extractData(List<String> sheets, Map<Object, Object> configParams) throws InvalidOperationException, IOException, OpenXML4JException, SAXException{
 		InputStream stream = null;
-		OsxBucketContainer dataBucket = OsxBucketContainer.instance();
+		XContainer dataBucket = XContainer.instance();
 		ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(this.xlsxPackage);
 		XSSFReader xssfReader = new XSSFReader(this.xlsxPackage);
 		StylesTable styles = xssfReader.getStylesTable();
@@ -270,11 +270,11 @@ public class XSSFEventDataHelper {
 		return dataBucket;
 	}
 
-	private OsxBucketContainer extractXlsxData() throws CerberusException {
+	private XContainer extractXlsxData() throws CerberusException {
 		List<String> sheets = (List<String>)this.parameters.get(OSXConstants.PROCESSING_WORKSHEET_IDS);
 		AesZipFileZipEntrySource aesZipFileZipEntrySource = null;
 		InputStream stream = null;
-		OsxBucketContainer dataBucket = OsxBucketContainer.instance();
+		XContainer dataBucket = XContainer.instance();
 		try {
 			if (this.parameters.containsKey(OSXConstants.ENCRYPTED_KEYS)) {
 				aesZipFileZipEntrySource = AesZipFileZipEntrySource.createZipEntrySource((InputStream) this.parameters.get(OSXConstants.INPUT_STREAM));
@@ -317,10 +317,10 @@ public class XSSFEventDataHelper {
 		return dataBucket;
 	}
 
-	public OsxBucketContainer parseXlsxData() throws CerberusException {
+	public XContainer parseXlsxData() throws CerberusException {
 		InputStream inputStream = null;
 		String sheetName = null;
-		OsxBucketContainer dataBucket = OsxBucketContainer.instance();
+		XContainer dataBucket = XContainer.instance();
 		ReadOnlySharedStringsTable sharedStringTable = null;
 		XSSFReader xssfReader = null;
 		StylesTable styles = null;

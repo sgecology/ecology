@@ -17,10 +17,10 @@ import org.springframework.util.PathMatcher;
 import net.ecology.auth.service.AccessPolicyService;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.auth.AccessDecision;
 import net.ecology.entity.auth.AccessPolicy;
 import net.ecology.entity.auth.Authority;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.auth.AccessDecision;
 
 /**
  * @author ducbq

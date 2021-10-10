@@ -1,5 +1,13 @@
-Document code|Document Name|Secret key
-Access-Policy|decisions.csv|
-Schedules|schedules.csv|
-Messages|messages.csv|
-Catalogues|catalogues.csv|
+Configured key=Configured value
+Access-Policy=decisions.csv
+Schedules=schedules.csv
+Messages=messages.csv
+Catalogues=catalogues.csv
+
+SKIP_LINES_decisions.csv=0
+SKIP_LINES_Schedules.csv=1
+SKIP_LINES_messages.csv=0
+SKIP_LINES_catalogues.csv=0
+
+
+SP-Code|SP-Name|SP-StartTime|SP-Job|SP-Type|Job-Crontime|Job-Class|Job-Code|Job-Name|Job-Display Name|Job-Category

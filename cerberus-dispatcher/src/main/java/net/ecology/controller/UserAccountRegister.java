@@ -20,14 +20,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.auth.service.UserPrincipalService;
+import net.ecology.common.CommonConstants;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.exceptions.AccessDeniedException;
 import net.ecology.framework.controller.DetailHome;
 import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -163,10 +164,10 @@ public class UserAccountRegister extends DetailHome<UserAccountProfile>/*RootCon
 
 	private void preProcessUserAccount() {
 		if (null==this.entity.getId()){
-			int latDotPos = this.entity.getEmail().lastIndexOf(GlobeConstants.DOT_SEPARATOR);
+			int latDotPos = this.entity.getEmail().lastIndexOf(CommonConstants.DOT_SIGN);
 			String ssoId = this.entity.getEmail().substring(0, latDotPos)
-					.replace(GlobeConstants.DOT_SEPARATOR, GlobeConstants.STRING_BLANK)
-					.replace(GlobeConstants.AT_SIGN, GlobeConstants.STRING_BLANK);
+					.replace(CommonConstants.DOT_SIGN, GlobeConstants.STRING_BLANK)
+					.replace(CommonConstants.AT_SIGN, GlobeConstants.STRING_BLANK);
 			this.entity.setUsername(ssoId);
 		}
 	}

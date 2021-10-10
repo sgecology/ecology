@@ -24,7 +24,7 @@ public final class DateTimeUtility {
 	private static final String DEFAULT_MINIMUM_TIME_PATTERN = "31/12/1970 13:01:01";
 	private static final String DEFAULT_MAXIMUM_TIME_PATTERN = "31/12/2121 13:01:01";
 
-	private Calendar getCalendarInstance() {
+	private static Calendar calendarInstance() {
 		Calendar resp = new GregorianCalendar();
 		return resp;
 	}
@@ -42,7 +42,7 @@ public final class DateTimeUtility {
 	}
 
 	public Date fillSystemTimeParts(Date date){
-		Calendar fromCalendar = getCalendarInstance();
+		Calendar fromCalendar = calendarInstance();
 		fromCalendar.setTime(date);
 
 		Calendar calendar = Calendar.getInstance();
@@ -53,8 +53,8 @@ public final class DateTimeUtility {
 		return calendar.getTime();
 	}
 
-	public Date getSystemTime(){
-		return getCalendarInstance().getTime();
+	public static Date systemTime(){
+		return calendarInstance().getTime();
 	}
 
 	public static long getUtcTime(){
@@ -107,8 +107,8 @@ public final class DateTimeUtility {
 		return parseDateTime(DateTimePatterns.ddMMyyyyHHmmss_SLASH.getDateTimePattern(), configuredDefaultValue);
 	}
 
-	public static Date getSystemDate() {
-		Calendar sysCal = instance().getCalendarInstance();
+	public static Date systemDate() {
+		Calendar sysCal = calendarInstance();
 		sysCal.setTime(Calendar.getInstance().getTime());
 		sysCal.set(Calendar.HOUR_OF_DAY, 0);
 		sysCal.set(Calendar.MINUTE, 0);
@@ -117,19 +117,19 @@ public final class DateTimeUtility {
 		return sysCal.getTime();
 	}
 
-	public static Date getSystemDateTime() {
-		return instance().getSystemTime();
+	public static Date systemDateTime() {
+		return systemTime();
 	}
 
 	public static String getSystemDateTimeString() {
-		return dateToString(getSystemDateTime(), "dd/MM/yyyy HH:mm:ss");
+		return dateToString(systemDateTime(), "dd/MM/yyyy HH:mm:ss");
 	}
 
 	public static String getSystemDateTimeString(String pattern) {
 		if (CommonUtility.isEmpty(pattern))
 			return getSystemDateTimeString();
 
-		return dateToString(getSystemDateTime(), pattern);
+		return dateToString(systemDateTime(), pattern);
 	}
 
 	public static String dateToString(Date dateValue, String pattern) {
@@ -229,7 +229,7 @@ public final class DateTimeUtility {
 	}
 
 	public static long generateTimeStamp(){
-		return instance().getCalendarInstance().getTimeInMillis();
+		return instance().calendarInstance().getTimeInMillis();
 	}
 
 	public static Date getDummyMaxDate() {

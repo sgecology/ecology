@@ -20,7 +20,7 @@ import net.ecology.comm.exceptions.CommunicationException;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.exceptions.CryptographyException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
 import net.ecology.security.GlobalCryptogramRepository;
 import net.ecology.security.base.Cryptographer;
@@ -31,7 +31,7 @@ import net.ecology.security.base.Cryptographer;
  */
 @Component
 @Configuration
-public class EmailConfiguration extends ComponentRoot {
+public class EmailConfiguration extends BasisComp {
 	//@Inject
 	//private EmailConfigProperties emailProperties;
 

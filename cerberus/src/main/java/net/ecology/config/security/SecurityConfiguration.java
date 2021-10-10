@@ -29,7 +29,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import net.ecology.auth.comp.jwt.JsonWebTokenService;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 import net.ecology.config.jwt.JwtSecurityConfigurer;
 import net.ecology.global.GlobeConstants;
 import net.ecology.servlet.ServletConstants;
@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private CustomAuthenticationFailureHandler authenticationFailureHandler;
 
   @Inject
-  private JsonWebTokenService jwtTokenProvider;
+  private TokenAuthenticationService jsonWebTokenService;
 
 	@Configuration
 	@Order(1)
@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.httpBasic().and().csrf()
 					.disable()
 			
-					.apply(new JwtSecurityConfigurer(jwtTokenProvider))
+					.apply(new JwtSecurityConfigurer(jsonWebTokenService))
 			;
 			
       CharacterEncodingFilter filter = new CharacterEncodingFilter();

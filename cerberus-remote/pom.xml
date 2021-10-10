@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-remote</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Agent Domain</name>
+    <name>Aquarius - Agent Domain</name>
     <description>Module that contains all domain definition for the projects. </description>
 
 	<dependencies>

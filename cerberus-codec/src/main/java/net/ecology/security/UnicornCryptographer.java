@@ -33,7 +33,6 @@ import net.ecology.security.base.CryptographyBase;
  */
 @Builder
 public class UnicornCryptographer extends CryptographyBase implements Cryptographer {
-	private static final long serialVersionUID = -4992452627197880398L;
 
 	/*private static Cipher encryptCipher;
 	private static Cipher decryptCipher;*/

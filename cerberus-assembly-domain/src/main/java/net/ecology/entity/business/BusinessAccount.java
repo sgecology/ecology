@@ -36,13 +36,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.ecology.domain.general.PartnerType;
+import net.ecology.domain.model.GenderType;
 import net.ecology.embeddable.Address;
 import net.ecology.entity.general.GeneralCatalogue;
 import net.ecology.framework.entity.RepoObject;
 import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.GenderType;
-import net.ecology.model.general.PartnerType;
 
 /**
  * A business account.

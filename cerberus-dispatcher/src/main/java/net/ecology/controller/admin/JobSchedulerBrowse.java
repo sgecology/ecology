@@ -6,17 +6,17 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.ecology.entity.scheduler.ScheduleJob;
-import net.ecology.esi.service.JobScheduleService;
+import net.ecology.entity.scheduler.Schedule;
 import net.ecology.framework.controller.BrowserHome;
 import net.ecology.framework.model.NameFilter;
+import net.ecology.service.ScheduleService;
 
 /**
  * @author ducbq
  */
 @Named
 @ViewScoped
-public class JobSchedulerBrowse extends BrowserHome<ScheduleJob, NameFilter> {
+public class JobSchedulerBrowse extends BrowserHome<Schedule, NameFilter> {
   /**
    * 
    */
@@ -24,7 +24,7 @@ public class JobSchedulerBrowse extends BrowserHome<ScheduleJob, NameFilter> {
   private static final String cachedDataProp = "cachedJobDescriptors";
 
   @Inject
-  private JobScheduleService businessService;
+  private ScheduleService businessService;
 
   @Override
   public NameFilter createFilterModel() {
@@ -32,8 +32,8 @@ public class JobSchedulerBrowse extends BrowserHome<ScheduleJob, NameFilter> {
   }
 
   @Override
-  protected List<ScheduleJob> requestBusinessObjects() {
-    List<ScheduleJob> requestedBusinessObjects = (List<ScheduleJob>)this.fetchCachedData(cachedDataProp);
+  protected List<Schedule> requestBusinessObjects() {
+    List<Schedule> requestedBusinessObjects = (List<Schedule>)this.fetchCachedData(cachedDataProp);
     if (null == requestedBusinessObjects) {
       requestedBusinessObjects = businessService.getObjects();
       this.cachePut(cachedDataProp, requestedBusinessObjects);

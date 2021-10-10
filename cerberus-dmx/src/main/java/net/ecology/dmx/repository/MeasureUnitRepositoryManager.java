@@ -16,17 +16,17 @@ import net.ecology.css.service.general.MeasureUnitService;
 import net.ecology.dmx.helper.DmxCollaborator;
 import net.ecology.dmx.helper.DmxConfigurationHelper;
 import net.ecology.dmx.repository.base.DmxRepositoryBase;
+import net.ecology.domain.Context;
+import net.ecology.domain.model.ConfigureMarshallObjects;
+import net.ecology.domain.model.MarshallingObjects;
 import net.ecology.entity.config.Configuration;
 import net.ecology.entity.general.MeasureUnit;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.model.ConfigureMarshallObjects;
-import net.ecology.osx.model.MarshallingObjects;
+import net.ecology.model.osx.XContainer;
 
 /**
  * @author ducbui
@@ -54,7 +54,7 @@ public class MeasureUnitRepositoryManager extends DmxRepositoryBase {
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
 		XWorkbook dataWorkbook = null;
-		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
+		XContainer osxBucketContainer = (XContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
 			throw new CerberusException("There is no measure unit data in OSX container!");
 

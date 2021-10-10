@@ -3,7 +3,6 @@
  */
 package net.ecology.framework.persistence.predicate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,28 +19,25 @@ import net.ecology.common.CollectionsUtility;
  *
  */
 public class GenericSpecification<T> implements Specification<T> {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2418324700511712820L;
 
 	private List<SearchCriteria> list;
 
 	public GenericSpecification() {
-      this.list = new ArrayList<>();
+      this.list = CollectionsUtility.newList();
   }
 
-	public void add(SearchCriteria criteria) {
+	public GenericSpecification<T> add(SearchCriteria criteria) {
 		list.add(criteria);
+		return this;
 	}
 
 	@Override
 	public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
 		// create a new predicate list
 		List<Predicate> predicates = CollectionsUtility.newList();
 
-		// add add criteria to predicates
+    //add add criteria to predicates
 		for (SearchCriteria criteria : list) {
 			if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
 				predicates.add(builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString()));
@@ -59,6 +55,12 @@ public class GenericSpecification<T> implements Specification<T> {
 				predicates.add(builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%"));
 			} else if (criteria.getOperation().equals(SearchOperation.MATCH_END)) {
 				predicates.add(builder.like(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase() + "%"));
+			} else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
+				predicates.add(builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase()));
+			} else if (criteria.getOperation().equals(SearchOperation.IN)) {
+				predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
+			} else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {
+				predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
 			}
 		}
 

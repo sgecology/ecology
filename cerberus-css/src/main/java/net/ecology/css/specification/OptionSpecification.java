@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.system.Option;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class OptionSpecification extends CoreSpecifications<Option, SearchSpec>{
+public class OptionSpecification extends SpecificationBasis<Option, SearchSpec>{
 	/**
 	 * 
 	 */

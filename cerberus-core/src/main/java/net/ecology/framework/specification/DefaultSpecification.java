@@ -13,7 +13,7 @@ import net.ecology.framework.model.SearchParameter;
  *
  */
 @Builder
-public class DefaultSpecification<UserType, UserRequest> extends CoreSpecifications<UserType, UserRequest>{
+public class DefaultSpecification<UserType, UserRequest> extends SpecificationBasis<UserType, UserRequest>{
 	/**
 	 * 
 	 */

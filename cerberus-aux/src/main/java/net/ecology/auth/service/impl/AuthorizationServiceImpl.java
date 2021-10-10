@@ -14,27 +14,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import net.ecology.auth.comp.JWTServiceImpl;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 import net.ecology.auth.core.AuthorizationServiceBase;
 import net.ecology.auth.service.AccessPolicyService;
 import net.ecology.auth.service.AuthorityService;
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.auth.service.UserPrincipalService;
-import net.ecology.comm.comp.Communicator;
-import net.ecology.comm.domain.CorpMimeMessage;
+import net.ecology.comm.comp.CommunicatorManager;
+import net.ecology.comm.domain.MailMessage;
 import net.ecology.comm.global.CommunicatorConstants;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.common.DateTimeUtility;
+import net.ecology.domain.Context;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.AccessPolicy;
 import net.ecology.entity.auth.Authority;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.entity.auth.base.PrincipalDetails;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.global.GlobalConstants;
-import net.ecology.model.Context;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -42,11 +42,11 @@ import net.ecology.model.auth.UserAccountProfile;
  */
 @Service
 public class AuthorizationServiceImpl extends AuthorizationServiceBase implements AuthorizationService {
-	@Inject
-	private Communicator emailCommunicator;
+	@Inject 
+	private CommunicatorManager communicatorHelper;
 
 	@Inject
-	private JWTServiceImpl tokenProvider;
+	private TokenAuthenticationService webTokenService;
 
 	@Inject
 	private AuthorityService authorityService;
@@ -58,52 +58,52 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	private UserPrincipalService userPrincipalService;
 
 	@Override
-	public UserAccountProfile authenticate(String ssoId, String password) throws NgepAuthException {
+	public UserAccountProfile authenticate(String ssoId, String password) throws AuthException {
 		return this.generateSecurityPrincipalProfile(ssoId, password);
 	}
 
 	@Override
-	public UserAccountProfile authenticate(String loginToken) throws NgepAuthException {
+	public UserAccountProfile authenticate(String loginToken) throws AuthException {
 		return this.generateSecurityPrincipalProfile(loginToken, null);
 	}
 
 	@Override
-	public UserAccountProfile getActiveSecuredProfile() throws NgepAuthException {
+	public UserAccountProfile getActiveSecuredProfile() throws AuthException {
 		return this.getCurrentSecuredProfile();
 	}
 
 	@Override
-	public boolean hasPermission(String target, String action) throws NgepAuthException {
+	public boolean hasPermission(String target, String action) throws AuthException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public UserAccountProfile register(Context context) throws NgepAuthException {
+	public UserAccountProfile register(Context context) throws AuthException {
 		String confirmLink = null;
 		UserAccountProfile registrationProfile = null;
-		CorpMimeMessage mimeMessage = null;
+		MailMessage mailMessage = null;
 		try {
 			registrationProfile = userPrincipalService.register((UserPrincipal)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
 
-			mimeMessage = (CorpMimeMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
-			if (null==mimeMessage) {
-				mimeMessage = CorpMimeMessage.builder()
+			mailMessage = (MailMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
+			if (null==mailMessage) {
+				mailMessage = MailMessage.builder()
 						.subject(CommunicatorConstants.CTX_DEFAULT_REGISTRATION_SUBJECT)
 						.recipients(new String[] {registrationProfile.getSecurityAccount().getEmail()})
 						.build();
 			}
-			mimeMessage.setRecipients(new String[] {registrationProfile.getSecurityAccount().getEmail()});
-			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, registrationProfile.getSecurityAccount().getToken());
+			mailMessage.setRecipients(new String[] {registrationProfile.getSecurityAccount().getEmail()});
+			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, registrationProfile.getSecurityAccount().getToken());
 
-			confirmLink = (String)mimeMessage.getDefinitions().get(GlobalConstants.CONFIG_APP_ACCESS_URL);
-			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(registrationProfile.getSecurityAccount().getToken()).toString());
+			confirmLink = (String)mailMessage.getDefinitions().get(GlobalConstants.CONFIG_APP_ACCESS_URL);
+			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(registrationProfile.getSecurityAccount().getToken()).toString());
 
-			context.put(CommunicatorConstants.CTX_MIME_MESSAGE, mimeMessage);
+			context.put(CommunicatorConstants.CTX_MIME_MESSAGE, mailMessage);
 
-			emailCommunicator.send(context);
+			communicatorHelper.sendEmail(mailMessage);
 		} catch (Exception e) {
-			throw new NgepAuthException(e);
+			throw new AuthException(e);
 		}
 		return registrationProfile;
 	}
@@ -117,7 +117,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	public UserAccountProfile confirmByToken(String token) throws ObjectNotFoundException {
 		UserAccountProfile confirmedSecurityAccountProfile = UserAccountProfile.builder().build();
 		UserPrincipal confirnUserAccount = null;
-		PrincipalDetails userDetails = tokenProvider.generateAuthenticationDetails(token);
+		PrincipalDetails userDetails = webTokenService.resolve(token);
 		if (userDetails != null) {
 			confirnUserAccount = this.getUserAccount(userDetails.getUsername());
 		}
@@ -125,7 +125,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 		confirnUserAccount.addPrivilege(authorityService.getMinimumUserAuthority());
 		confirnUserAccount.setEnabled(Boolean.TRUE);
 		confirnUserAccount.setVisible(Boolean.TRUE);
-		confirnUserAccount.setEnabledDate(DateTimeUtility.getSystemDateTime());
+		confirnUserAccount.setEnabledDate(DateTimeUtility.systemDateTime());
 
 		securityAccountService.save(confirnUserAccount);
 		confirmedSecurityAccountProfile.setSecurityAccount(confirnUserAccount);
@@ -182,7 +182,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public UserPrincipal saveSecurityAccountProfile(UserPrincipal securityAccountProfile) throws NgepAuthException {
+	public UserPrincipal saveSecurityAccountProfile(UserPrincipal securityAccountProfile) throws AuthException {
 		if (CommonUtility.isEmpty(securityAccountProfile.getPassword())) {
 			UserPrincipal verifySecurityAccountProfile = this.userPrincipalService.getObject(securityAccountProfile.getId());
 			securityAccountProfile.setPassword(verifySecurityAccountProfile.getPassword());

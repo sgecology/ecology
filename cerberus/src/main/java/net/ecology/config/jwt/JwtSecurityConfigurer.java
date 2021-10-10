@@ -8,16 +8,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import net.ecology.auth.comp.jwt.JsonWebTokenService;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 
 /**
  * @author ducbq
  *
  */
 public class JwtSecurityConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-  private JsonWebTokenService jwtTokenProvider;
+  private TokenAuthenticationService jwtTokenProvider;
 
-  public JwtSecurityConfigurer(JsonWebTokenService jwtTokenProvider) {
+  public JwtSecurityConfigurer(TokenAuthenticationService jwtTokenProvider) {
       this.jwtTokenProvider = jwtTokenProvider;
   }
 

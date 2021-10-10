@@ -42,10 +42,10 @@ import lombok.Setter;
 import lombok.ToString;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.DateTimeUtility;
+import net.ecology.domain.model.DateTimePatterns;
 import net.ecology.entity.auth.base.PrincipalDetails;
 import net.ecology.entity.auth.base.PrincipalEntity;
 import net.ecology.entity.contact.Contact;
-import net.ecology.model.DateTimePatterns;
 
 /**
  * A user. UserAccountProfile
@@ -80,10 +80,20 @@ public class UserPrincipal extends PrincipalEntity implements PrincipalDetails {
 	@ManyToOne
 	@JoinColumn(name = "contact_id")
 	private Contact contact;	
-	
+
 	@Transient
 	public String getDisplayName() {
-		return this.contact.getDisplayName();
+		return this.name();
+	}
+
+	@Override
+	public String name() {
+		return this.contact.name();
+	}
+
+	@Override
+	public void name(String name) {
+		this.contact.name(name);
 	}
 
 	@Transient

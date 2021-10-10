@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-css-domain</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Cross Sharing Services Domain</name>
+    <name>Aquarius - Cross Sharing Services Domain</name>
     <description>Module that contains all domain definitions for the projects. </description>
 
 	<dependencies>

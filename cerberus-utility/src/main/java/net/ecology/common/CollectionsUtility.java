@@ -20,6 +20,7 @@ import net.ecology.model.ui.UISelectItem;
  * @author bqduc
  *
  */
+@SuppressWarnings("unchecked")
 public class CollectionsUtility {
 	@SafeVarargs
 	public static <T> List<T> newList(T ...initialValues){
@@ -34,7 +35,7 @@ public class CollectionsUtility {
 		return newList();
 	}
 
-	public static <T> Collection<T> newList(){
+	public static <T> List<T> newList(){
 		return createArrayList();
 	}
 
@@ -53,8 +54,16 @@ public class CollectionsUtility {
 		return (T[])objects.toArray();
 	}
 
+	public static <T> T[] newArray(short size) {
+		Collection<T> result = newCollection();
+		for (short i = 0; i < size; ++i) {
+			result.add(null);
+		}
+		return (T[])result.toArray();
+	}
+
 	public static <K, T> Map <K, T> newHashedMap(Object ...keyValuePairs){
-		Map<K, T> retMap = new HashMap<>();
+		Map<K, T> retMap = newHashedMap();
 		for (int i = 0; i < keyValuePairs.length; i+= 2) {
 			K key = (K)keyValuePairs[i];
 			T value = (T)keyValuePairs[i+1];
@@ -62,6 +71,10 @@ public class CollectionsUtility {
 		}
 
 		return retMap;
+	}
+
+	public static <K, T> Map <K, T> newHashedMap(){
+		return new HashMap<>();
 	}
 
 	public static <T> HashSet <T> newHashSet(){

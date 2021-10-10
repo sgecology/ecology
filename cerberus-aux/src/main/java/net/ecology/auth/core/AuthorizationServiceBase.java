@@ -11,12 +11,12 @@ import org.springframework.security.core.userdetails.User;
 
 import net.ecology.auth.service.UserPrincipalService;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.GrantedPermission;
 import net.ecology.entity.auth.UserPrincipal;
 import net.ecology.exceptions.EcosExceptionCode;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -26,7 +26,7 @@ public abstract class AuthorizationServiceBase {
 	@Inject
 	protected UserPrincipalService securityAccountService;
 
-	protected UserAccountProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws NgepAuthException {
+	protected UserAccountProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws AuthException {
 		//UserAccountProfile userAccount = null;
 		UserAccountProfile securityAccountProfile = null;
 
@@ -40,7 +40,7 @@ public abstract class AuthorizationServiceBase {
 		}
 
 		if (null==userPrincipal)
-			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, "There is empty authentication user account");
+			throw new AuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, "There is empty authentication user account");
 
 		securityAccountProfile = UserAccountProfile.builder()
 				.securityAccount(userPrincipal)
@@ -54,7 +54,7 @@ public abstract class AuthorizationServiceBase {
 		return securityAccountProfile;
 	}
 
-	protected UserAccountProfile getCurrentSecuredProfile() throws NgepAuthException {
+	protected UserAccountProfile getCurrentSecuredProfile() throws AuthException {
 		UserAccountProfile fetchedResponse = null;
 		Object systemPrincipal = getSystemPrincipal();
 		UserPrincipal userAccount = null;

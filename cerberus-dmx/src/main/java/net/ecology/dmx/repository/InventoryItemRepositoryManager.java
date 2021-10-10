@@ -20,6 +20,8 @@ import net.ecology.css.service.stock.InventoryService;
 import net.ecology.dmx.helper.DmxCollaborator;
 import net.ecology.dmx.helper.DmxConfigurationHelper;
 import net.ecology.dmx.repository.base.DmxRepositoryBase;
+import net.ecology.domain.Context;
+import net.ecology.domain.model.ConfigureMarshallObjects;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.entity.config.Configuration;
 import net.ecology.entity.general.Catalogue;
@@ -32,12 +34,10 @@ import net.ecology.entity.stock.InventoryItem;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.global.GlobalConstants;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
-import net.ecology.osx.model.ConfigureMarshallObjects;
+import net.ecology.model.osx.XContainer;
 import net.ecology.service.general.CatalogueService;
 
 /**
@@ -82,14 +82,14 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
 		List<String> marshallingObjects = null;
 		XWorkbook dataWorkbook = null;
-		OsxBucketContainer osxBucketContainer = null;
+		XContainer osxBucketContainer = null;
 		try {
 			marshallingObjects = (List<String>)executionContext.get(OSXConstants.MARSHALLING_OBJECTS);
 			if (CommonUtility.isEmpty(executionContext.get(OSXConstants.MARSHALLED_CONTAINER)))
 				return executionContext;
 
 			String workingDatabookId = dmxCollaborator.getConfiguredDataCatalogueWorkbookId();
-			osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
+			osxBucketContainer = (XContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 			if (CommonUtility.isEmpty(osxBucketContainer))
 				throw new CerberusException("There is no data in OSX container!");
 

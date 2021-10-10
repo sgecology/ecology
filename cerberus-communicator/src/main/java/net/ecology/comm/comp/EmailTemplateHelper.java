@@ -19,14 +19,14 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
 import net.ecology.comm.global.CommunicatorConstants;
 import net.ecology.common.CommonUtility;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author ducbq
  *
  */
 @Component
-public class EmailTemplateHelper extends ComponentRoot {
+public class EmailTemplateHelper extends BasisComp {
 	private static final long serialVersionUID = -1213645548853344008L;
 
 	private String emailTemplateLoadingDir;

@@ -12,9 +12,6 @@ import javax.inject.Inject;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.stereotype.Component;
 
 import net.ecology.common.CollectionsUtility;
@@ -22,9 +19,12 @@ import net.ecology.common.CommonUtility;
 import net.ecology.entity.i18n.I18nLocale;
 import net.ecology.entity.i18n.Message;
 import net.ecology.framework.persistence.IPersistence;
+import net.ecology.framework.persistence.predicate.SearchCriteria;
+import net.ecology.framework.persistence.predicate.SearchOperation;
 import net.ecology.framework.service.impl.GenericService;
 import net.ecology.lingual.persistence.LocalePersistence;
 import net.ecology.lingual.persistence.MessagePersistence;
+import net.ecology.specification.MessageSpecification;
 
 /**
  * @author ducbq
@@ -159,15 +159,12 @@ public class MessageServiceImpl extends GenericService<Message, Long> implements
 
 	@Override
 	public boolean exists(I18nLocale locale, String messageKey) {
-		Message probe = Message.builder()
-				.key(messageKey)
-				.locale(locale)
-				.build();
+		MessageSpecification messageSpecification = (MessageSpecification)MessageSpecification.builder().build()
+			.add(new SearchCriteria("key", messageKey, SearchOperation.EQUAL))
+			.add(new SearchCriteria("locale", locale, SearchOperation.EQUAL));
 
-		ExampleMatcher localeMatcher = ExampleMatcher.matching().withIgnorePaths("key"); 
-			  //.withMatcher("locale",	new GenericPropertyMatcher().ignoreCase());
-		Example<Message> message = Example.of(probe, localeMatcher);
-		return this.labelPersistence.exists(message);
+		long counter = this.labelPersistence.count(messageSpecification);
+		return (counter > 0);
 	}
 
 	@Override

@@ -43,7 +43,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -52,7 +51,6 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import net.ecology.exceptions.CerberusException;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.IOContainer;
 
 /**
  * @author bqduc
@@ -69,7 +67,7 @@ public class CommonUtility implements GlobeConstants {
 	protected static final CommonUtility instance = new CommonUtility();
 	private static List<String> TURN_ON_VALUES = new ArrayList<>();
 	
-	public static final Integer ZERO_INTEGER = new Integer(0);
+	public static final Integer ZERO_INTEGER = Integer.valueOf(0);
 	public static final BigDecimal ZERO_BIG_DECIMAL = new BigDecimal(0);
 	public static final int CALENDAR_FIELD_DAY_OF_MONTH = Calendar.DAY_OF_MONTH;
 	public static final int CALENDAR_FIELD_MONTH = Calendar.MONTH;
@@ -262,12 +260,12 @@ public class CommonUtility implements GlobeConstants {
 		if (data == null)
 			return true;
 
-		if (data instanceof String) {
-			String stringData = (String) data;
-			if (stringData.length() < 1)
-				return true;
+		/*if (data instanceof IOContext) {
+			return ((IOContext)data).isEmpty();
+		}*/
 
-			return false;
+		if (data instanceof String) {
+			return (((String) data).length() < 1);
 		}
 
 		if (data instanceof Collection){
@@ -411,13 +409,13 @@ public class CommonUtility implements GlobeConstants {
 	}
 
 	public static String getFileExtension(String path) {
-		int lastSepPos = path.lastIndexOf(GlobeConstants.FILE_EXTENSION_SEPARATOR);
+		int lastSepPos = path.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		return path.substring(lastSepPos+1);
 	}
 
 	public static String getFileBaseName(String path) {
-		int lastPathSep = path.lastIndexOf(GlobeConstants.FILE_PATH_SEPARATOR);
-		int extSepPos = path.lastIndexOf(GlobeConstants.FILE_EXTENSION_SEPARATOR);
+		int lastPathSep = path.lastIndexOf(CommonConstants.FILE_PATH_SEPARATOR);
+		int extSepPos = path.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		return path.substring(lastPathSep+1, extSepPos);
 	}
 

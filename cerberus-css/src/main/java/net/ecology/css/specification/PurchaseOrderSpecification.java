@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.emx.PurchaseOrder;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class PurchaseOrderSpecification extends CoreSpecifications<PurchaseOrder, SearchSpec>{
+public class PurchaseOrderSpecification extends SpecificationBasis<PurchaseOrder, SearchSpec>{
 	/**
 	 * 
 	 */

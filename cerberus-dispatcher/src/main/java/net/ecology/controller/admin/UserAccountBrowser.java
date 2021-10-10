@@ -12,8 +12,8 @@ import javax.inject.Named;
 import net.ecology.auth.service.UserAccountProfileService;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.domain.model.Filter;
-import net.ecology.model.auth.UserAccountProfile;
 
 /**
  * @author ducbq

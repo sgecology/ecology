@@ -14,16 +14,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import net.ecology.common.CollectionsUtility;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.domain.Context;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
-import net.ecology.model.Context;
 
 /**
  * @author ducbq
  *
  */
 @Component
-public class ExecutorServiceHelper extends ComponentRoot {
+public class ExecutorServiceHelper extends BasisComp {
 	/**
 	 * 
 	 */

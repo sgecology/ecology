@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.MessageSource;
 
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 
 /**
  * @author bqduc
  *
  */
-public abstract class UIControllerRoot extends ComponentRoot {
+public abstract class UIControllerRoot extends BasisComp {
 	/**
 	 * 
 	 */

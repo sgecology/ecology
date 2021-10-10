@@ -9,14 +9,14 @@ import lombok.Builder;
 import net.ecology.entity.general.Currency;
 import net.ecology.framework.model.SearchParameter;
 import net.ecology.framework.model.SearchSpec;
-import net.ecology.framework.specification.CoreSpecifications;
+import net.ecology.framework.specification.SpecificationBasis;
 
 /**
  * @author bqduc
  *
  */
 @Builder
-public class CurrencySpecification extends CoreSpecifications<Currency, SearchSpec>{
+public class CurrencySpecification extends SpecificationBasis<Currency, SearchSpec>{
 
 	/**
 	 * 

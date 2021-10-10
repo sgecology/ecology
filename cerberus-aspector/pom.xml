@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 	
     <artifactId>cerberus-aspector</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - Aspect management services</name>
+    <name>Aquarius - Aspect management services</name>
     <description>Module that contains all aspect services for enterprise management in the project. </description>
 
 	<dependencies>

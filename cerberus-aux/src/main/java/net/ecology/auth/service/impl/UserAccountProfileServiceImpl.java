@@ -5,16 +5,16 @@ import javax.inject.Inject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.ecology.auth.comp.JWTService;
+import net.ecology.auth.certificate.TokenAuthenticationService;
 import net.ecology.auth.service.AuthorityService;
 import net.ecology.auth.service.UserAccountProfileService;
 import net.ecology.auth.service.UserPrincipalService;
+import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.persistence.IPersistence;
 import net.ecology.framework.service.impl.GenericService;
-import net.ecology.model.auth.UserAccountProfile;
 
 
 @Service
@@ -34,7 +34,7 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	private PasswordEncoder passwordEncoder;
 
 	@Inject
-	private JWTService jwtServiceProvider;
+	private TokenAuthenticationService jwtService;
 
 	@Inject
 	protected UserPrincipalService securityAccountService;
@@ -50,7 +50,7 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	}
 
 	@Override
-	public UserAccountProfile register(UserPrincipal user) throws NgepAuthException {
+	public UserAccountProfile register(UserPrincipal user) throws AuthException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,7 +80,7 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	}
 
 	@Override
-	public UserAccountProfile confirm(String confirmedEmail) throws NgepAuthException {
+	public UserAccountProfile confirm(String confirmedEmail) throws AuthException {
 		// TODO Auto-generated method stub
 		return null;
 	}

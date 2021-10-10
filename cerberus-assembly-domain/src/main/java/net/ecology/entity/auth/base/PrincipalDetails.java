@@ -52,4 +52,7 @@ public interface PrincipalDetails extends UserDetails, Entity {
 
 	//Boolean getSystemAdmin();
 	//void setSystemAdmin(Boolean systemAdmin);
+
+	String name();
+	void name(String name);
 }

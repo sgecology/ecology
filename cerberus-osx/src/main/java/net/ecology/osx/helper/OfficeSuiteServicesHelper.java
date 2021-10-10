@@ -12,11 +12,11 @@ import java.util.Map;
 import lombok.Builder;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
+import net.ecology.domain.Context;
 import net.ecology.exceptions.CerberusException;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
+import net.ecology.model.osx.XContainer;
 import net.ecology.osx.model.OfficeMarshalType;
 
 /**
@@ -45,8 +45,8 @@ public class OfficeSuiteServicesHelper implements Serializable {
 		return executionContext;
 	}
 
-	public OsxBucketContainer loadDefaultZipConfiguredData(final File sourceZipFile) throws CerberusException {
-		OsxBucketContainer bucketContainer = null;
+	public XContainer loadDefaultZipConfiguredData(final File sourceZipFile) throws CerberusException {
+		XContainer bucketContainer = null;
 		Context executionContext = null;
 		try {
 			executionContext = this.initConfigData(sourceZipFile);
@@ -60,15 +60,15 @@ public class OfficeSuiteServicesHelper implements Serializable {
 		return bucketContainer;
 	}
 
-	public OsxBucketContainer loadDefaultZipConfiguredData(final Context executionContext) throws CerberusException {
+	public XContainer loadDefaultZipConfiguredData(final Context executionContext) throws CerberusException {
 		return OfficeSuiteServiceProvider
 					.builder()
 					.build()
 					.loadSpreadsheetInZip(executionContext);
 	}
 
-	public OsxBucketContainer loadZipDataFromInputStream(final String originFileName, final InputStream inputStream) throws CerberusException {
-		OsxBucketContainer bucketContainer = null;
+	public XContainer loadZipDataFromInputStream(final String originFileName, final InputStream inputStream) throws CerberusException {
+		XContainer bucketContainer = null;
 		Context executionContext = null;
 		File targetDataFile = null;
 		try {
@@ -84,7 +84,7 @@ public class OfficeSuiteServicesHelper implements Serializable {
 		return bucketContainer;
 	}
 
-  public OsxBucketContainer loadOfficeDataFromCompressedInputStream(Context context) throws CerberusException {
+  public XContainer loadOfficeDataFromCompressedInputStream(Context context) throws CerberusException {
     return OfficeSuiteServiceProvider
           .builder()
           .build()

@@ -15,21 +15,21 @@ import com.github.javafaker.Faker;
 
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
-import net.ecology.common.GenderTypeUtility;
 import net.ecology.css.service.contact.ContactService;
 import net.ecology.dmx.helper.DmxCollaborator;
 import net.ecology.dmx.repository.base.DmxRepositoryBase;
+import net.ecology.domain.Context;
 import net.ecology.embeddable.Address;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.entity.contact.Contact;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.framework.entity.Entity;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.Context;
 import net.ecology.model.XWorkbook;
 import net.ecology.model.XWorksheet;
 import net.ecology.model.osx.OSXConstants;
-import net.ecology.model.osx.OsxBucketContainer;
+import net.ecology.model.osx.XContainer;
+import net.ecology.utility.GenderTypeUtility;
 
 /**
  * @author ducbui
@@ -52,7 +52,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	@Override
 	protected Context doUnmarshallBusinessObjects(Context executionContext) throws CerberusException {
 		XWorkbook dataWorkbook = null;
-		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
+		XContainer osxBucketContainer = (XContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
 			throw new CerberusException("There is no data in OSX container!");
 

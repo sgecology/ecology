@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Service;
 
 import net.ecology.exceptions.EcosExceptionCode;
-import net.ecology.exceptions.NgepAuthException;
+import net.ecology.exceptions.AuthException;
 import net.ecology.framework.logging.LogService;
 
 /**
@@ -30,9 +30,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		StringBuilder message = new StringBuilder("/login.xhtml?authfailed=true");
-		NgepAuthException cae = null;
-		if (exception.getCause() instanceof NgepAuthException) {
-			cae = (NgepAuthException) exception.getCause();
+		AuthException cae = null;
+		if (exception.getCause() instanceof AuthException) {
+			cae = (AuthException) exception.getCause();
 			request.getSession().setAttribute("authenticateResultAtt", generateAuthMessage(cae.getAuthenticationCode()));
 		}
 

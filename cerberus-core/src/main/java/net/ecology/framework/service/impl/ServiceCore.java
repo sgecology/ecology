@@ -19,7 +19,7 @@ import net.ecology.common.BeanUtility;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.exceptions.CerberusException;
 import net.ecology.exceptions.ContextExecutionException;
-import net.ecology.framework.component.ComponentRoot;
+import net.ecology.framework.component.BasisComp;
 import net.ecology.framework.entity.Repo;
 import net.ecology.framework.persistence.IPersistence;
 import net.ecology.framework.service.IService;
@@ -27,7 +27,7 @@ import net.ecology.global.GlobeConstants;
 
 
 @Service
-public abstract class ServiceCore<EntityType extends Repo, Key extends Serializable> extends ComponentRoot implements IService<EntityType, Key>{
+public abstract class ServiceCore<EntityType extends Repo, Key extends Serializable> extends BasisComp implements IService<EntityType, Key>{
 	private static final long serialVersionUID = 7920908481607510076L;
 
 	protected abstract IPersistence<EntityType, Key> getPersistence();

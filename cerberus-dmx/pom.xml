@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>net.acerberus</groupId>
-		<artifactId>aquariums</artifactId>
+		<artifactId>aquarius</artifactId>
         <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cerberus-dmx</artifactId>
     <packaging>jar</packaging>
-    <name>Brilliant - DMX</name>
+    <name>Aquarius - DMX</name>
     <description>Module that contains all services for clinical trial and data management in the project. </description>
 
 	<dependencies>
@@ -31,12 +31,6 @@
 			<artifactId>cerberus-osx</artifactId>
 			<version>${project.version}</version>
 		</dependency>	
-<!--
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-esmx</artifactId>
-			<version>${project.version}</version>
-		</dependency>	-->
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -52,9 +46,21 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-marshalling</artifactId>
+			<artifactId>cerberus-assembly-domain</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>cerberus-utility</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>cerberus-utility</artifactId>
+			<version>${project.version}</version>
+		</dependency> -->
 
     <dependency>
 			<groupId>joda-time</groupId>
@@ -87,6 +93,39 @@
 		    <artifactId>javafaker</artifactId>
 		    <version>${version.javafaker}</version>
 		</dependency>
-
+	<!-- Quartz JOb Scheduling-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP-java6</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	<!-- End of Quartz JOb Scheduling-->
+<!-- https://mvnrepository.com/artifact/net.redhogs.cronparser/cron-parser -->
+	<dependency>
+	    <groupId>net.redhogs.cronparser</groupId>
+	    <artifactId>cron-parser</artifactId>
+	    <version>3.5</version>
+	    <type>pom</type>
+	</dependency>
+<!-- https://mvnrepository.com/artifact/net.redhogs.cronparser/cron-parser-core -->
+<dependency>
+    <groupId>net.redhogs.cronparser</groupId>
+    <artifactId>cron-parser-core</artifactId>
+    <version>3.5</version>
+</dependency>
 	</dependencies>
 </project>

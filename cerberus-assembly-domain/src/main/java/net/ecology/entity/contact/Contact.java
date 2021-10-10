@@ -44,15 +44,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.ecology.common.CollectionsUtility;
-import net.ecology.domain.entity.Attachment;
+import net.ecology.domain.general.PartnerType;
+import net.ecology.domain.model.GenderType;
 import net.ecology.entity.business.BusinessAccount;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.entity.general.Catalogue;
 import net.ecology.framework.entity.RepoObject;
 import net.ecology.global.GlobalConstants;
 import net.ecology.global.GlobeConstants;
-import net.ecology.model.GenderType;
-import net.ecology.model.general.PartnerType;
 
 /**
  * A contact.
@@ -83,7 +82,7 @@ public class Contact extends RepoObject {
   @Setter @Getter
   @ManyToOne
   @JoinColumn(name = "assistant_id")
-  private BusinessAccount assistant;
+  private Contact assistant;
 
   @Setter @Getter
   @ManyToOne
@@ -94,10 +93,6 @@ public class Contact extends RepoObject {
   @Column(name="record_type", length=10)
   private String recordType; //Determines which pick list values are available for the record.
 
-  @Setter @Getter
-  @Column(name="department", length=30)
-  private String department;
-  
   @Setter @Getter
   @Column(name="first_name", length=50)
 	private String firstName;
@@ -119,7 +114,7 @@ public class Contact extends RepoObject {
   private String phones;
 
   @Setter @Getter
-  @Column(name="emergency_phone", length=20)
+  @Column(name="emergency_phone", length=GlobalConstants.SIZE_STRING_SMALL)
   private String emergencyPhone;
 
 	@Setter @Getter
@@ -225,59 +220,35 @@ public class Contact extends RepoObject {
 	@Builder.Default
 	@Transient
 	private Set<ContactTeam> contactTeams = CollectionsUtility.newHashSet();
-	  
+
+  @Setter @Getter
+	@Builder.Default
+	@Transient
+	private Set<ContactDocument> documents = CollectionsUtility.newHashSet();
+
   @Setter @Getter
 	@ManyToOne
-	@JoinColumn(name = "proxy_contact_id")
+	@JoinColumn(name = "proxy_id")
 	private Contact proxy;
 
   @Setter @Getter
 	@ManyToOne
-	@JoinColumn(name = "introducer_contact_id")
+	@JoinColumn(name = "introducer_id")
 	private Contact introducer;
 
   @Setter @Getter
   @Column(name="issue_date")
   private Date issueDate;
 
-  /*@Setter @Getter
-	@ManyToOne
-  @JoinColumn(name="issuer_id")
-  private UserPrincipal issuedBy;*/
-	
 	@Setter @Getter
 	@Column(name="activation_key", length=20)
 	@JsonIgnore
 	private String activationKey;
 
   @Setter @Getter
-	@Column(name="reset_key", length=20)
-	@JsonIgnore
-	private String resetKey;
-
-  @Setter @Getter
-	@Column(name="reset_date")
-	private Date resetDate;
+	@Column(name="activation_date")
+	private Date activationDate;
 	
-  @Setter @Getter
-  @Column(name="portal_name", length=50)
-	private String portalName;
-
-  @Setter @Getter
-	@JsonIgnore
-	@Column(name="portal_secret_key", length=50)
-	private String portalSecretKey;
-
-  @Setter @Getter
-	@Builder.Default
-	@Column(name = "portal_active")
-	private Boolean portalActive = false;
-
-  @Setter @Getter
-	@ManyToOne
-	@JoinColumn(name = "sms_opt_in_id")
-	private Catalogue smsOptIn;
-
   @Setter @Getter
 	@ManyToOne
 	@JoinColumn(name = "business_unit_id")
@@ -287,21 +258,6 @@ public class Contact extends RepoObject {
 	@ManyToOne
 	@JoinColumn(name = "referal_id")
 	private Contact referal;
-
-  @Setter @Getter
-	@Builder.Default
-	@Column(name = "sync_contact")
-	private Boolean syncContact = false;
-
-  @Setter @Getter
-	@Builder.Default
-	@Column(name = "do_not_call")
-	private Boolean doNotCall = false;
-
-  @Setter @Getter
-	@Builder.Default
-	@Column(name = "email_opt_out")
-	private Boolean emailOptOut = false;
 
   @Setter @Getter
 	@ManyToOne
@@ -357,13 +313,26 @@ public class Contact extends RepoObject {
 	private String ethnicity;
   
 	@Setter @Getter
-	@ManyToOne(targetEntity=Attachment.class, fetch=FetchType.EAGER)
-	@JoinColumn(name = "attachment_id")
-	private Attachment attachment;
-
-	@Setter @Getter
 	@Lob @Basic(fetch = FetchType.LAZY)
 	@Column(name="profile_picture")
   private byte[] profilePicture;
-  
+
+	@Transient
+	public String name() {
+		return new StringBuilder()
+		.append(this.firstName)
+		.append(GlobeConstants.NAME_SEPARATOR)
+		.append(this.lastName)
+		.toString();
+	}
+
+	@Transient
+	public void name(String name) {
+		if (!name.contains(GlobeConstants.NAME_SEPARATOR))
+			return;
+
+		String[] nameParts = name.split(GlobeConstants.NAME_SEPARATOR);
+		this.firstName = nameParts[0];
+		this.lastName = nameParts[1];
+	}
 }
