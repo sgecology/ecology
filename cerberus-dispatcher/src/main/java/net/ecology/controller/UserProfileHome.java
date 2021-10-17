@@ -22,9 +22,7 @@ import net.ecology.auth.service.AuthorizationService;
 import net.ecology.auth.service.UserPrincipalService;
 import net.ecology.common.CommonConstants;
 import net.ecology.common.CommonUtility;
-import net.ecology.domain.Context;
-import net.ecology.domain.auth.UserAccountProfile;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.exceptions.AccessDeniedException;
 import net.ecology.framework.controller.DetailHome;
@@ -54,7 +52,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 	private Long id;
 
 	private BusinessUnit businessUnit;
-	private UserPrincipal entity;
+	private UserAccountProfile entity;
 
 	@Setter
 	@Getter
@@ -86,13 +84,13 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 			this.entity = businessService.getObject(userId);
 
 			UserAccountProfile securityPrincipalProfile = this.getUserAccountProfile();
-			if (null == securityPrincipalProfile || null == securityPrincipalProfile.getSecurityAccount() || !userId.equals(securityPrincipalProfile.getSecurityAccount().getId())) {
+			if (null == securityPrincipalProfile || !userId.equals(securityPrincipalProfile.getId())) {
 				//////////////////// Leak
 				logger.info("Illegal access. ");
 				return;
 			}
 		} else {
-			this.entity = UserPrincipal.builder().build();
+			this.entity = UserAccountProfile.builder().build();
 		}
 	}
 
@@ -152,9 +150,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 			this.authorizationService.saveSecurityAccountProfile(this.entity);
 
 			//Synchronize back to session
-			UserAccountProfile securityPrincipalProfile = (UserAccountProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
-			securityPrincipalProfile.setSecurityAccount(entity);
-			this.httpSession.setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, securityPrincipalProfile);
+			this.httpSession.setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, this.entity);
 
 			System.out.println("Update account");
 			Faces.redirect("/index.jsf");
@@ -174,7 +170,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 	}
 
 	public void clear() {
-		this.entity = UserPrincipal.builder().build();
+		this.entity = UserAccountProfile.builder().build();
 		id = null;
 	}
 
@@ -182,11 +178,11 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 		return this.entity == null || this.entity.getId() == null;
 	}
 
-	public UserPrincipal getEntity() {
+	public UserAccountProfile getEntity() {
 		return entity;
 	}
 
-	public void setEntity(UserPrincipal entity) {
+	public void setEntity(UserAccountProfile entity) {
 		this.entity = entity;
 	}
 
@@ -194,7 +190,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 		Object selectedObject = event.getObject(); 
 		if (selectedObject instanceof BusinessUnit) {
 			this.setBusinessUnit((BusinessUnit)selectedObject);
-			this.entity.getContact().setBusinessUnit(this.businessUnit);
+			//this.entity.getContact().setBusinessUnit(this.businessUnit);
 			//this.entity.setBusinessUnitCode(this.businessUnit.getCode());
 		}
 		//FacesMessage msg = new FacesMessage("Selected", "Item:" + item); 
@@ -259,11 +255,11 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 	*/
 
 	public void handleUpload(FileUploadEvent event) {
-		this.entity.getContact().setProfilePicture(event.getFile().getContent());
+		this.entity.setPicture(event.getFile().getContent());
 	}
 
 	public String getImageContentsAsBase64() {
-    return Base64.getEncoder().encodeToString(this.entity.getContact().getProfilePicture());
+    return Base64.getEncoder().encodeToString(this.entity.getPicture());
 	}
 	
 	@Override
@@ -274,7 +270,7 @@ public class UserProfileHome extends DetailHome<UserAccountProfile> {
 		if (null != id) {
 			this.entity = businessService.getObject(Long.valueOf(id));
 		} else {
-			this.entity = UserPrincipal.builder().build();
+			this.entity = UserAccountProfile.builder().build();
 		}
 	}
 

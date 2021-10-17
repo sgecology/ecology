@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.contact.Contact;
 import net.ecology.entity.doc.DocumentBase;
 import net.ecology.entity.doc.DocumentType;
@@ -68,7 +68,7 @@ public class OrderNote extends DocumentBase {
 	@Getter
   @ManyToOne
   @JoinColumn(name="CLERK_ID")
-  private UserPrincipal clerk;
+  private UserAccountProfile clerk;
 
   /*@OneToMany(mappedBy = "owner", cascade=CascadeType.ALL )
   @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)*/

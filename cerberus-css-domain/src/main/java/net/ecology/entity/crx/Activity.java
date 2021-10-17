@@ -36,7 +36,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.ecology.eaux.entity.AuthenticateAccount;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.general.Currency;
 import net.ecology.entity.general.GeneralCatalogue;
 import net.ecology.framework.entity.RepoObject;
@@ -111,7 +111,7 @@ public class Activity extends RepoObject {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private AuthenticateAccount owner;
+	private UserAccountProfile owner;
 
 	@Column(name = "cost")
 	private BigDecimal cost;
@@ -219,11 +219,11 @@ public class Activity extends RepoObject {
 		this.subCategory = subCategory;
 	}
 
-	public AuthenticateAccount getOwner() {
+	public UserAccountProfile getOwner() {
 		return owner;
 	}
 
-	public void setOwner(AuthenticateAccount owner) {
+	public void setOwner(UserAccountProfile owner) {
 		this.owner = owner;
 	}
 

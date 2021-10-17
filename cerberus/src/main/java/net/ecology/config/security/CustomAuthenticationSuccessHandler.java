@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import net.ecology.auth.service.AuthorizationService;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -39,7 +39,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 	  log.info("onAuthenticationSuccess");
 		//User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	  UserPrincipal userAccount = null;
+	  UserAccountProfile userAccount = null;
 		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof String) {
 			userAccount = authorizationService.getUserAccount((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		}

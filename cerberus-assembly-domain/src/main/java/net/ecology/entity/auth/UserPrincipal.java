@@ -12,7 +12,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
+
 package net.ecology.entity.auth;
 
 import java.util.Collection;
@@ -47,16 +47,16 @@ import net.ecology.entity.auth.base.PrincipalDetails;
 import net.ecology.entity.auth.base.PrincipalEntity;
 import net.ecology.entity.contact.Contact;
 
-/**
- * A user. UserAccountProfile
+*//**
+ * A user. UserProfile
  * 
  * @author bqduc
- */
+ *//*
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "aux_security_account")
+@Table(name = "aux_user_account")
 @ToString(exclude = { "grantedAuthorities" })
 @EqualsAndHashCode(callSuper = true)
 public class UserPrincipal extends PrincipalEntity implements PrincipalDetails {
@@ -143,4 +143,4 @@ public class UserPrincipal extends PrincipalEntity implements PrincipalDetails {
 		}
 		return instance;
 	}
-}
+}*/

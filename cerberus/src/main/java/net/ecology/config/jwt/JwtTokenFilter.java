@@ -19,7 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import net.ecology.auth.certificate.TokenAuthenticationService;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.base.UserAccountDetails;
 
 /**
  * @author ducbq
@@ -36,7 +36,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
 		Authentication authentication = null;
-		PrincipalDetails authenticationDetails = null;
+		UserAccountDetails authenticationDetails = null;
 		try {
 			//HttpServletRequest request = (HttpServletRequest)req;
 //			System.out.println(request.getHeader("authorization"));

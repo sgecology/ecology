@@ -19,8 +19,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import net.ecology.common.Base64Utils;
 import net.ecology.common.StringUtilities;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
+import net.ecology.entity.base.UserAccountDetails;
 import net.ecology.framework.component.BasisComp;
 
 /**
@@ -41,7 +41,7 @@ public class JsonWebTokenAuthenticationServiceImpl extends BasisComp implements 
   private static final long JWT_EXPIRATION_IN_DECADE = 315532800000L; 
   private static final long JWT_EXPIRATION_INDEFINITE = JWT_EXPIRATION_IN_DECADE*3; //in 30 years
 
-  private String generateRegularToken(PrincipalDetails userDetails, long expirationIn) {
+  private String generateRegularToken(UserAccountDetails userDetails, long expirationIn) {
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + expirationIn);
     // Tạo chuỗi json web token từ id của user.
@@ -54,23 +54,23 @@ public class JsonWebTokenAuthenticationServiceImpl extends BasisComp implements 
   }
 
   // Tạo ra jwt từ thông tin user
-  public String generateToken(PrincipalDetails userDetails) {
+  public String generateToken(UserAccountDetails userDetails) {
   	return generateRegularToken(userDetails, JWT_EXPIRATION);
   }
 
-  public String generateIndefiniteToken(PrincipalDetails userDetails) {
+  public String generateIndefiniteToken(UserAccountDetails userDetails) {
   	return generateRegularToken(userDetails, JWT_EXPIRATION_INDEFINITE);
   }
 
-  private String marshall(PrincipalDetails userDetails) {
+  private String marshall(UserAccountDetails userDetails) {
   	return new StringBuilder(Long.toString(userDetails.getId()))
   			.append(TOKEN_SUBJECT_SEPARATOR)
   			.append(userDetails.getUsername())
   			.toString();
   }
 
-  private PrincipalDetails unmarshall(String source) {
-  	PrincipalDetails userDetails = null;
+  private UserAccountDetails unmarshall(String source) {
+  	UserAccountDetails userDetails = null;
   	if (!source.contains(TOKEN_SUBJECT_SEPARATOR))
   		return null;
 
@@ -81,12 +81,12 @@ public class JsonWebTokenAuthenticationServiceImpl extends BasisComp implements 
   	return userDetails;
 	}
 
-  private PrincipalDetails initiateUserDetails() {
-  	PrincipalDetails userDetails = new UserPrincipal();
+  private UserAccountDetails initiateUserDetails() {
+  	UserAccountDetails userDetails = new UserAccountProfile();
   	return userDetails;
   }
 
-  public PrincipalDetails resolve(String jWebToken) {
+  public UserAccountDetails resolve(String jWebToken) {
     Claims claims = Jwts.parser()
         .setSigningKey(JWT_SECRET)
         .parseClaimsJws(jWebToken)

@@ -517,7 +517,7 @@
                         	<img src="data:image/png;base64,#{globalDispatcher.userProfileImageContentsAsBase64}" width="30" height="30" />
                     </div>
                     <p>
-                        #{globalDispatcher.securityAccountProfile.displayName}
+                        #{globalDispatcher.securityAccountProfile.firstName}
                         <small>#{globalDispatcher.securityAccountProfile.getDisplayRoles()}</small>
                     </p>
                 </li>
@@ -525,10 +525,10 @@
                     <h:form prependId="false">
                         <div class="pull-left">
                              <h:outputLink rendered="#{empty request.remoteUser}" value="${pageContext.request.contextPath}/login.xhtml"><i class="fa fa-sign-in fa-2x"></i></h:outputLink>
-                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile.securityAccount}" value="/pages/public/user/userProfile.jsf?id=#{globalDispatcher.securityAccountProfile.securityAccount.id}">
+                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile}" value="/pages/public/user/userProfile.jsf?id=#{globalDispatcher.securityAccountProfile.id}">
                              	<i class="fa fa-user fa-2x"></i>
                              </h:outputLink>
-                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile.securityAccount}" value="${pageContext.request.contextPath}/pages/user/changePassword.jsf"><i class="fa fa-key fa-2x"></i></h:outputLink>
+                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile}" value="${pageContext.request.contextPath}/pages/user/changePassword.jsf"><i class="fa fa-key fa-2x"></i></h:outputLink>
                         </div>
                         <div class="pull-right">
                              <h:outputLink rendered="#{not empty request.remoteUser}" value="${pageContext.request.contextPath}/j_spring_security_logout" target="/"><i class="fa fa-sign-out fa-2x"></i></h:outputLink>

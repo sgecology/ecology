@@ -12,8 +12,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import net.ecology.common.DateTimeUtility;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
+import net.ecology.entity.base.UserAccountDetails;
 
 /**
  * @author ducbq
@@ -24,9 +24,9 @@ public class TokenServiceHelper {
 	public static final String TOKEN_SUBJECT_SEPARATOR = "#";
   private final String JWT_SECRET = "S1mpl3l#57";
 
-	public String generateToken(PrincipalDetails principalDetails, TokenExpirationPolicy tokenExpirationPolicy, TokenGenerationPolicy generationPolicy) {
+	public String generateToken(UserAccountDetails principalDetails, ExpirationPolicy tokenExpirationPolicy, TokenGenerationPolicy generationPolicy) {
 		Date issuedDate = DateTimeUtility.systemTime();
-		Date expiryDate = DateTimeUtility.add(issuedDate, Calendar.MINUTE, tokenExpirationPolicy.getExpirationPolicy());
+		Date expiryDate = DateTimeUtility.add(issuedDate, Calendar.MINUTE, tokenExpirationPolicy.getExpiredPolicy());
     return Jwts.builder()
                .setSubject(buildSubject(principalDetails, generationPolicy, TOKEN_SUBJECT_SEPARATOR))
                .setIssuedAt(issuedDate)
@@ -35,7 +35,7 @@ public class TokenServiceHelper {
                .compact();
 	}
 
-	public PrincipalDetails resolve(String token) {
+	public UserAccountDetails resolve(String token) {
     Claims claims = Jwts.parser()
         .setSigningKey(JWT_SECRET)
         .parseClaimsJws(token)
@@ -44,7 +44,7 @@ public class TokenServiceHelper {
 		return resovleToken(claims.getSubject());
 	}
 
-  private String buildSubject(PrincipalDetails userDetails, TokenGenerationPolicy generationPolicy, String separator) {
+  private String buildSubject(UserAccountDetails userDetails, TokenGenerationPolicy generationPolicy, String separator) {
   	StringBuilder subject = null;
   	switch (generationPolicy) {
   	case SsoIdObjId:
@@ -63,13 +63,19 @@ public class TokenServiceHelper {
   		subject = new StringBuilder()
 			.append(userDetails.getUsername())
 			.append(separator)
-			.append(userDetails.name());
+			.append(userDetails.getFirstName())
+			.append(separator)
+			.append(userDetails.getLastName())
+			;
   		break;
   	case EmailName:
   		subject = new StringBuilder()
 			.append(userDetails.getEmail())
 			.append(separator)
-			.append(userDetails.name());
+			.append(userDetails.getFirstName())
+			.append(separator)
+			.append(userDetails.getLastName())
+			;
   		break;
   	}
 
@@ -80,12 +86,12 @@ public class TokenServiceHelper {
   	return subject.toString();
   }
 
-  private PrincipalDetails resovleToken(String token) {
-  	PrincipalDetails userDetails = null;
+  private UserAccountDetails resovleToken(String token) {
+  	UserAccountDetails userDetails = null;
   	if (!token.contains(TOKEN_SUBJECT_SEPARATOR))
   		return null;
 
-  	userDetails = initiateUserDetails();
+  	userDetails = newUserAccountDetails();
   	String[] tokenParts = token.split(TOKEN_SUBJECT_SEPARATOR);
   	//Last part are generation policy
   	switch (TokenGenerationPolicy.valueOf(tokenParts[tokenParts.length-1])) {
@@ -99,18 +105,20 @@ public class TokenServiceHelper {
   		break;
   	case SsoIdName:
     	userDetails.setUsername(tokenParts[0]);
-    	userDetails.name(tokenParts[1]);
+    	userDetails.setFirstName(tokenParts[1]);
+    	userDetails.setLastName(tokenParts[2]);
   		break;
   	case EmailName:
     	userDetails.setEmail(tokenParts[0]);
-    	userDetails.name(tokenParts[1]);
+    	userDetails.setFirstName(tokenParts[1]);
+    	userDetails.setLastName(tokenParts[2]);
   		break;
   	}
 
   	return userDetails;
 	}
 
-  private PrincipalDetails initiateUserDetails() {
-  	return UserPrincipal.builder().build();
+  private UserAccountDetails newUserAccountDetails() {
+  	return UserAccountProfile.builder().build();
   }
 }

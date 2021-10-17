@@ -230,7 +230,7 @@ public abstract class GenericService<ClassType extends Repo, Key extends Seriali
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<ClassType> getObjects() {
-		List<ClassType> results = new ArrayList<>();
+		List<ClassType> results = CollectionsUtility.newList();
 		getPersistence().findAll().forEach(results::add);
 		return results;
 	}

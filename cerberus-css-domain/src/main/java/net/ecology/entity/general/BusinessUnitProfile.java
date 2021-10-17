@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.business.BusinessUnit;
 import net.ecology.entity.contact.Contact;
 import net.ecology.framework.entity.RepoObject;
@@ -44,7 +44,7 @@ public class BusinessUnitProfile extends RepoObject {
 	@Setter @Getter
 	@ManyToOne
 	@JoinColumn(name = "issuer_id")
-	private UserPrincipal issuer;
+	private UserAccountProfile issuer;
 
 	@Setter @Getter
 	@Column(name = "issue_number", length=GlobalConstants.SIZE_STRING_TINY)
@@ -57,7 +57,7 @@ public class BusinessUnitProfile extends RepoObject {
 	@Setter @Getter
 	@ManyToOne
 	@JoinColumn(name = "approve_user_id")
-	private UserPrincipal approver;
+	private UserAccountProfile approver;
 
 	@Setter @Getter
 	@Column(name = "expiration_policy", length=GlobalConstants.SIZE_STRING_TINY)

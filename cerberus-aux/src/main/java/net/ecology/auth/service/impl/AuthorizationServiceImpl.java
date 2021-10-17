@@ -27,11 +27,10 @@ import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.common.DateTimeUtility;
 import net.ecology.domain.Context;
-import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.AccessPolicy;
 import net.ecology.entity.auth.Authority;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
+import net.ecology.entity.base.UserAccountDetails;
 import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.global.GlobalConstants;
@@ -59,12 +58,12 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 
 	@Override
 	public UserAccountProfile authenticate(String ssoId, String password) throws AuthException {
-		return this.generateSecurityPrincipalProfile(ssoId, password);
+		return this.authenticatePrincipalProfile(ssoId, password);
 	}
 
 	@Override
 	public UserAccountProfile authenticate(String loginToken) throws AuthException {
-		return this.generateSecurityPrincipalProfile(loginToken, null);
+		return this.authenticatePrincipalProfile(loginToken, null);
 	}
 
 	@Override
@@ -84,20 +83,20 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 		UserAccountProfile registrationProfile = null;
 		MailMessage mailMessage = null;
 		try {
-			registrationProfile = userPrincipalService.register((UserPrincipal)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
+			registrationProfile = userPrincipalService.register((UserAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
 
 			mailMessage = (MailMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
 			if (null==mailMessage) {
 				mailMessage = MailMessage.builder()
 						.subject(CommunicatorConstants.CTX_DEFAULT_REGISTRATION_SUBJECT)
-						.recipients(new String[] {registrationProfile.getSecurityAccount().getEmail()})
+						.recipients(new String[] {registrationProfile.getEmail()})
 						.build();
 			}
-			mailMessage.setRecipients(new String[] {registrationProfile.getSecurityAccount().getEmail()});
-			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, registrationProfile.getSecurityAccount().getToken());
+			mailMessage.setRecipients(new String[] {registrationProfile.getEmail()});
+			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, registrationProfile.getToken());
 
 			confirmLink = (String)mailMessage.getDefinitions().get(GlobalConstants.CONFIG_APP_ACCESS_URL);
-			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(registrationProfile.getSecurityAccount().getToken()).toString());
+			mailMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(registrationProfile.getToken()).toString());
 
 			context.put(CommunicatorConstants.CTX_MIME_MESSAGE, mailMessage);
 
@@ -109,15 +108,15 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public UserPrincipal getUserAccount(String ssoId) throws ObjectNotFoundException {
+	public UserAccountProfile getUserAccount(String ssoId) throws ObjectNotFoundException {
 		return securityAccountService.get(ssoId);
 	}
 
 	@Override
 	public UserAccountProfile confirmByToken(String token) throws ObjectNotFoundException {
 		UserAccountProfile confirmedSecurityAccountProfile = UserAccountProfile.builder().build();
-		UserPrincipal confirnUserAccount = null;
-		PrincipalDetails userDetails = webTokenService.resolve(token);
+		UserAccountProfile confirnUserAccount = null;
+		UserAccountDetails userDetails = webTokenService.resolve(token);
 		if (userDetails != null) {
 			confirnUserAccount = this.getUserAccount(userDetails.getUsername());
 		}
@@ -128,7 +127,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 		confirnUserAccount.setEnabledDate(DateTimeUtility.systemDateTime());
 
 		securityAccountService.save(confirnUserAccount);
-		confirmedSecurityAccountProfile.setSecurityAccount(confirnUserAccount);
+		//confirmedSecurityAccountProfile.setSecurityAccount(confirnUserAccount);
 		return confirmedSecurityAccountProfile;
 	}
 
@@ -138,7 +137,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public List<AccessPolicy> getAccessDecisionPolicies(PrincipalDetails authenticationDetails) throws ObjectNotFoundException {
+	public List<AccessPolicy> getAccessDecisionPolicies(UserAccountDetails authenticationDetails) throws ObjectNotFoundException {
 		List<AccessPolicy> accessDecisionPolicies = CollectionsUtility.newList();
 		List<AccessPolicy> currentADPs = null; 
 		for (GrantedAuthority authority :authenticationDetails.getAuthorities()) {
@@ -182,9 +181,9 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public UserPrincipal saveSecurityAccountProfile(UserPrincipal securityAccountProfile) throws AuthException {
+	public UserAccountProfile saveSecurityAccountProfile(UserAccountProfile securityAccountProfile) throws AuthException {
 		if (CommonUtility.isEmpty(securityAccountProfile.getPassword())) {
-			UserPrincipal verifySecurityAccountProfile = this.userPrincipalService.getObject(securityAccountProfile.getId());
+			UserAccountProfile verifySecurityAccountProfile = this.userPrincipalService.getObject(securityAccountProfile.getId());
 			securityAccountProfile.setPassword(verifySecurityAccountProfile.getPassword());
 		}
 		this.securityAccountService.save(securityAccountProfile);

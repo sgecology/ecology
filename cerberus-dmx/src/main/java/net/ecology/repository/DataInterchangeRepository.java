@@ -15,9 +15,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import net.ecology.GlobalAppConstants;
 import net.ecology.auth.certificate.TokenAuthenticationService;
-import net.ecology.auth.certificate.TokenExpirationPolicy;
+import net.ecology.auth.certificate.ExpirationPolicy;
 import net.ecology.auth.certificate.TokenGenerationPolicy;
 import net.ecology.auth.certificate.TokenServiceHelper;
 import net.ecology.auth.service.AccessPolicyService;
@@ -26,17 +25,18 @@ import net.ecology.auth.service.UserPrincipalService;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonConstants;
 import net.ecology.common.CommonUtility;
+import net.ecology.common.DateTimeUtility;
 import net.ecology.config.AccessPolicyMarshallConfig;
 import net.ecology.config.ContactMarshallConfig;
 import net.ecology.css.service.config.ConfigurationService;
 import net.ecology.css.service.contact.ContactService;
 import net.ecology.dmx.manager.GlobalDmxManager;
+import net.ecology.domain.AccessDecision;
 import net.ecology.domain.Context;
 import net.ecology.domain.MarshallingProvider;
 import net.ecology.entity.auth.AccessPolicy;
 import net.ecology.entity.auth.Authority;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.config.Configuration;
 import net.ecology.entity.contact.Contact;
 import net.ecology.entity.i18n.I18nLocale;
@@ -425,12 +425,13 @@ public class DataInterchangeRepository extends BasisComp {
 
 			accessDecisionPolicy = marshaller.unmarshal(accessPolicyParts);
 			if (null != accessDecisionPolicy) {
+				accessDecisionPolicy.setAccessDecision(AccessDecision.ACCESS_GRANTED);
 				accessDecisionPolicy.addAccessDecisionAuthority(authority);
 				accessPolicyService.saveAndFlush(accessDecisionPolicy);
 			}
 			//accessDecisionPolicy = marshallAccessPolicy(authority, accessPolicyParts);
 			
-			this.loadUserPrincipalProfiles(accessPolicyParts, authority);
+			this.loadUserAccountProfiles(accessPolicyParts, authority);
 		}
 	}
 
@@ -464,26 +465,29 @@ public class DataInterchangeRepository extends BasisComp {
   	return loadedContact;
   }
 
-  private UserPrincipal loadUserPrincipalProfiles(String[] accessPolicyParts, Authority authority) {
+  private UserAccountProfile loadUserAccountProfiles(String[] accessPolicyParts, Authority authority) {
 		final String propSsoId = "username";
-  	UserPrincipal userPrincipal = null;
-  	Contact contact = null;
+  	UserAccountProfile userAccountProfile = null;
   	String token = null;
   	if (!this.userPrincipalService.exists(propSsoId, accessPolicyParts[AccessPolicyMarshallConfig.accessPolicySsoId.index()])) {
-  		contact = loadContact(accessPolicyParts);
-  		userPrincipal = UserPrincipal.valueOf(accessPolicyParts[AccessPolicyMarshallConfig.accessPolicySsoId.index()], 
+  		userAccountProfile = UserAccountProfile.valueOf(
+  				accessPolicyParts[AccessPolicyMarshallConfig.accessPolicySsoId.index()], 
 					this.passwordEncoder.encode(accessPolicyParts[AccessPolicyMarshallConfig.accessPolicySsoId.index()]), 
 					accessPolicyParts[AccessPolicyMarshallConfig.accessPolicyEmail.index()], 
-					new Authority[] {authority});
+					new Authority[] {authority}, 
+					accessPolicyParts[AccessPolicyMarshallConfig.accessPolicyFirstName.index()], 
+					accessPolicyParts[AccessPolicyMarshallConfig.accessPolicyLastName.index()]);
 
-  		userPrincipal.setContact(contact);
-  		
-  		token = this.tokenServiceHelper.generateToken(userPrincipal, TokenExpirationPolicy.expirationFourWeeks, TokenGenerationPolicy.SsoIdEmail);
-  		userPrincipal.setToken(token);
-  		this.userPrincipalService.save(userPrincipal);
-			//syncSecurityToken(userPrincipal);
+  		token = this.tokenServiceHelper.generateToken(userAccountProfile, ExpirationPolicy.tokenExpirationFourWeeks, TokenGenerationPolicy.SsoIdEmail);
+  		userAccountProfile.setToken(token);
+  		userAccountProfile.setRegisteredDate(DateTimeUtility.systemDateTime());
+  		userAccountProfile.setEnabledDate(userAccountProfile.getRegisteredDate());
+  		userAccountProfile.setVisible(Boolean.TRUE);
+  		userAccountProfile.setEnabled(Boolean.TRUE);
+  		userAccountProfile.setExpirationPolicy((short)ExpirationPolicy.expirationInMonth.getExpiredPolicy());
+  		this.userPrincipalService.save(userAccountProfile);
 		}
-  	return userPrincipal;
+  	return userAccountProfile;
   }
 
   private String[] buildContactParts(String[] accessPolicyParts) {
@@ -516,10 +520,10 @@ public class DataInterchangeRepository extends BasisComp {
   	return userPrincipal;
   }*/
 
-	private UserPrincipal syncSecurityToken(PrincipalDetails authProfile) {
+	private UserAccountProfile syncSecurityToken(UserAccountProfile authProfile) {
 		String indefiniteToken = this.jwtServiceProvider.generateIndefiniteToken(authProfile);
 		authProfile.setToken(indefiniteToken);
-		this.userPrincipalService.save((UserPrincipal) authProfile);
-		return (UserPrincipal) authProfile;
+		this.userPrincipalService.save((UserAccountProfile) authProfile);
+		return (UserAccountProfile) authProfile;
 	}
 }

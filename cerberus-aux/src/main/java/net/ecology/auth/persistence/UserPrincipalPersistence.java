@@ -18,11 +18,11 @@ package net.ecology.auth.persistence;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.framework.persistence.IPersistence;
 
 /**
- * Repository interface for the {@link UserPrincipal} entity. It contains methods for
+ * Repository interface for the {@link UserAccountProfile} entity. It contains methods for
  * regular <code>CRUD</code> operations
  * 
  * @author bqduc
@@ -30,28 +30,28 @@ import net.ecology.framework.persistence.IPersistence;
  */
 @Repository
 @Transactional
-public interface UserPrincipalPersistence extends IPersistence<UserPrincipal, Long> {
+public interface UserPrincipalPersistence extends IPersistence<UserAccountProfile, Long> {
 	/**
-	 * Retrieves a {@link UserPrincipal} entity from the underlying data store by its
+	 * Retrieves a {@link UserAccountProfile} entity from the underlying data store by its
 	 * ResetKey
 	 * 
 	 * @param ssoId
 	 *            the login
 	 * @return a User entity
-	 * @see UserPrincipal#getResetKey()
+	 * @see UserAccountProfile#getResetKey()
 	 */
-	UserPrincipal findByUsername(String ssoId);
+	UserAccountProfile findByUsername(String ssoId);
 
 	/**
-	 * Retrieves a {@link UserPrincipal} entity from the underlying datastore by its
+	 * Retrieves a {@link UserAccountProfile} entity from the underlying datastore by its
 	 * Email
 	 * 
 	 * @param email
 	 *            the User's email
 	 * @return a User entity
-	 * @see UserPrincipal#getEmail()
+	 * @see UserAccountProfile#getEmail()
 	 */
-	UserPrincipal findByEmail(String email);
+	UserAccountProfile findByEmail(String email);
 
 	/**
 	 * Retrieves the number of entities from the underlying data store by its
@@ -60,7 +60,7 @@ public interface UserPrincipalPersistence extends IPersistence<UserPrincipal, Lo
 	 * @param login
 	 *            the user name
 	 * @return a User entity
-	 * @see UserPrincipal#getLogin()
+	 * @see UserAccountProfile#getLogin()
 	 */
 	Long countByUsername(String login);
 	

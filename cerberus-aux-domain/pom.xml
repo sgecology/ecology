@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>cerberus-core</artifactId>
+			<artifactId>cerberus-assembly-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>	
 

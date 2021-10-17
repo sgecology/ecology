@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.ecology.eaux.entity.AuthenticateAccount;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.contact.Team;
 import net.ecology.entity.general.Currency;
 import net.ecology.framework.entity.RepoObject;
@@ -46,9 +46,9 @@ public class Campaign extends RepoObject{
 	@Column(name = GlobeConstants.PROP_NAME, nullable = false, unique=true, length=200)
 	private String name;
 
-	@ManyToOne(targetEntity=AuthenticateAccount.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=UserAccountProfile.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "currency_id")
-	private AuthenticateAccount assignedTo;
+	private UserAccountProfile assignedTo;
 
 	@Column(name="status")
   @Enumerated(EnumType.ORDINAL)
@@ -113,11 +113,11 @@ public class Campaign extends RepoObject{
 		this.name = name;
 	}
 
-	public AuthenticateAccount getAssignedTo() {
+	public UserAccountProfile getAssignedTo() {
 		return assignedTo;
 	}
 
-	public void setAssignedTo(AuthenticateAccount assignedTo) {
+	public void setAssignedTo(UserAccountProfile assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 

@@ -15,9 +15,6 @@ import net.ecology.global.GlobalConstants;
  *
  */
 public abstract class BasisComp implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7003880176947562783L;
 
 	@Inject

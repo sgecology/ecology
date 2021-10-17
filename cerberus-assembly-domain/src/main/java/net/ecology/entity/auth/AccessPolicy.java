@@ -12,7 +12,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
+
 package net.ecology.entity.auth;
 
 import java.util.List;
@@ -35,17 +35,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.ecology.common.CollectionsUtility;
-import net.ecology.domain.auth.AccessDecision;
+import net.ecology.domain.AccessDecision;
 import net.ecology.framework.entity.RepoObject;
 
-/**
+*//**
  * Module.
  * 
  * @author bqduc
- */
+ *//*
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+net.ecology.domain.Builder
 @Entity
 @Table(name = "aux_access_policy")
 public class AccessPolicy extends RepoObject {
@@ -64,11 +64,11 @@ public class AccessPolicy extends RepoObject {
   @Enumerated(EnumType.ORDINAL)
 	private AccessDecision accessDecision = AccessDecision.ACCESS_ABSTAIN;
 
-	/*@Setter
+	@Setter
 	@Getter
 	@ManyToOne
 	@JoinColumn(name = "authority_id")
-	private Authority authority;*/
+	private Authority authority;
 
 	@Setter
 	@Getter
@@ -100,3 +100,4 @@ public class AccessPolicy extends RepoObject {
 		return this;
 	}
 }
+*/

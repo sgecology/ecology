@@ -14,7 +14,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.common.CollectionsUtility;
-import net.ecology.domain.auth.UserAccountProfile;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.framework.component.BasisComp;
 
 /**
@@ -51,18 +51,18 @@ public class SecurityOfficer extends BasisComp {
 	*/
 	public Boolean hasPermission(String target) {
 		UserAccountProfile userProfile = authorizationService.getActiveSecuredProfile();
-		System.out.println(Calendar.getInstance().getTime() + "\t. Target: " + target + ". User: " + userProfile.getDisplayName());
+		System.out.println(Calendar.getInstance().getTime() + "\t. Target: " + target + ". User: " + userProfile.getFirstName() + userProfile.getLastName());
 		return true;
 		// return permissionMap.containsKey(target);
 	}
 
 	public void initializeSessionData() {
 		UserAccountProfile userProfile = authorizationService.getActiveSecuredProfile();
-		if (false==userProfile.isPresentUserAccount()) {
+		if (null==userProfile) {
 			System.out.println("Current user is anonymous. ");
 			return;
 		}
 
-		System.out.println("Initializing session data of user: " + userProfile.getDisplayName());
+		System.out.println("Initializing session data of user: " + userProfile.getFirstName());
 	}
 }

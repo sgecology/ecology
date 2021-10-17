@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 
 import net.ecology.embeddable.Address;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.contact.Contact;
 import net.ecology.entity.doc.DocumentType;
 import net.ecology.entity.general.MoneySet;
@@ -311,7 +311,7 @@ public class TenderBase extends RepoObject {
      */
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private UserPrincipal clerk;
+    private UserAccountProfile clerk;
 
     /**
      * Dökümanın iptal edilip edilmediği bilgisini tutar.
@@ -537,11 +537,11 @@ public class TenderBase extends RepoObject {
 		this.totalDocumentDiscount = totalDocumentDiscount;
 	}
 
-    public UserPrincipal getClerk() {
+    public UserAccountProfile getClerk() {
         return clerk;
     }
 
-    public void setClerk(UserPrincipal clerk) {
+    public void setClerk(UserAccountProfile clerk) {
         this.clerk = clerk;
     }
 

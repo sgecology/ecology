@@ -12,7 +12,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
+
 package net.ecology.entity.auth.base;
 
 import java.util.Date;
@@ -21,11 +21,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import net.ecology.framework.entity.Entity;
 
-/**
+*//**
  * An abstract authentication account entity.
  * 
  * @author bqduc
- */
+ *//*
 public interface PrincipalDetails extends UserDetails, Entity {
 	void setUsername(String username);
 	void setPassword(String password);
@@ -55,4 +55,4 @@ public interface PrincipalDetails extends UserDetails, Entity {
 
 	String name();
 	void name(String name);
-}
+}*/

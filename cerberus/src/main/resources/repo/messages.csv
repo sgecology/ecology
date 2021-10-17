@@ -1238,8 +1238,8 @@ en|generak.button.NewBankAccountLine|New Bank Account Line
 en|general.activateTheFixedLayout|Activate The Fixed Layout
 en|general.allowMailRedirect|Allow Mail Redirect
 en|general.allowShowHisNameInBlogPosts|Allow Show His Name In Blog Posts
-en|general.app.fullTitle|Ecoplatform
-en|general.app.title|Ecop
+en|general.app.fullTitle|ECO-Platform
+en|general.app.title|EPD
 en|general.backEndFramework68Percent|Back End Framework68 Percent
 en|general.birthdayOfLangdon|Birthday Of Langdon
 en|general.black|Black
@@ -9064,12 +9064,12 @@ vi|lbl.update|Cập nhật
 vi|lbl.UpdateProductQuantity|Cập nhật số lượng mặt hàng
 vi|lbl.UpdateQtyOnHand|Cập nhật số lượng tồn
 vi|lbl.updateResume|Cập nhật sơ yếu lý lịch
-vi|lbl.upload|Nạp dữ liệu
-vi|lbl.upload.Contact|Nạp liên lạc
-vi|lbl.upload.ContactCategory|Nạp loại liên lạc
-vi|lbl.upload.Form|Upload Data
-vi|lbl.upload.Product|Nạp hàng hóa
-vi|lbl.upload.ProductCategory|Nạp loại hàng hóa
+vi|lbl.upload|Tải lên
+vi|lbl.upload.Contact|Tải lên liên lạc
+vi|lbl.upload.ContactCategory|Tải lên loại liên lạc
+vi|lbl.upload.Form|Tải dữ liệu lên
+vi|lbl.upload.Product|Tải lên hàng hóa
+vi|lbl.upload.ProductCategory|Tải lên loại hàng hóa
 vi|lbl.uploadFileLimitMessage|Số lượng tập tin vượt mức cho phép
 vi|lbl.uploadInvalidSizeMessage|Kích thước tập tin vượt mức cho phép
 vi|lbl.User|Quản lý người dùng

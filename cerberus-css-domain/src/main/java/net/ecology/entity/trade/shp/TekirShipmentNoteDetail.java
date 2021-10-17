@@ -34,7 +34,7 @@ import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.general.MoneySet;
 import net.ecology.entity.stock.ProductType;
 import net.ecology.entity.trade.ITenderDetail;
@@ -98,7 +98,7 @@ public class TekirShipmentNoteDetail extends TenderDetailBase implements ITender
     @Getter
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private UserPrincipal clerk;
+    private UserAccountProfile clerk;
 
     @Override
 	public List<TekirShipmentNoteDetail> getChildList() {

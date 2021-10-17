@@ -1,7 +1,6 @@
 package net.ecology.auth.service;
 
-import net.ecology.domain.auth.UserAccountProfile;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.service.IGenericService;
@@ -19,7 +18,7 @@ public interface UserAccountProfileService extends IGenericService<UserAccountPr
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	UserAccountProfile register(UserPrincipal user) throws AuthException;
+	UserAccountProfile register(UserAccountProfile user) throws AuthException;
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -32,7 +31,7 @@ public interface UserAccountProfileService extends IGenericService<UserAccountPr
 	 *
 	 * @param oldPassword current password (for re-authentication if required)
 	 * @param newPassword the password to change to
-	 */
+	 */	
 	void changePassword(String oldPassword, String newPassword);
 
 	/**

@@ -9,10 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.FilterInvocation;
 
 import net.ecology.domain.Context;
-import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.AccessPolicy;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
+import net.ecology.entity.base.UserAccountDetails;
 import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 
@@ -28,17 +27,17 @@ public interface AuthorizationService {
 	
 	boolean hasPermission(String target, String action) throws AuthException;
 
-	UserPrincipal saveSecurityAccountProfile(UserPrincipal securityAccountProfile) throws AuthException;
+	UserAccountProfile saveSecurityAccountProfile(UserAccountProfile securityAccountProfile) throws AuthException;
 
 	UserAccountProfile register(Context context) throws AuthException;
 
-	UserPrincipal getUserAccount(String ssoId)  throws ObjectNotFoundException;
+	UserAccountProfile getUserAccount(String ssoId)  throws ObjectNotFoundException;
 
 	UserAccountProfile confirmByToken(String token)  throws ObjectNotFoundException;
 
 	List<AccessPolicy> getAccessDecisionPolicies(String accessPattern) throws ObjectNotFoundException;
 
-	List<AccessPolicy> getAccessDecisionPolicies(PrincipalDetails authenticationDetails) throws ObjectNotFoundException;
+	List<AccessPolicy> getAccessDecisionPolicies(UserAccountDetails authenticationDetails) throws ObjectNotFoundException;
 
 	boolean hasAccessDecisionPolicy(FilterInvocation filterInvocation, Authentication authentication);
 }

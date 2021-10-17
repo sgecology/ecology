@@ -1,4 +1,4 @@
-package net.ecology.entity.auth;
+/*package net.ecology.entity.auth;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.ecology.framework.entity.RepoObject;
 
-/**
+*//**
  * 
  * @author ducbq
- */
+ *//*
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +26,7 @@ public class GrantedPermission extends RepoObject {
 
 	@Setter @Getter
 	@ManyToOne
-	@JoinColumn(name = "principal_id")
+	@JoinColumn(name = "user_id")
 	private UserPrincipal principal;
 
 	@Setter @Getter
@@ -34,3 +34,4 @@ public class GrantedPermission extends RepoObject {
 	@JoinColumn(name = "authority_id")
 	private Authority authority;	
 }
+*/

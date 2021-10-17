@@ -35,7 +35,7 @@ import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.general.MoneySet;
 import net.ecology.entity.stock.ProductType;
 import net.ecology.entity.trade.ITenderDetail;
@@ -96,7 +96,7 @@ public class TekirInvoiceDetail extends TenderDetailBase implements ITenderDetai
     @Getter
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private UserPrincipal clerk;
+    private UserAccountProfile clerk;
 
     //TODO:Acaba tüm bir satırı iade etmektense, siparişte olduğu gibi
     //satırdan istenilen miktarda iade edilebilmesi sağlanmalı mı? 

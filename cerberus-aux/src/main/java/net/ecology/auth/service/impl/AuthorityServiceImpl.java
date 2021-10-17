@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import net.ecology.auth.constants.AuxConstants;
+import net.ecology.auth.constants.GlobeAuxConstants;
 import net.ecology.auth.persistence.AuthorityPersistence;
 import net.ecology.auth.service.AuthorityService;
 import net.ecology.entity.auth.Authority;
@@ -31,15 +31,15 @@ public class AuthorityServiceImpl extends GenericService<Authority, Long> implem
 	@Override
 	public Authority getByName(String name) throws ObjectNotFoundException {
 		Optional<Authority> opt = repository.findByName(name);
-		return (Authority)super.getOptionalObject(repository.findByName(name));
+		return opt.orElse(null);
 	}
 
 	@Override
 	public Authority getMinimumUserAuthority() throws ObjectNotFoundException {
 		Authority fetchedResult = null;
-		Optional<Authority> optAuthority = this.repository.findByName(AuxConstants.MINIMUM_USER_AUTHORITY);
+		Optional<Authority> optAuthority = this.repository.findByName(GlobeAuxConstants.MINIMUM_USER_AUTHORITY);
 		if (!optAuthority.isPresent()) {
-			fetchedResult = Authority.builder().name(AuxConstants.MINIMUM_USER_AUTHORITY).displayName("Default minimum authority").build();
+			fetchedResult = Authority.builder().name(GlobeAuxConstants.MINIMUM_USER_AUTHORITY).displayName("Default minimum authority").build();
 			this.repository.save(fetchedResult);
 		} else {
 			fetchedResult = optAuthority.get();

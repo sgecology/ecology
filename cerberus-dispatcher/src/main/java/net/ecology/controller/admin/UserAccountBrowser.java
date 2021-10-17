@@ -12,8 +12,8 @@ import javax.inject.Named;
 import net.ecology.auth.service.UserAccountProfileService;
 import net.ecology.common.CollectionsUtility;
 import net.ecology.common.CommonUtility;
-import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.domain.model.Filter;
+import net.ecology.entity.auth.UserAccountProfile;
 
 /**
  * @author ducbq
@@ -68,7 +68,7 @@ public class UserAccountBrowser implements Serializable {
 	public void delete() {
 		if (CommonUtility.isNotEmpty(this.selectedObjects)) {
 			for (UserAccountProfile removalItem : this.selectedObjects) {
-				System.out.println("#" + removalItem.getDisplayName());
+				System.out.println("#" + removalItem.getFirstName());
 				this.businessObjects.remove(removalItem);
 			}
 			this.selectedObjects.clear();

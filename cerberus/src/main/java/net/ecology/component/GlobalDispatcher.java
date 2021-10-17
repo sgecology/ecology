@@ -21,7 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import net.ecology.auth.service.AuthorizationService;
 import net.ecology.common.CommonUtility;
-import net.ecology.domain.auth.UserAccountProfile;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.framework.component.BasisComp;
 import net.ecology.global.GlobalConstants;
 
@@ -109,7 +109,7 @@ public class GlobalDispatcher extends BasisComp {
 			logger.error(e);
 		}
 
-		if (null==securityPrincipalProfile || null==securityPrincipalProfile.getSecurityAccount() || null == securityPrincipalProfile.getSecurityAccount().getContact().getProfilePicture()) {
+		if (null==securityPrincipalProfile || null == securityPrincipalProfile.getPicture()) {
 			inputStream = servletContext.getResourceAsStream("/resources/images/8025287921598811056.png");
 			try {
 				imageBytes = CommonUtility.getByteArray(inputStream);
@@ -117,7 +117,7 @@ public class GlobalDispatcher extends BasisComp {
 				//e.printStackTrace();
 			}
 		} else {
-			imageBytes = securityPrincipalProfile.getSecurityAccount().getContact().getProfilePicture();
+			imageBytes = securityPrincipalProfile.getPicture();
 		}
 		return Base64.getEncoder().encodeToString(imageBytes);
 	}

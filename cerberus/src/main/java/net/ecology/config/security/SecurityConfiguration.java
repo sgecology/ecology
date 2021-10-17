@@ -96,6 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				ServletConstants.servletUrlMapping+"/**", 
 				"/protected/**", 
 				"/*", 
+				"/dist/**", 
 				"/public/**", 
 				"/resources/**", 
 				"/includes/**", 

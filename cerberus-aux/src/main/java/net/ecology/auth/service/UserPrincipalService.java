@@ -3,13 +3,12 @@ package net.ecology.auth.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import net.ecology.domain.auth.UserAccountProfile;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.service.IGenericService;
 
-public interface UserPrincipalService extends IGenericService<UserPrincipal, Long>, UserDetailsService {
+public interface UserPrincipalService extends IGenericService<UserAccountProfile, Long>, UserDetailsService {
     /**
      * Finds the user with the provided name.
      * 
@@ -17,12 +16,12 @@ public interface UserPrincipalService extends IGenericService<UserPrincipal, Lon
      * @return The user
      * @throws ObjectNotFoundException If no such user exists.
      */
-	UserPrincipal get(String userName) throws ObjectNotFoundException;
+	UserAccountProfile get(String userName) throws ObjectNotFoundException;
 
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	UserAccountProfile register(UserPrincipal user) throws AuthException;
+	UserAccountProfile register(UserAccountProfile user) throws AuthException;
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -52,8 +51,8 @@ public interface UserPrincipalService extends IGenericService<UserPrincipal, Lon
 
 	UserDetails loadUserByEmail(final String email);
 	//SecurityAccount save(SecurityAccount user);
-	UserPrincipal getUserAccount(String loginId, String password) throws AuthException;
-	UserPrincipal getUserAccount(String userToken) throws AuthException;
-	UserPrincipal confirm(String confirmedEmail) throws AuthException;
+	UserAccountProfile getUserAccount(String loginId, String password) throws AuthException;
+	UserAccountProfile getUserAccount(String userToken) throws AuthException;
+	UserAccountProfile confirm(String confirmedEmail) throws AuthException;
 	void initializeMasterData() throws AuthException;
 }

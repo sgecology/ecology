@@ -8,8 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import net.ecology.auth.certificate.JsonWebTokenAuthenticationServiceImpl;
 import net.ecology.auth.certificate.TokenAuthenticationService;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.entity.auth.base.PrincipalDetails;
+import net.ecology.entity.auth.UserAccountProfile;
+import net.ecology.entity.base.UserAccountDetails;
 
 /**
  * @author ducbq
@@ -30,13 +30,13 @@ public class TestEntry {
 	protected static void testJToken() {
 		TokenAuthenticationService jwtTokenProvider = new JsonWebTokenAuthenticationServiceImpl();
 
-		PrincipalDetails userDetails = new UserPrincipal();
+		UserAccountDetails userDetails = new UserAccountProfile();
 		userDetails.setId(Long.valueOf(10292019));
 		userDetails.setUsername("bdq1hc");
 		//String token = jwtTokenProvider.generateToken(userDetails);
 		//System.out.println(token);
 
-		PrincipalDetails unmarshalledUserDetails = jwtTokenProvider.resolve("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDI5MjAxOSNiZHExaGMiLCJpYXQiOjE1ODMxNTYzMTYsImV4cCI6MTU4Mzc2MTExNn0.dRsYSBfXIKIxqzml462gA8me3FCzZNz77ZPMdAeuy4hznxZODJOjI1ssd0YW4bRsjA3_D5nCBJkR2Bgp1GAM-Q");
+		UserAccountDetails unmarshalledUserDetails = jwtTokenProvider.resolve("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDI5MjAxOSNiZHExaGMiLCJpYXQiOjE1ODMxNTYzMTYsImV4cCI6MTU4Mzc2MTExNn0.dRsYSBfXIKIxqzml462gA8me3FCzZNz77ZPMdAeuy4hznxZODJOjI1ssd0YW4bRsjA3_D5nCBJkR2Bgp1GAM-Q");
 		System.out.println(unmarshalledUserDetails);
 	}
 

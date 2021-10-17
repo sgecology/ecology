@@ -154,7 +154,7 @@
                                   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" fileLimitMessage="#{messages['lbl.uploadFileLimitMessage']}" invalidSizeMessage="#{messages['lbl.uploadInvalidSizeMessage']}" />
 
 													        <p:panel id="contentImage" style="border:none;">
-													            <p:outputPanel rendered="#{not empty userAccountRegister.entity.profilePicture}">
+													            <p:outputPanel rendered="#{not empty userAccountRegister.entity.picture}">
 													                <img src="data:image/png;base64,#{userAccountRegister.imageContentsAsBase64}" width="50" height="30" />
 													            </p:outputPanel>
 													        </p:panel>		                            
@@ -216,8 +216,7 @@
             <p:tab title="#{messages['lbl.general.details']}">
               <pre>
                <code class="language-java">
-                   <h:outputText value="#{sourceCodeMB.getJavaSource('com.github.adminfaces.showcase.model.Entity')}"
-                                 escape="false"/>
+                   <h:outputText value="#{sourceCodeMB.getJavaSource('com.github.adminfaces.showcase.model.Entity')}" escape="false"/>
                </code>
              </pre>
             </p:tab>

@@ -2,15 +2,12 @@ package net.ecology.auth.service.impl;
 
 import javax.inject.Inject;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.ecology.auth.certificate.TokenAuthenticationService;
-import net.ecology.auth.service.AuthorityService;
+import net.ecology.auth.persistence.UserPrincipalPersistence;
 import net.ecology.auth.service.UserAccountProfileService;
 import net.ecology.auth.service.UserPrincipalService;
-import net.ecology.domain.auth.UserAccountProfile;
-import net.ecology.entity.auth.UserPrincipal;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.exceptions.AuthException;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.persistence.IPersistence;
@@ -24,7 +21,7 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	 */
 	private static final long serialVersionUID = 6033439932741319171L;
 
-	@Inject
+	/*@Inject
 	private AuthorityService authorityService;
 
 	@Inject
@@ -34,13 +31,16 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	private PasswordEncoder passwordEncoder;
 
 	@Inject
-	private TokenAuthenticationService jwtService;
+	private TokenAuthenticationService jwtService;*/
+
+	@Inject
+	private UserPrincipalPersistence userPrincipalPersistence;
 
 	@Inject
 	protected UserPrincipalService securityAccountService;
 
   protected IPersistence<UserAccountProfile, Long> getPersistence() {
-      return null;
+      return userPrincipalPersistence;
   }
 
 	@Override
@@ -50,7 +50,7 @@ public class UserAccountProfileServiceImpl extends GenericService<UserAccountPro
 	}
 
 	@Override
-	public UserAccountProfile register(UserPrincipal user) throws AuthException {
+	public UserAccountProfile register(UserAccountProfile user) throws AuthException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -16,9 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.ecology.eaux.entity.AuthenticateAccount;
 import net.ecology.embeddable.Address;
 import net.ecology.embeddable.Phone;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.entity.contact.Team;
 import net.ecology.framework.entity.RepoObject;
 import net.ecology.global.GlobalConstants;
@@ -135,9 +135,9 @@ public class CustomerAccount extends RepoObject{
   })
   private Address billingAddress;
 
-	@ManyToOne(targetEntity=AuthenticateAccount.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=UserAccountProfile.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "currency_id")
-	private AuthenticateAccount assignedTo;
+	private UserAccountProfile assignedTo;
 
 	@ManyToOne(targetEntity=Team.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "team_id")
@@ -151,11 +151,11 @@ public class CustomerAccount extends RepoObject{
 		this.name = name;
 	}
 
-	public AuthenticateAccount getAssignedTo() {
+	public UserAccountProfile getAssignedTo() {
 		return assignedTo;
 	}
 
-	public void setAssignedTo(AuthenticateAccount assignedTo) {
+	public void setAssignedTo(UserAccountProfile assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 

@@ -26,18 +26,17 @@ import net.ecology.common.BeanUtility;
 import net.ecology.common.CommonUtility;
 import net.ecology.common.DateTimeUtility;
 import net.ecology.domain.auth.AuthorityGroup;
-import net.ecology.domain.auth.UserAccountProfile;
 import net.ecology.entity.auth.Authority;
-import net.ecology.entity.auth.UserPrincipal;
-import net.ecology.exceptions.EcosExceptionCode;
+import net.ecology.entity.auth.UserAccountProfile;
 import net.ecology.exceptions.AuthException;
+import net.ecology.exceptions.EcosExceptionCode;
 import net.ecology.exceptions.ObjectNotFoundException;
 import net.ecology.framework.persistence.IPersistence;
 import net.ecology.framework.service.impl.GenericService;
 
 
 @Service
-public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long> implements UserPrincipalService {
+public class UserPrincipalServiceImpl extends GenericService<UserAccountProfile, Long> implements UserPrincipalService {
 	private static final long serialVersionUID = 1174683251205910776L;
 
 	@Inject
@@ -53,12 +52,12 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	private TokenAuthenticationService jwtService;
 
 	@Override
-  protected IPersistence<UserPrincipal, Long> getPersistence() {
+  protected IPersistence<UserAccountProfile, Long> getPersistence() {
       return repository;
   }
 
 	@Override
-	public UserPrincipal get(String username) throws ObjectNotFoundException {
+	public UserAccountProfile get(String username) throws ObjectNotFoundException {
 		return repository.findByUsername(username);
 	}
 
@@ -66,7 +65,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	public UserDetails loadUserByUsername(String login) throws AuthException {
 		logger.debug("Authenticating {}", login);
 		String lowercaseLogin = login;//.toLowerCase();
-		UserPrincipal userFromDatabase = repository.findByUsername(login);
+		UserAccountProfile userFromDatabase = repository.findByUsername(login);
 
 		if (null==userFromDatabase)
 			throw new AuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
@@ -82,7 +81,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 
 	@Override
 	public UserDetails loadUserByEmail(String email) {
-		UserPrincipal userFromDatabase = repository.findByEmail(email);
+		UserAccountProfile userFromDatabase = repository.findByEmail(email);
 		//TODO: Remove after then
 		if (null == userFromDatabase) {
 			throw new UsernameNotFoundException(String.format("User with email %s was not found in the database", email));
@@ -97,11 +96,11 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}
 
 	@Override
-	public UserAccountProfile register(UserPrincipal userAccount) throws AuthException {
-		UserPrincipal updatedUserAccount = null;
+	public UserAccountProfile register(UserAccountProfile userAccount) throws AuthException {
+		UserAccountProfile updatedUserAccount = null;
 		UserAccountProfile registrationProfile = null;
 		try {
-			updatedUserAccount = (UserPrincipal)BeanUtility.clone(userAccount);
+			updatedUserAccount = (UserAccountProfile)BeanUtility.clone(userAccount);
 			updatedUserAccount.setRegisteredDate(DateTimeUtility.systemDateTime());
 
 			updatedUserAccount.setPassword(passwordEncoder.encode(updatedUserAccount.getPassword()));
@@ -111,8 +110,9 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 			updatedUserAccount = this.saveOrUpdate(updatedUserAccount);
 
 			registrationProfile = UserAccountProfile.builder()
-					.displayName(updatedUserAccount.getDisplayName())
-					.securityAccount(updatedUserAccount)
+					.firstName(updatedUserAccount.getFirstName())
+					.lastName(updatedUserAccount.getLastName())
+					//.securityAccount(updatedUserAccount)
 					.build();
 		} catch (Exception e) {
 			throw new AuthException(e);
@@ -131,7 +131,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 
 	@Override
 	public void deleteUser(String username) {
-		UserPrincipal removedObject = this.repository.findByUsername(username);
+		UserAccountProfile removedObject = this.repository.findByUsername(username);
 		if (null != removedObject) {
 			this.repository.delete(removedObject);
 		}
@@ -154,7 +154,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}
 
 	@Override
-	protected Page<UserPrincipal> performSearch(String keyword, Pageable pageable) {
+	protected Page<UserAccountProfile> performSearch(String keyword, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,10 +168,10 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}*/
 
 	@Override
-	public UserPrincipal getUserAccount(String loginId, String password) throws AuthException {
-		UserPrincipal authenticatedUser = null;
+	public UserAccountProfile getUserAccount(String loginId, String password) throws AuthException {
+		UserAccountProfile authenticatedUser = null;
 		UserDetails userDetails = null;
-		UserPrincipal repositoryUser = null;
+		UserAccountProfile repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(loginId)){
 			repositoryUser = repository.findByEmail(loginId);
 		}else{
@@ -190,13 +190,13 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 		Collection<? extends GrantedAuthority> authorities = repositoryUser.getAuthorities();
 		userDetails = buildUserDetails(repositoryUser, authorities);
 		authenticatedUser = repositoryUser;
-		authenticatedUser.setUserDetails(userDetails);
+		//authenticatedUser.setUserDetails(userDetails);
 		return authenticatedUser;
 	}
 
 	@Override
-	public UserPrincipal getUserAccount(String userToken) throws AuthException {
-		UserPrincipal repositoryUser = null;
+	public UserAccountProfile getUserAccount(String userToken) throws AuthException {
+		UserAccountProfile repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(userToken)){
 			repositoryUser = repository.findByEmail(userToken);
 		}else{
@@ -251,8 +251,8 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 	}
 
 	@Override
-	public UserPrincipal confirm(String confirmedEmail) throws AuthException {
-		UserPrincipal confirmUser = repository.findByEmail(confirmedEmail);
+	public UserAccountProfile confirm(String confirmedEmail) throws AuthException {
+		UserAccountProfile confirmUser = repository.findByEmail(confirmedEmail);
 		if (null == confirmUser)
 			throw new AuthException("The email not found in database: " + confirmedEmail);
 
@@ -261,7 +261,7 @@ public class UserPrincipalServiceImpl extends GenericService<UserPrincipal, Long
 		return confirmUser;
 	}
 
-	private UserDetails buildUserDetails(UserPrincipal userProfile, Collection<? extends GrantedAuthority> authorities){
+	private UserDetails buildUserDetails(UserAccountProfile userProfile, Collection<? extends GrantedAuthority> authorities){
 		//List<UserAccountPrivilege> authorities = userAccountPrivilegeRepository.findByUserAccount(userProfile);
 		//List<GrantedAuthority> grantedAuthorities = userProfile.getAuthorities().stream()
 		//		.map(authority -> new SimpleGrantedAuthority(authority.getAuthority())).collect(Collectors.toList());

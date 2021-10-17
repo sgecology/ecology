@@ -1,4 +1,4 @@
-package net.ecology.entity.auth.base;
+/*package net.ecology.entity.auth.base;
 
 import java.util.Collection;
 import java.util.Date;
@@ -96,3 +96,4 @@ public abstract class PrincipalEntity extends Repo implements PrincipalDetails {
 		return 0;
 	}
 }
+*/

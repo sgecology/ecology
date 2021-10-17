@@ -1,4 +1,4 @@
-
+/*
 package net.ecology.entity.auth;
 
 import javax.persistence.Basic;
@@ -20,20 +20,20 @@ import lombok.Setter;
 import net.ecology.framework.entity.RepoObject;
 import net.ecology.global.GlobeConstants;
 
-/**
+*//**
  * 
  * @author ducbq
  * 
- */
+ *//*
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "aux_authority")
 public class Authority extends RepoObject implements GrantedAuthority {
-	/**
+	*//**
 	 * 
-	 */
+	 *//*
 	private static final long serialVersionUID = -8839233159158564921L;
 
 	@Setter @Getter
@@ -71,4 +71,4 @@ public class Authority extends RepoObject implements GrantedAuthority {
 	public String getAuthority() {
 		return this.name;
 	}
-}
+}*/
